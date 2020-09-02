@@ -1,0 +1,63 @@
+div.order-recap{
+	border-bottom: 1px solid #3e64ff;
+	font-size: inherit;
+	margin-top: 1em;
+	padding-bottom: .5em;
+	width: 100%;
+}
+
+.order-recap-price-label{
+	font-weight: 600;
+	width: 70%;
+}
+
+.order-recap-price-of-smth{
+	text-align: right;
+	width: 30%;
+}
+
+.order-recap-basket-item{
+	border-bottom: 1px solid #5edfff;
+	padding: .3em 0;
+}
+
+div.order-recap-products{
+	max-height: 500px;
+	overflow-y: auto;
+	text-align: justify; 
+}
+
+@media(max-width: 1320px){
+	.order-recap-price-label{
+		width: 100%;
+	}
+
+	.order-recap-price-of-smth{
+		text-align: left;
+		width: 100%;
+	}
+}
+
+@media(max-width: 920px){	
+	.order-recap-price-label{
+		text-align: left;
+		width: 70%;
+	}
+
+	.order-recap-price-of-smth{
+		text-align: right;
+		width: 30%;
+	}
+	
+	div.row > div.re66{
+		width: 100%;
+	}
+	
+	div.row > div.re33{
+		width: 100%;
+	}
+	
+	div.row > div.re25{
+		width: 25%;
+	}
+}

@@ -1,0 +1,149 @@
+/* BASE CLASS */
+form.add-to-basket{
+	border: 2px solid #D6FDFF;
+	border-radius: 10px;
+	display: block;
+	padding: .4em .5em;
+}
+
+/* FORM INPUTS */
+form.add-to-basket label[for="quantity"]{
+	display: block;
+	margin-bottom: .5em;
+}
+
+form.add-to-basket input.quantity { /*třída místo [type="quantity"], protože se používá i [type="quantity[]"]*/
+	border: 1px solid #5edfff;
+	border-radius: 5px;
+	margin-top: 0em;
+	padding: 0.5em 0.4em 0.34em 0;
+	text-align: right;
+	width: 3em;
+}
+
+/* FORM BUTTONS */
+button.button-basket{
+	background-color: #5edfff;
+	border: 0;
+	color: white;
+	cursor: pointer;
+	font-size: 0.8em;
+	font-weight: 800;
+	padding: 0.3em 0; /* boční je vzhledem k pevné šířce zbytečný*/
+	width: 2em;
+}
+
+button.button-basket:hover{
+	background-color: #b2fcff;
+	color: #000;
+}
+
+button.button-basket-minus{
+	border-radius: 5px 0 0 5px;
+}
+
+button.button-basket-plus{
+	border-left: 1px solid #fff;
+	border-radius: 0 5px 5px 0;
+	margin-left: -0.4em;
+}
+
+button.button-basket-left:active{
+	background-color: red;
+}
+
+button.button-basket-right:active{
+	background-color: #57ee3f;
+}
+
+button.button-basket-delete{
+	background-color: red;
+	border-radius: 10px;
+	font-weight: 500;
+	color: white;
+	padding: .3em .7em;
+	width: auto;
+}
+
+button.button-basket-delete:hover{
+	background-color: orange;
+}
+
+/* TABLE - EDIT BASKET PAGE */
+form.add-to-basket > table{
+	border-collapse: collapse;
+	width: 100%;
+}
+
+form.add-to-basket thead, tbody, tfoot{
+	line-height: 2.5em;
+}
+
+form.add-to-basket thead{
+	color: #3e64ff;
+	font-weight: 700;
+}
+
+form.add-to-basket thead td.product-column{
+	width: 45%
+}
+
+form.add-to-basket thead td.price-column{
+	width: 15%;
+}
+
+form.add-to-basket thead td.altogether-column{
+	width: 20%
+}
+
+form.add-to-basket thead td.quantity-column{
+	width: 25%
+}
+
+form.add-to-basket tbody td{
+	border-top: 1px solid #5edfff;
+}
+
+form.add-to-basket tbody tr:hover { /*:not(:last-child)*/
+	background-color: #ecfcff;
+}
+
+form.add-to-basket tbody tr.to-be-deleted{
+	background-color: #eee;
+	font-style: italic;
+}
+
+form.add-to-basket span.take-back{
+	color: #3e64ff;
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+form.add-to-basket span.take-back:hover{
+	color: #5edfff;
+}
+
+form.add-to-basket tfoot td {
+	border-top: 1px solid #5edfff;
+	font-style: italic;
+}
+
+@media(max-width: 1280px){
+	form.add-to-basket thead td.product-column{
+		width: 35%;
+	}
+	
+	form.add-to-basket thead td.quantity-column{
+		width: 35%;
+	}
+}
+
+@media(max-width: 900px){
+	form.add-to-basket thead td.product-column{
+		width: 25%;
+	}
+	
+	form.add-to-basket thead td.quantity-column{
+		width: 45%;
+	}
+}

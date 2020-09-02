@@ -1,0 +1,83 @@
+h5.form-subheading{
+	color: #3e64ff;
+	font-size: 1.5em;
+	margin: 0;
+}
+
+form.form{
+	font-size: 1.1em;
+	width: 900px;
+}
+
+form.form input, select, textarea{
+	border-radius: 5px;
+	border: 1px solid #5edfff;
+	font-size: inherit;
+	padding-left: .5em;
+}
+
+form.form [type="text"], [type="email"], select{ /* jen input typu "text" a type="email", aby se neaplikovalo na radio*/
+	height: 1.5em;
+	width: 70%;
+}
+
+form.form > table td.labels{
+	width: 35%;
+}
+
+form.form > table td.inputs{
+	width: 100%;
+}
+
+.submit{ /*just a class instead of form.add-to-basket input[type="submit"] as it did not work in the table*/
+	background-color: #00be12;
+	border: 0;
+	border-radius: 5px;
+	color: white;
+	cursor: pointer;
+	font-size: 0.8em;
+	font-weight: 500;
+	padding: 0.45em 1em 0.35em;
+}
+
+.submit:hover{
+	background-color: #57ee3f;
+}
+
+.fullWidth{
+	width: 100%;
+}
+
+@media(max-width: 1400px){
+	form.form > table td.labels{
+		width: 25%;
+	}
+	
+	form.form > table td.inputs{
+		width: 60%;
+	}
+}
+
+@media(max-width: 920px){	
+	form.form{
+		width: 600px;
+	}
+
+	form.form > table td.labels{
+		width: 45%;
+	}
+	
+	form.form > table td.inputs{
+		width: 60%;
+	}
+}
+	
+@media(max-width: 690px){
+	form.form{
+		width: 600px;
+	}
+	
+	form.form > table td.labels{
+		width: 35%;
+	}
+}

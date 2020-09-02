@@ -1,0 +1,49 @@
+ul.navbar{
+	background-color: #3e64ff;
+	color: #ecfcff;
+	display: block;
+	margin: 0;
+	padding: 1em 1em;
+	z-index: 1;
+}
+
+ul.navbar-fixed{
+	left: 0; /* bez tohoto je celé vpravo; nutnost pokud position: fixed*/
+	position: fixed;
+	right: 0; /* bez tohoto je celé vlevo; nutnost pokud position: fixed*/
+	top: 0; /*bez tohoto je navbar centimetr od horního okraje; nutnost pokud position: fixed */
+	width: auto; /*bez tohoto je to moc široké, margin 0 auto nepomůže (proto je tady margin jen 0); jedná se však spíše o maximální šířku, s minimální požadovanou šířkou to nepomůže*/
+}
+
+ul.navbar > li { /*toto funguje skvěle*/
+	display: inline-block;
+	text-decoration: none;
+	padding: 0 1em;
+}
+
+li > a { /*inherit tedy slouží k tomu, aby se přebil user ager stylesheet (v tomto případě u odkazů), ale abychom nemuseli znovu přepisovat to samé */
+	color: inherit;
+	text-decoration: inherit;
+}
+
+ul.navbar > li.basket {
+	float: right;
+}
+
+@media(max-width: 815px){
+	ul.navbar{
+		line-height: 1.5em;
+		padding: 0.5em 1em;
+		text-align: center;
+	}
+	
+	ul.navbar > li{
+		display: inline-block;
+		padding: 0 auto;
+	}
+	
+	ul.navbar > li.basket {
+		float: inherit;
+	}
+	
+}

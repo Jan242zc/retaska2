@@ -1,0 +1,165 @@
+div.sidebar{
+	width: 20%;
+}
+
+div.top-products-wrapper{
+	padding: 0em 2em;
+	width: 100%
+}
+
+div.product-preview-wrapper{ 
+	width: 80%;
+}
+
+div.product-preview{
+	width: 25%;
+}
+
+div.product-preview > p {
+	padding-bottom: 0.3em;
+	padding-left: 0.8em;
+	padding-top: 0.3em;
+	width: 75%;
+}
+
+p.product-heading {
+	background-color: #5edfff;
+	border-radius: 12px 12px 0px 0px;
+	color: #ecfcff;
+	font-weight: 600;
+	margin-bottom: 0;
+	margin-top: 0;
+	padding-right: 0.1em;
+}
+
+p.product-price {
+	background-color: #fff;
+	border-radius: 0px 0px 12px 12px;
+	border: 0.5px solid #5edfff;
+	margin-top: 0;
+	padding-bottom: 2em;
+}
+
+a.button-detail{
+	-webkit-border-radius: 17px;
+	-moz-border-radius: 17px;
+	background-color: #3ad75d;
+	border-radius: 10px;
+	border: 0;
+	color: #ecfcff;
+	cursor: pointer;
+	display: inline-block;
+	font-size: 0.8em;
+	font-weight: 500;
+	text-align: center;
+	text-decoration: none;
+	text-indent: 0.2em;
+	padding: 0.2em 0.5em;
+}
+
+a.button-detail:hover {
+	background-color: #80f67f;
+}
+
+div.category-list-item{ 
+	margin: 0 auto;
+	overflow: hidden;
+	padding: 0.5em 0;
+	text-align: center; /*aby se tlačítko zarovnalo doprostřed; margin: 0 auto funguje jen pokud je dána šířka */
+}
+
+a.button-category{
+	-webkit-border-radius: 17px;
+	-moz-border-radius: 17px;
+	background-color: #5edfff;
+	border-radius: 10px; /*v pixelech je to lepší než v procentech*/
+	border: 0;
+	color: #fff;
+	cursor: pointer;
+	display: inline-block; /*musí být tady, aby margin a padding měly vůbec nějaký efekt*/
+	font-size: 1.1em;
+	height: auto;
+	margin: 0 auto;
+	text-align: center;
+	text-decoration: none;
+	text-indent: 0.2em;
+	padding: 0.5em 0.9em;
+}
+
+a.button-category:hover{
+	background-color: #5efaff;
+}
+
+a.button-category-active{
+	background-color: #5efaff;
+}
+
+div.pages{
+	color: #5edfff;
+	font-size: 1.5em;
+	text-align: center;
+	padding: 1em 2em;
+}
+
+.button-group{
+	background-color: #fff;	
+	border-radius: 0px;
+	border-bottom: 1px solid #5edfff;
+	border-top: 1px solid #5edfff;
+	padding: 0em 0 0.2em 0.2em; 
+}
+
+.button-group > a {
+	font-size: .8em;
+	padding: 0.2em;
+	text-align: center;
+}
+
+a.page-button{
+	background-color: #fff;
+	color: #5edfff;
+	text-decoration: none;
+}
+
+a.page-button-active{
+	background-color: #5edfff;
+	color: #fff;
+}
+
+a.page-button:hover{
+	background-color: #5efaff;
+	color: #fff;
+}
+
+@media(max-width: 1380px){
+	div.sidebar{
+		border-right: 0;
+		border-bottom: 4px solid #fff;
+		width: 100%;
+		text-align: center; /*aby se tlačítka zarovnávala na střed*/
+		padding-bottom: 0 1em;
+	}
+	
+	div.category-list-item{
+		display: inline-block;
+		float: none;
+		margin: 0 auto;
+		padding: 0;
+		width: 20%;
+	}
+	
+	div.product-preview{
+		width: 33.3%;
+	}
+	
+	div.product-preview-wrapper{
+		padding: 0 0 0 3em;
+		width: 100%;
+	}
+}
+	
+@media(max-width: 1000px){
+	div.category-list-item{
+		width: 30%;
+	}
+}

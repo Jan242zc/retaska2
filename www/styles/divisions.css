@@ -1,0 +1,73 @@
+div.container {
+	background-color: #fff;
+	box-sizing: border-box;
+	margin: 3.25em auto 0 auto; /* top tam musí být proto, aby navbar nepřekrýval obsah*/
+	padding: 0.75em 0em;
+	width: 85%;
+}
+
+div.everything-wrapper{
+	padding: 0 2em;
+}
+
+div.foreword { /*přesunout??*/
+	padding: 0.8em 2em;
+}
+
+div.row {
+	display: block;
+	margin: 0 auto;
+	min-width: 90%;
+	overflow: hidden;
+}
+
+div.row > div{
+	box-sizing: border-box;
+	display: inline-block;
+	float: left; /* bez floatu se prvky v rámci sloupce "zarovnávají" dolů (oni se tam tedy nezarovnávají, prohlížeč je tam nacpe)*/
+	margin: 0.4em auto;
+	/*padding: 0 0.2rem; /*proč padding ovlivňuje šířku divu? je to tak správně? Je, ale dá se to vypnout - viz box-sizing: border-box*/
+}
+
+div.row > div.re50 {
+	width: 50%;
+}
+
+div.row > div.re33 {
+	width: 33.3%;
+}
+
+div.row > div.re66{
+	width: 66.7%;
+}
+
+div.row > div.re25 {
+	width: 25%;
+}
+
+div.row > div.re75 {
+	width: 75%;
+}
+
+div.row > div.re16 {
+	width: 16.66%;
+}
+
+div.row > div.re84 {
+	width: 83.33%;
+}
+
+@media(max-width: 1380px){
+	div.row > div.re25{
+		width: 50%;
+	}
+	div.row > div.re50{
+		width: 100%;
+	}
+}
+
+/* @media(max-width: 815px){ */
+	/* div.row > div{ */
+		/* width: 100% !important; */
+	/* } */
+/* } */

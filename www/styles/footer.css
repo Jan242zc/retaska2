@@ -1,0 +1,15 @@
+div.footer{
+	background-color: #fff;
+	border-top: 1px solid #b5dde5;
+	box-sizing: border-box;
+	clear: both;
+	margin: 2em auto 0;
+	padding: 0.5em 2em 0.5em;
+	text-align: center;
+	width: 100%;
+}
+
+#retaska_logo_sm {
+	float: right;
+	width: 10%;
+}

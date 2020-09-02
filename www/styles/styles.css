@@ -1,0 +1,66 @@
+/*
+BARVIČKY
+světlá (pozadí a spol.): #ecfcff
+střední: #b2fcff
+tmavší: #5edfff
+tmavá: #3e64ff
+písmo: 2e97ff nebo #1b76ff nebo 0000ff
+*/
+
+@import 'navbar.css';
+@import 'divisions.css';
+@import 'products.css';
+@import 'footer.css';
+@import 'product-detail.css';
+@import 'basket.css';
+@import 'basket-form.css';
+@import 'order.css';
+@import 'crud.css';
+@import 'form.css';
+
+body {
+	background-color: #ecfcff;
+	color: #000;
+	font-family: sans-serif;
+	font-size: 1.1em;
+	margin: 0;
+	padding: 0;
+}
+
+h1 {
+	color: #3e64ff;
+	margin-top: 0;
+}
+
+h1.middle{
+	text-align: center;
+}
+
+p {
+	line-height: 2;
+	margin-bottom: 0.5em;
+	margin-top: 1em;
+}
+
+a.link-with-arrow{
+	color: #3e64ff;
+	display: inline-block;
+	margin: .8em 0;
+}
+
+a.link-with-arrow:hover{
+	color: #5edfff;
+}
+
+#retaska_logo {
+	box-sizing: border-box;
+	float: right;
+	margin: 0 0 1em;
+	width: auto;
+}
+
+@media(max-width: 1380px){
+	#retaska_logo {
+		width: 50%;
+	}
+}

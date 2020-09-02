@@ -1,0 +1,48 @@
+h1.product-name{
+	font-size: 2.5em;
+}
+
+.product-detail-pic{
+	clear: right;
+	float: right;
+	width: 600px;
+}
+
+div.product-description{
+	padding-left: 0.3em;
+	margin-bottom: 1em;
+}
+
+.description-heading{
+	font-weight: 700;
+	line-height: 1;
+}
+
+.description-content{
+	
+}
+
+.description-content::after{ /*aby za každou částí popisu byla hranice KRATŠÍ než div s popisem*/
+	border-bottom: 3px solid #D6FDFF;
+	content: " "; /*bez toho ::after nefunguje*/
+	display: block; /*ani bez toho ::after nefunguje*/
+	width: 40%;
+}
+
+.price{
+	color: #3e64ff;
+	font-weight: 700;
+	font-size: 2.5em;
+}
+
+@media(max-width: 1680px){ /*proč tady 1680 = 1850 ?? */
+	.description-content::after{
+		width: 20%;
+	}
+}
+
+@media(max-width: 1250px){
+	.product-detail-pic{
+		width: 40%;
+	}
+}
