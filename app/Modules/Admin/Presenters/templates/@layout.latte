@@ -9,9 +9,11 @@
 
 <body>
 	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
-
-	{include content}
-
+	
+	<div class="container">
+		{include content}
+	</div>
+	
 	{block scripts}
 	<script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>
 	{/block}

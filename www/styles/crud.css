@@ -2,9 +2,9 @@ table.crud-table{
 	border: 1px solid #5edfff;
 	border-collapse: collapse;
 	/*max-width: 200vh; /*jen tak na zkoušku, případně odstranit*/
-	margin-top: 1em;
+	margin: 1em auto;
 	overflow-x: scroll;
-	width: 100%;
+	width: 95%;
 }
 
 table.crud-table > thead{
