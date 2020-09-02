@@ -9,10 +9,16 @@ use App\Modules\Admin\Presenters\BaseAdminPresenter as BasePresenter;
 use Nette\Application\UI\Form;
 use App\Entity\Category;
 use App\Entity\Factory\CategoryFactory;
-
+use App\Services\Repository\RepositoryInterface\ICategoryRepository;
 
 final class CategoryPresenter extends BasePresenter
 {
+	private $categoryRepository;
+	
+	public function __construct(ICategoryRepository $categoryRepository){
+		$this->categoryRepository = $categoryRepository;
+	}
+	
 	public function renderDefault(): void
 	{
 		
@@ -45,8 +51,11 @@ final class CategoryPresenter extends BasePresenter
 	{
 		$category = CategoryFactory::create($data);
 		if(!$category->getId()){
-			//call insert method
-			$this->flashMessage('Kategorie uložena.');
+			if($this->categoryRepository->insert($category) === 1){
+				$this->flashMessage('Kategorie uložena.');
+			} else {
+				$this->flashMessage('Něco se pokazilo.');
+			}
 		} else {
 			//call update method
 			$this->flashMessage('Změny uloženy.');

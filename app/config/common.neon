@@ -19,3 +19,4 @@ di:
 
 services:
 	router: App\Router\RouterFactory::createRouter
+	categoryRepository: App\Services\Repository\CategoryRepository
