@@ -1,2 +1,26 @@
 {block content}
-	<h1>Vytvořit / upravit kategorii</h1>
+	<div class="everything-wrapper">
+		<h1>Vytvořit / upravit kategorii</h1>
+		{form manageCategoryForm}
+			<table>
+				<tbody>
+					<tr>
+						<td class="labels">
+							{label name /}
+						</td>
+						<td class="inputs">
+							{input name}
+						</td>
+					</tr>
+					<tr>
+						<td></td>
+						<td>
+							{input submit}
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		{/form}
+		<a class="link-with-arrow" n:href="Category:default"> Zpět na přehled</a>
+	</div>
+		
