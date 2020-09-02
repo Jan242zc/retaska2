@@ -7,6 +7,8 @@ namespace App\Modules\Admin\Presenters;
 use Nette;
 use App\Modules\Admin\Presenters\BaseAdminPresenter as BasePresenter;
 use Nette\Application\UI\Form;
+use App\Entity\Category;
+use App\Entity\Factory\CategoryFactory;
 
 
 final class CategoryPresenter extends BasePresenter
@@ -37,5 +39,18 @@ final class CategoryPresenter extends BasePresenter
 		$form->onSuccess[] = [$this, 'manageCategoryFormSucceeded'];
 		
 		return $form;		
+	}
+	
+	public function manageCategoryFormSucceeded(Form $form, Array $data): void
+	{
+		$category = CategoryFactory::create($data);
+		if(!$category->getId()){
+			//call insert method
+			$this->flashMessage('Kategorie uložena.');
+		} else {
+			//call update method
+			$this->flashMessage('Změny uloženy.');
+		}
+		$this->redirect('Category:default');
 	}
 }
