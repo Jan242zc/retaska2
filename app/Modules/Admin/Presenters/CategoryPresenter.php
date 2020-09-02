@@ -14,4 +14,9 @@ final class CategoryPresenter extends BasePresenter
 	{
 		
 	}
+	
+	public function actionManage(): void
+	{
+		
+	}
 }
