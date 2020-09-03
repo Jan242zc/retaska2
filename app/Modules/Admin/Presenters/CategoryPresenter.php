@@ -37,12 +37,7 @@ final class CategoryPresenter extends BasePresenter
 				$this->flashMessage('Kategorie nenalezena.');
 				$this->redirect('Category:default');
 			}
-			
-			//in case the category is found...
-			$formDefaults = [
-				'id' => $category->getId(),
-				'name' => $category->getName()
-			];
+			$formDefaults = $category->toArray();
 		}
 		$this['manageCategoryForm']->setDefaults($formDefaults);
 	}
