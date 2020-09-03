@@ -67,8 +67,18 @@ final class CategoryRepository extends BaseRepository implements IRepository, IC
 	
 	public function update($category)
 	{
+		$id = $category->getId();
+		$categoryArray = $category->toArray();
+		unset($categoryArray['id']);
 		
+		$howDidItGo = $this->database->query("
+			UPDATE category 
+			SET", $categoryArray, "
+			WHERE id = ?", $id);
+			
+		return $howDidItGo->getRowCount();
 	}
+	
 	public function delete($category)
 	{
 		

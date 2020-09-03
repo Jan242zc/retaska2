@@ -79,10 +79,11 @@ final class CategoryPresenter extends BasePresenter
 				$this->flashMessage('Něco se pokazilo.');
 			}
 		} else {
-			//call update method
-			dump($category);
-			exit;
-			$this->flashMessage('Změny uloženy.');
+			if($this->categoryRepository->update($category) === 1){
+				$this->flashMessage('Změny uloženy.');
+			} else {
+				$this->flashMessage('Něco se pokazilo.');
+			}
 		}
 		$this->redirect('Category:default');
 	}
