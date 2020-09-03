@@ -51,21 +51,24 @@ final class CategoryPresenter extends BasePresenter
 	{
 		$form = new Form;
 		$form->setHtmlAttribute('class', 'form');
-				
+
 		$form->addHidden('id')
 			//converts sent value to int, as hidden field returns string as default
 			->addFilter(function($value){
 				return intval($value);
 			});
-		
+
 		$form->addText('name', 'Název:')
-			->setRequired('Kategorie musí mít název.');
-			
+			->setRequired('Kategorie musí mít název.')
+			->addFilter(function($value){
+				return ucfirst($value);
+			});
+
 		$form->addSubmit('submit', 'Uložit')
 			->setHtmlAttribute('class', 'submit');
-		
+
 		$form->onSuccess[] = [$this, 'manageCategoryFormSucceeded'];
-		
+
 		return $form;		
 	}
 	
