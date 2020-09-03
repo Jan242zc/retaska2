@@ -34,17 +34,17 @@ final class CategoryPresenter extends BasePresenter
 			try{
 				$category = $this->categoryRepository->find($id);
 			} catch (\Exception $ex){
-				if($ex->getMessage() === 'Nothing found.'){
-					$this->flashMessage('Kategorie nenalezena.');				
-				} else {
-					$this->flashMessage('Něco se pokazilo.');
-				}
+				$this->flashMessage('Kategorie nenalezena.');
 				$this->redirect('Category:default');
 			}
 			
-			dump($category);
-			exit;
+			//in case the category is found...
+			$formDefaults = [
+				'id' => $category->getId(),
+				'name' => $category->getName()
+			];
 		}
+		$this['manageCategoryForm']->setDefaults($formDefaults);
 	}
 	
 	protected function createComponentManageCategoryForm(): Form
@@ -52,7 +52,11 @@ final class CategoryPresenter extends BasePresenter
 		$form = new Form;
 		$form->setHtmlAttribute('class', 'form');
 				
-		$form->addHidden('id');
+		$form->addHidden('id')
+			//converts sent value to int, as hidden field returns string as default
+			->addFilter(function($value){
+				return intval($value);
+			});
 		
 		$form->addText('name', 'Název:')
 			->setRequired('Kategorie musí mít název.');
@@ -76,6 +80,8 @@ final class CategoryPresenter extends BasePresenter
 			}
 		} else {
 			//call update method
+			dump($category);
+			exit;
 			$this->flashMessage('Změny uloženy.');
 		}
 		$this->redirect('Category:default');
