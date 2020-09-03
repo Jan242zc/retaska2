@@ -61,7 +61,7 @@ final class CategoryPresenter extends BasePresenter
 		$form->addText('name', 'Název:')
 			->setRequired('Kategorie musí mít název.')
 			->addFilter(function($value){
-				return ucfirst($value);
+				return ucfirst(strtolower($value));
 			});
 
 		$form->addSubmit('submit', 'Uložit')
