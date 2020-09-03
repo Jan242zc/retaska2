@@ -3,7 +3,7 @@
 	
 	<a class="crud crud-new" n:href="Category:manage">Vytvořit novou kategorii</a>
 	{if !$categories}
-		Žádné kategorie nenalezeny.
+		<p class="nothing-found">Žádné kategorie nenalezeny.</p>
 	{else}
 		<table class="crud-table">
 			<thead>
