@@ -60,9 +60,8 @@ final class CategoryPresenter extends BasePresenter
 
 		$form->addText('name', 'Název:')
 			->setRequired('Kategorie musí mít název.')
-			->addRule($form::IS_NOT_IN, 'Kategorie s tímto názvem již existuje.', $this->categoryRepository->getArrayOfUsedNames())
 			->addFilter(function($value){
-				return ucfirst(strtolower($value));
+				return ucfirst(mb_strtolower($value));
 			});
 
 		$form->addSubmit('submit', 'Uložit')
@@ -76,6 +75,13 @@ final class CategoryPresenter extends BasePresenter
 	public function manageCategoryFormSucceeded(Form $form, Array $data): void
 	{
 		$category = CategoryFactory::createFromArray($data);
+		
+		//this verification must be done in the *Succeeded method as $form['id']->getValue() didn't work for me
+		if(!$nameIsOriginal = $this->verifyNameOriginality($category)){
+			$this->flashMessage('Kategorie s tímto názvem již existuje.');
+			$this->redirect('this');
+		}
+		
 		if(!$category->getId()){
 			if($this->categoryRepository->insert($category) === 1){
 				$this->flashMessage('Kategorie uložena.');
@@ -99,5 +105,16 @@ final class CategoryPresenter extends BasePresenter
 			$this->flashMessage('Něco se pokazilo.');
 		}
 		$this->redirect('Category:default');
+	}
+	
+	private function verifyNameOriginality($category): bool
+	{
+		if(is_null($category->getId())){	
+			$usedNames = $this->categoryRepository->getArrayOfUsedNames();
+		} else {
+			$usedNames = $this->categoryRepository->getArrayOfUsedNames($category->getId());
+		}
+
+		return !in_array(trim(mb_strtolower($category->getName())), $usedNames);
 	}
 }

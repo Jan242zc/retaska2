@@ -91,15 +91,28 @@ final class CategoryRepository extends BaseRepository implements IRepository, IC
 		return $howDidItGo->getRowCount();
 	}
 	
-	public function getArrayOfUsedNames(): Array
+	public function getArrayOfUsedNames($currentCategoryId = null): Array
 	{
-		$usedNames = $this->database
-			->query("
-				SELECT name
-				FROM category
-			")
-			->fetchPairs();
-
+		if(is_null($currentCategoryId)){
+			$usedNames = $this->database
+				->query("
+					SELECT name
+					FROM category
+				")
+				->fetchPairs();		
+		} else {
+			$usedNames = $this->database
+				->query("
+					SELECT name
+					FROM category
+					WHERE id != ?
+				", $currentCategoryId)
+				->fetchPairs();
+		}
+		
+		for($i = 0; $i < count($usedNames); $i++){
+			$usedNames[$i] = mb_strtolower($usedNames[$i]);
+		}
 		return $usedNames;
 	}
 }

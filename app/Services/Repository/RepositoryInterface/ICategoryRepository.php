@@ -7,5 +7,5 @@ namespace App\Services\Repository\RepositoryInterface;
 
 interface ICategoryRepository
 {
-	public function getArrayOfUsedNames(): Array;
+	public function getArrayOfUsedNames($currentCategoryId = null): Array;
 }
