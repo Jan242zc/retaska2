@@ -90,4 +90,16 @@ final class CategoryRepository extends BaseRepository implements IRepository, IC
 		
 		return $howDidItGo->getRowCount();
 	}
+	
+	public function getArrayOfUsedNames(): Array
+	{
+		$usedNames = $this->database
+			->query("
+				SELECT name
+				FROM category
+			")
+			->fetchPairs();
+
+		return $usedNames;
+	}
 }

@@ -60,6 +60,7 @@ final class CategoryPresenter extends BasePresenter
 
 		$form->addText('name', 'Název:')
 			->setRequired('Kategorie musí mít název.')
+			->addRule($form::IS_NOT_IN, 'Kategorie s tímto názvem již existuje.', $this->categoryRepository->getArrayOfUsedNames())
 			->addFilter(function($value){
 				return ucfirst(strtolower($value));
 			});
