@@ -28,6 +28,7 @@
 					</td>
 					<td>
 						<a class="crud crud-edit" n:href="Category:manage, $category->getId() . ' ' . $category->getName()">Upravit</a>
+						<a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="Category:delete, $category->getId() . ' ' . $category->getName()">Smazat</a>
 					</td>
 				</tr>
 			{/foreach}

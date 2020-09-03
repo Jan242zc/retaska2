@@ -79,8 +79,15 @@ final class CategoryRepository extends BaseRepository implements IRepository, IC
 		return $howDidItGo->getRowCount();
 	}
 	
-	public function delete($category)
+	public function delete(string $identification)
 	{
+		$identification = $this->chopIdentification($identification);
 		
+		$howDidItGo = $this->database->query("
+			DELETE FROM category
+			WHERE id = ? AND name = ?
+		", $identification['id'], $identification['name']);
+		
+		return $howDidItGo->getRowCount();
 	}
 }

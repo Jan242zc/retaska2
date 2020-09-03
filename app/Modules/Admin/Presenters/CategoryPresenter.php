@@ -90,4 +90,13 @@ final class CategoryPresenter extends BasePresenter
 		}
 		$this->redirect('Category:default');
 	}
+	
+	public function actionDelete($id){
+		if($this->categoryRepository->delete($id) === 1){
+			$this->flashMessage('Kategorie smazána.');
+		} else {
+			$this->flashMessage('Něco se pokazilo.');
+		}
+		$this->redirect('Category:default');
+	}
 }
