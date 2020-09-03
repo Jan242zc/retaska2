@@ -18,27 +18,18 @@
 			</tr>
 		</thead>
 		<tbody>
-			<tr>
-				<td>
-					ID
-				</td>
-				<td>
-					Název
-				</td>
-				<td>
-					Možnosti
-				</td>
-			</tr>
-			<tr>
-				<td>
-					ID
-				</td>
-				<td>
-					Název
-				</td>
-				<td>
-					Možnosti
-				</td>
-			</tr>
+			{foreach $categories as $category}
+				<tr>
+					<td>
+						{$category->getId()}
+					</td>
+					<td>
+						{$category->getName()}
+					</td>
+					<td>
+						Možnosti
+					</td>
+				</tr>
+			{/foreach}
 		</tbody>
 	</table>

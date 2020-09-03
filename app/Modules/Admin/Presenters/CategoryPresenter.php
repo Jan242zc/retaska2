@@ -21,7 +21,7 @@ final class CategoryPresenter extends BasePresenter
 	
 	public function renderDefault(): void
 	{
-		
+		$this->template->categories = $this->categoryRepository->findAll();
 	}
 	
 	public function actionManage(): void
@@ -49,7 +49,7 @@ final class CategoryPresenter extends BasePresenter
 	
 	public function manageCategoryFormSucceeded(Form $form, Array $data): void
 	{
-		$category = CategoryFactory::create($data);
+		$category = CategoryFactory::createFromArray($data);
 		if(!$category->getId()){
 			if($this->categoryRepository->insert($category) === 1){
 				$this->flashMessage('Kategorie uložena.');

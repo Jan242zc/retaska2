@@ -22,7 +22,18 @@ final class CategoryRepository extends BaseRepository implements IRepository, IC
 	
 	public function findAll(): Array
 	{
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM category		
+			");
 		
+		$arrayOfCategories = [];		
+		while($row = $queryResult->fetch()){
+			$arrayOfCategories[] = CategoryFactory::createFromObject($row);
+		}
+
+		return $arrayOfCategories;
 	}
 	
 	public function find(string $identification)
