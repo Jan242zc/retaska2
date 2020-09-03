@@ -27,7 +27,7 @@
 						{$category->getName()}
 					</td>
 					<td>
-						Možnosti
+						<a class="crud crud-edit" n:href="Category:manage, $category->getId() . ' ' . $category->getName()">Upravit</a>
 					</td>
 				</tr>
 			{/foreach}

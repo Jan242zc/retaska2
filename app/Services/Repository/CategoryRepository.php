@@ -36,9 +36,24 @@ final class CategoryRepository extends BaseRepository implements IRepository, IC
 		return $arrayOfCategories;
 	}
 	
-	public function find(string $identification)
+	public function find(string $identification): Category
 	{
+		$identification = $this->chopIdentification($identification);
 		
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM category
+				WHERE id = ? AND name = ?
+				", $identification['id'], $identification['name'])
+			->fetch();
+		
+		//as the $identification variable should always be valid (one should always find a category with given id and name), I decided to throw exception in case nothing is found rather than return null
+		if(is_null($queryResult)){ 
+			throw new \Exception('Nothing found.');
+		}
+
+		return CategoryFactory::createFromObject($queryResult);
 	}
 	
 	public function insert($category): int

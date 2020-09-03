@@ -24,9 +24,27 @@ final class CategoryPresenter extends BasePresenter
 		$this->template->categories = $this->categoryRepository->findAll();
 	}
 	
-	public function actionManage(): void
+	public function actionManage($id = null): void
 	{
-		
+		if(is_null($id)){
+			$formDefaults = [
+				'id' => null
+			];
+		} else {
+			try{
+				$category = $this->categoryRepository->find($id);
+			} catch (\Exception $ex){
+				if($ex->getMessage() === 'Nothing found.'){
+					$this->flashMessage('Kategorie nenalezena.');				
+				} else {
+					$this->flashMessage('Něco se pokazilo.');
+				}
+				$this->redirect('Category:default');
+			}
+			
+			dump($category);
+			exit;
+		}
 	}
 	
 	protected function createComponentManageCategoryForm(): Form
