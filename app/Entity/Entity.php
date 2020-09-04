@@ -45,4 +45,13 @@ final class Entity
 	{
 		$this->idLimit = $idLimit;
 	}
+	
+	public function toArray(): Array
+	{
+		return [
+			'id' => $this->id,
+			'name' => $this->name,
+			'idLimit' => $this->idLimit
+		];
+	}
 }
