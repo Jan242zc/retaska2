@@ -65,6 +65,7 @@ final class Entity
 		return [
 			'id' => $this->id,
 			'name' => $this->name,
+			'nameCzech' => $this->nameCzech,
 			'idLimit' => $this->idLimit
 		];
 	}
