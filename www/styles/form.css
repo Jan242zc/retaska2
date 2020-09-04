@@ -16,7 +16,7 @@ form.form input, select, textarea{
 	padding-left: .5em;
 }
 
-form.form [type="text"], [type="email"], select{ /* jen input typu "text" a type="email", aby se neaplikovalo na radio*/
+form.form [type="text"], [type="number"], [type="email"], select{ /* jen input typu "text" a type="email", aby se neaplikovalo na radio*/
 	height: 1.5em;
 	width: 70%;
 }

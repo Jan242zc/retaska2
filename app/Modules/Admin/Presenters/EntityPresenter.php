@@ -23,4 +23,43 @@ final class EntityPresenter extends BasePresenter
 	{
 		$this->template->entities = $this->entityRepository->findAll();
 	}
+	
+	public function manage($id): void
+	{
+		
+	}
+	
+	public function createComponentManageEntityForm(): Form
+	{
+		$form = new Form;
+		$form->setHtmlAttribute('class', 'form');
+		
+		$form->addHidden('id');
+		
+		$form->addText('name', 'Název:')
+			->setDisabled(true);
+		
+		$form->addText('nameCzech', 'Název česky:')
+			->setDisabled(true);
+			
+		$form->addText('idLimit', 'Limit ID:')
+			->setRequired('Je třeba uvést limit.')
+			->addRule($form::NUMERIC, 'Limit musí být celé kladné číslo.')
+			->addFilter(function($value){
+				return intval($value);
+			});
+			
+		$form->addSubmit('submit', 'Uložit')
+			->setHtmlAttribute('class', 'submit');
+		
+		$form->onSuccess[] = [$this, 'manageEntityFormSucceeded'];
+		
+		return $form;
+	}
+	
+	public function manageEntityFormSucceeded(Form $form, Array $data): void
+	{
+		dump($data);
+		exit;
+	}
 }
