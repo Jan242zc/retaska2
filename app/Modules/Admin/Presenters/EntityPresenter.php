@@ -11,4 +11,8 @@ use App\Services\Repository\RepositoryInterface\IRepository;
 
 final class EntityPresenter extends BasePresenter
 {
+	public function renderDefault(): void
+	{
+		
+	}
 }
