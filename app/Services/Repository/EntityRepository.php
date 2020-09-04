@@ -22,7 +22,17 @@ final class EntityRepository extends BaseRepository implements IRepository, IEnt
 	
 	public function findAll(): Array
 	{
+		$queryResult = $this->database->query("
+			SELECT *
+			FROM entity
+		");
 		
+		$arrayOfEntities = [];
+		while($row = $queryResult->fetch()){
+			$arrayOfEntities[] = EntityFactory::createFromObject($row);
+		}
+		
+		return $arrayOfEntities;
 	}
 	
 	public function find(string $identification)
