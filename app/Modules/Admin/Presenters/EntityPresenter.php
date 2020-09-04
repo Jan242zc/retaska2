@@ -9,6 +9,7 @@ use App\Modules\Admin\Presenters\BaseAdminPresenter as BasePresenter;
 use Nette\Application\UI\Form;
 use App\Services\Repository\RepositoryInterface\IRepository;
 use App\Services\Repository\RepositoryInterface\IEntityRepository;
+use App\Entity\Factory\EntityFactory;
 
 
 final class EntityPresenter extends BasePresenter
@@ -24,9 +25,15 @@ final class EntityPresenter extends BasePresenter
 		$this->template->entities = $this->entityRepository->findAll();
 	}
 	
-	public function manage($id): void
+	public function actionManage($id): void
 	{
-		
+		try{
+			$entity = $this->entityRepository->find($id);
+		} catch (\Exception $ex) {
+			$this->flashMessage('Entita nenalezena');
+			$this->redirect('Entity:default');
+		}
+		$this['manageEntityForm']->setDefaults($entity->toArray());
 	}
 	
 	public function createComponentManageEntityForm(): Form

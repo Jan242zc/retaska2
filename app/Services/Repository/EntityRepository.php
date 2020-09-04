@@ -37,7 +37,21 @@ final class EntityRepository extends BaseRepository implements IRepository, IEnt
 	
 	public function find(string $identification)
 	{
+		$identification = $this->chopIdentification($identification);
 		
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM entity
+				WHERE id = ? AND name = ?
+			", $identification['id'], $identification['name'])
+			->fetch();
+			
+		if(is_null($queryResult)){
+			throw new \Exception('Entity not found');
+		}
+		
+		return EntityFactory::createFromObject($queryResult);
 	}
 	
 	public function insert($entity)
