@@ -31,17 +31,17 @@ final class Entity
 		return $this->name;
 	}
 	
-	public function set(string $name): void
+	public function setName(string $name): void
 	{
 		$this->name = $name;
 	}
 	
-	public function get(): int
+	public function getIdLimit(): int
 	{
 		return $this->idLimit;
 	}
 	
-	public function set(int $idLimit): void
+	public function setIdLimit(int $idLimit): void
 	{
 		$this->idLimit = $idLimit;
 	}
