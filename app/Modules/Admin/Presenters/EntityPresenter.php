@@ -33,6 +33,7 @@ final class EntityPresenter extends BasePresenter
 			$this->flashMessage('Entita nenalezena');
 			$this->redirect('Entity:default');
 		}
+		$this->template->entity = $entity;
 		$this['manageEntityForm']->setDefaults($entity->toArray());
 	}
 	
@@ -43,11 +44,9 @@ final class EntityPresenter extends BasePresenter
 		
 		$form->addHidden('id');
 		
-		$form->addText('name', 'Název:')
-			->setDisabled(true);
+		$form->addHidden('name', 'Název:'); //hidden instead of disabled, as I need it sent data (vanilla JS could helped, but too complicated)
 		
-		$form->addText('nameCzech', 'Název česky:')
-			->setDisabled(true);
+		$form->addHidden('nameCzech', 'Název česky:'); //dtto
 			
 		$form->addText('idLimit', 'Limit ID:')
 			->setRequired('Je třeba uvést limit.')
