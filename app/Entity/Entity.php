@@ -12,12 +12,16 @@ final class Entity
 	/** @var string */
 	private $name;
 	
+	/** @var string */
+	private $nameCzech;
+	
 	/** @var int */
 	private $idLimit;
 	
-	public function __construct(int $id, string $name, int $idLimit){
+	public function __construct(int $id, string $name, string $nameCzech, int $idLimit){
 		$this->id = $id;
 		$this->name = $name;
+		$this->nameCzech = $nameCzech;
 		$this->idLimit = $idLimit;
 	}
 	
@@ -34,6 +38,16 @@ final class Entity
 	public function setName(string $name): void
 	{
 		$this->name = $name;
+	}
+	
+	public function getNameCzech(): string
+	{
+		return $this->nameCzech;
+	}
+	
+	public function setNameCzech(string $nameCzech): void
+	{
+		$this->nameCzech = $nameCzech;
 	}
 	
 	public function getIdLimit(): int

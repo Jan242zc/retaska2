@@ -11,11 +11,11 @@ final class EntityFactory
 {
 	public static function createFromArray(array $data): Entity
 	{
-		return new Entity($data['id'], $data['name'], $data['idLimit']);
+		return new Entity($data['id'], $data['name'], $data['nameCzech'], $data['idLimit']);
 	}
 	
 	public static function createFromObject($object): Entity
 	{
-		return new Entity($object->id, $object->name, $object->idLimit);
+		return new Entity($object->id, $object->name, $object->nameCzech, $object->idLimit);
 	}
 }
