@@ -42,7 +42,10 @@ final class EntityPresenter extends BasePresenter
 		$form = new Form;
 		$form->setHtmlAttribute('class', 'form');
 		
-		$form->addHidden('id');
+		$form->addHidden('id')
+			->addFilter(function($value){
+				return intval($value);
+			});
 		
 		$form->addHidden('name', 'Název:'); //hidden instead of disabled, as I need it sent data (vanilla JS could helped, but too complicated)
 		
@@ -65,7 +68,13 @@ final class EntityPresenter extends BasePresenter
 	
 	public function manageEntityFormSucceeded(Form $form, Array $data): void
 	{
-		dump($data);
-		exit;
+		$entity = EntityFactory::createFromArray($data);
+
+		if($this->entityRepository->update($entity) === 1){
+			$this->flashMessage('Změny uloženy.');
+		} else {
+			$this->flashMessage('Něco se pokazilo.');
+		}
+		$this->redirect('Entity:default');
 	}
 }

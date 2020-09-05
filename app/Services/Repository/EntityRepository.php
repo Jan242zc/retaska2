@@ -61,7 +61,17 @@ final class EntityRepository extends BaseRepository implements IRepository, IEnt
 	
 	public function update($entity)
 	{
+		$id = $entity->getId();
+		$entityArray = $entity->toArray();
+		unset($entityArray['id']);
 		
+		$howDidItGo = $this->database->query("
+			UPDATE entity
+			SET idLimit = ?
+			WHERE id = ?
+		", $entity->getIdLimit(), $id);
+		
+		return $howDidItGo->getRowCount();
 	}
 	
 	public function delete(string $identification)
