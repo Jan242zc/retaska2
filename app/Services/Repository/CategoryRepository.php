@@ -9,11 +9,12 @@ use App\Services\Repository\BaseRepository;
 use App\Entity\Category;
 use App\Entity\Factory\CategoryFactory;
 use App\Services\Repository\RepositoryInterface\IRepository;
+use App\Services\Repository\RepositoryInterface\ICreatableAndDeleteableEntityRepository;
 use App\Services\Repository\RepositoryInterface\ICategoryRepository;
 use App\Services\Repository\RepositoryInterface\IEntityRepository;
 
 
-final class CategoryRepository extends BaseRepository implements IRepository, ICategoryRepository
+final class CategoryRepository extends BaseRepository implements IRepository, ICreatableAndDeleteableEntityRepository, ICategoryRepository
 {
 	private const ENTITY_IDENTIFICATION = '1 category';
 	private $entityRepository;

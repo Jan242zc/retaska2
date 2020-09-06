@@ -53,12 +53,7 @@ final class EntityRepository extends BaseRepository implements IRepository, IEnt
 		
 		return EntityFactory::createFromObject($queryResult);
 	}
-	
-	public function insert($entity)
-	{
-		
-	}
-	
+
 	public function update($entity)
 	{
 		$id = $entity->getId();
@@ -73,10 +68,4 @@ final class EntityRepository extends BaseRepository implements IRepository, IEnt
 		
 		return $howDidItGo->getRowCount();
 	}
-	
-	public function delete(string $identification)
-	{
-		
-	}
-	
 }
