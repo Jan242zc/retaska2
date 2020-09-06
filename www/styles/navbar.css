@@ -26,6 +26,10 @@ li > a { /*inherit tedy slouží k tomu, aby se přebil user ager stylesheet (v 
 	text-decoration: inherit;
 }
 
+ul.navbar a.active{
+	color: #b2fcff;
+}
+
 ul.navbar > li.right {
 	float: right;
 }
