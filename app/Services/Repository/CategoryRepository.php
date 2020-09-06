@@ -14,7 +14,7 @@ use App\Services\Repository\RepositoryInterface\ICategoryRepository;
 use App\Services\Repository\RepositoryInterface\IEntityRepository;
 
 
-final class CategoryRepository extends BaseRepository implements IRepository, ICreatableAndDeleteableEntityRepository, ICategoryRepository
+final class CategoryRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, ICategoryRepository
 {
 	private const ENTITY_IDENTIFICATION = '1 category';
 	private $entityRepository;

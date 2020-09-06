@@ -12,7 +12,7 @@ use App\Services\Repository\RepositoryInterface\IRepository;
 use App\Services\Repository\RepositoryInterface\IEntityRepository;
 
 
-final class EntityRepository extends BaseRepository implements IRepository, IEntityRepository
+final class EntityRepository extends BaseRepository implements IEntityRepository
 {
 	private $database;
 

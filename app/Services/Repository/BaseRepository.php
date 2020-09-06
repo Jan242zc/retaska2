@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Services\Repository;
 
 use Nette;
-use App\Services\Repository\RepositoryInterface\IEntityRepository;
+use App\Services\Repository\RepositoryInterface\IRepository;
 
 
-abstract class BaseRepository
+abstract class BaseRepository implements IRepository
 {
 	protected function chopIdentification(string $string): Array
     {
