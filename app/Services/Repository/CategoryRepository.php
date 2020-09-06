@@ -10,13 +10,17 @@ use App\Entity\Category;
 use App\Entity\Factory\CategoryFactory;
 use App\Services\Repository\RepositoryInterface\IRepository;
 use App\Services\Repository\RepositoryInterface\ICategoryRepository;
+use App\Services\Repository\RepositoryInterface\IEntityRepository;
 
 
 final class CategoryRepository extends BaseRepository implements IRepository, ICategoryRepository
 {
+	private const ENTITY_IDENTIFICATION = '1 category';
+	private $entityRepository;
 	private $database;
 
-	public function __construct(Nette\Database\Context $database){
+	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database){
+		$this->entityRepository = $entityRepository;
 		$this->database = $database;
 	}
 	
@@ -58,6 +62,12 @@ final class CategoryRepository extends BaseRepository implements IRepository, IC
 	
 	public function insert($category): int
 	{
+		try{
+			$category->setId($this->generateNewId($this->getUsedIds(), $this->entityRepository->find(self::ENTITY_IDENTIFICATION)));
+		} catch(\Exception $ex){
+			throw $ex;
+		}
+		
 		$howDidItGo = $this->database->query("
 			INSERT INTO category
 			", $category->toArray());
@@ -114,5 +124,17 @@ final class CategoryRepository extends BaseRepository implements IRepository, IC
 			$usedNames[$i] = mb_strtolower($usedNames[$i]);
 		}
 		return $usedNames;
+	}
+	
+	private function getUsedIds(): Array
+	{
+		$usedIds = $this->database
+			->query("
+				SELECT id
+				FROM category
+			")
+			->fetchPairs();
+
+		return $usedIds;
 	}
 }

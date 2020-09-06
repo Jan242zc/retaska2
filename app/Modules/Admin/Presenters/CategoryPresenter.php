@@ -78,7 +78,13 @@ final class CategoryPresenter extends BasePresenter
 		}
 		
 		if(!$category->getId()){
-			if($this->categoryRepository->insert($category) === 1){
+			try{
+				$rowsAffected = $this->categoryRepository->insert($category);
+			} catch (\Exception $ex) {
+				$this->flashMessage('Počet možných ID je nižší než počet kategorií, zvyšte jej.');
+				$this->redirect('Entity:default');
+			}
+			if($rowsAffected === 1){
 				$this->flashMessage('Kategorie uložena.');
 			} else {
 				$this->flashMessage('Něco se pokazilo.');
