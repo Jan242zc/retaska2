@@ -4,7 +4,7 @@ table.crud-table{
 	/*max-width: 200vh; /*jen tak na zkoušku, případně odstranit*/
 	margin: 1em auto;
 	overflow-x: scroll;
-	width: 95%;
+	width: 100%;
 }
 
 table.crud-table > thead{
@@ -16,8 +16,13 @@ table.crud-table td{
 	border: 1px solid #5edfff;
 }
 
+table.crud-table > tbody td{
+	padding-left: .5em;
+}
+
 table.crud-table > tbody td:last-child{
 	text-align: center;
+	padding-left: 0;
 }
 
 table.crud-table > tbody > tr:hover{
@@ -63,4 +68,8 @@ p.nothing-found{
 
 #actions{
 	width: 15%;
+}
+
+#ids{
+	width: 5%
 }
