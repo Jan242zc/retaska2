@@ -26,7 +26,7 @@ li > a { /*inherit tedy slouží k tomu, aby se přebil user ager stylesheet (v 
 	text-decoration: inherit;
 }
 
-ul.navbar > li.basket {
+ul.navbar > li.right {
 	float: right;
 }
 
@@ -42,7 +42,7 @@ ul.navbar > li.basket {
 		padding: 0 auto;
 	}
 	
-	ul.navbar > li.basket {
+	ul.navbar > li.right {
 		float: inherit;
 	}
 	
