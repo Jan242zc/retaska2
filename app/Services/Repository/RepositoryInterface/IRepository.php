@@ -9,5 +9,5 @@ interface IRepository
 {
 	public function findAll(): Array;
 	public function find(string $identification);
-	public function update($category);
+	public function update($object);
 }

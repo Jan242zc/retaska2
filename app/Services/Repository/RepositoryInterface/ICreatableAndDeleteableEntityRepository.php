@@ -7,6 +7,6 @@ namespace App\Services\Repository\RepositoryInterface;
 
 interface ICreatableAndDeleteableEntityRepository
 {
-	public function insert($category);
+	public function insert($object);
 	public function delete(string $identification);
 }
