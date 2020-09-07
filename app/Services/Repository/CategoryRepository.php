@@ -41,6 +41,18 @@ final class CategoryRepository extends BaseRepository implements ICreatableAndDe
 		return $arrayOfCategories;
 	}
 	
+	public function findAllForForm(): Array
+	{
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM category
+			")
+			->fetchPairs();
+			
+		return $queryResult;
+	}
+	
 	public function find(string $identification): Category
 	{
 		$identification = $this->chopIdentification($identification);
