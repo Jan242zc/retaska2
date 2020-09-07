@@ -7,13 +7,13 @@ namespace App\Services\Repository;
 use Nette;
 use App\Services\Repository\BaseRepository;
 use App\Services\Repository\RepositoryInterface\IRepository;
-use App\Services\Repository\RepositoryInterface\ICreatableAndDeteableEntityRepository;
+use App\Services\Repository\RepositoryInterface\ICreatableAndDeleteableEntityRepository;
 use App\Services\Repository\RepositoryInterface\IProductRepository;
 use App\Entity\Product;
 use App\Entity\Factory\ProductFactory;
 
 
-class ProductRepository extends BaseRepository implements ICreatableAndDeteableEntityRepository, IProductRepository
+class ProductRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, IProductRepository
 {
 	private $database;
 	
@@ -27,10 +27,10 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeteableE
 	public function find(string $identification): Product
 	{}
 	
-	public function insert(Product $product): int
+	public function insert($product): int
 	{}
 	
-	public function update(Product $product): int
+	public function update($product): int
 	{}
 	
 	public function delete(string $identification): int
