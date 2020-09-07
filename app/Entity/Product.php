@@ -30,7 +30,7 @@ final class Product
 	/** @var string */
 	private $description;
 	
-	public function __construct(int $id, string $name, float $price, Category $category, string $material, int $amountAvailable, string $description){
+	public function __construct($id = null, string $name, float $price, Category $category, string $material, int $amountAvailable, string $description){
 		$this->id = $id;
 		$this->name = $name;
 		$this->price = $price;
@@ -40,7 +40,7 @@ final class Product
 		$this->description = $description;
 	}
 	
-	public function getId(): int
+	public function getId()
 	{
 		return $this->id;
 	}
