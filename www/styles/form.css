@@ -22,7 +22,7 @@ form.form [type="text"], [type="number"], [type="email"], select{ /* jen input t
 }
 
 form.form > table td.labels{
-	width: 35%;
+	width: 45%;
 }
 
 form.form > table td.inputs{
