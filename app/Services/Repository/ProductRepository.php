@@ -91,7 +91,18 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 	}
 	
 	public function update($product): int
-	{}
+	{
+		$id = $product->getId();
+		$productArray = $product->toArray();
+		unset($productArray['id']);
+		
+		$howDidItGo = $this->database->query("
+			UPDATE product
+			SET", $productArray, "
+			WHERE id = ?", $id);
+		
+		return $howDidItGo->getRowCount();
+	}
 	
 	public function delete(string $identification): int
 	{}

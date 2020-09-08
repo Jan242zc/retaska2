@@ -112,7 +112,6 @@ final class ProductPresenter extends BasePresenter
 				$this->flashMessage('Něco se pokazilo.');
 			}
 		} else {
-			dump($product);exit;
 			if($this->productRepository->update($product) === 1){
 				$this->flashMessage('Změny uloženy.');
 			} else {
