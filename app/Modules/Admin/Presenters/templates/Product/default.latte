@@ -23,7 +23,10 @@
 						<td> {$product->getCategory()->getName()} </td>
 						<td> {$product->getMaterial()} </td>
 						<td> {$product->getAmountAvailable()} </td>
-						<td><a class="crud crud-edit" n:href="Product:manage, $product->getId() . ' ' . $product->getName()">Upravit</a> button</td>
+						<td>
+							<a class="crud crud-edit" n:href="Product:manage, $product->getId() . ' ' . $product->getName()">Upravit</a> 
+							<a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="Product:delete, $product->getId() . ' ' . $product->getName()">Vymazat</a> 
+						</td>
 					</tr>
 				{/foreach}
 			</tbody>

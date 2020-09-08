@@ -105,7 +105,16 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 	}
 	
 	public function delete(string $identification): int
-	{}
+	{
+		$identification = $this->chopIdentification($identification);
+		
+		$howDidItGo = $this->database->query("
+			DELETE FROM product
+			WHERE id = ? AND name = ?
+		", $identification['id'], $identification['name']);
+		
+		return $howDidItGo->getRowCount();
+	}
 	
 	private function getUsedIds(): array
 	{

@@ -120,4 +120,14 @@ final class ProductPresenter extends BasePresenter
 		}
 		$this->redirect('Product:default');
 	}
+	
+	public function actionDelete($id): void
+	{
+		if($this->productRepository->delete($id) === 1){
+			$this->flashMessage('Zboží vymazáno.');
+		} else {
+			$this->flashMessage('Zboží nenalezeno.');
+		}
+		$this->redirect('Product:default');
+	}
 }
