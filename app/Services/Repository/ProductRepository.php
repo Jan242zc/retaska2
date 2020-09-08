@@ -45,7 +45,25 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 	}
 	
 	public function find(string $identification): Product
-	{}
+	{
+		$identification = $this->chopIdentification($identification);
+		
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM product
+				WHERE id = ? AND name = ?
+				", $identification['id'], $identification['name']
+				)
+			->fetch();
+		
+		if(is_null($queryResult)){
+			throw new \Exception('No product found.');
+		}
+		
+		$queryResult->category = $this->categoryRepository->findById($queryResult->category);
+		return $product = ProductFactory::createFromObject($queryResult);
+	}
 	
 	public function insert($product): int
 	{

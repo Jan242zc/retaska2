@@ -29,9 +29,22 @@ final class ProductPresenter extends BasePresenter
 		$this->template->products = $this->productRepository->findAll();
 	}
 	
-	public function actionManage(): void
+	public function actionManage($id = null): void
 	{
-		
+		if(!$id){
+			$formDefaults = [
+				'id' => null
+			];
+		} else {
+			try{
+				$product = $this->productRepository->find($id);
+			} catch (\Exception $ex){
+				$this->flashMessage('Zboží nebo kategorie nenalezeny.');
+				$this->redirect('Product:default');
+			}
+			$formDefaults = $product->toArray();
+		}
+		$this['manageProductForm']->setDefaults($formDefaults);
 	}
 	
 	protected function createComponentManageProductForm(): Form
@@ -85,6 +98,7 @@ final class ProductPresenter extends BasePresenter
 		$data['category'] = $this->categoryRepository->findById($data['category']);
 		$product = ProductFactory::createFromArray($data);
 		
+		
 		if(!$product->getId()){
 			try{
 				$rowsAffected = $this->productRepository->insert($product);
@@ -98,6 +112,7 @@ final class ProductPresenter extends BasePresenter
 				$this->flashMessage('Něco se pokazilo.');
 			}
 		} else {
+			dump($product);exit;
 			if($this->productRepository->update($product) === 1){
 				$this->flashMessage('Změny uloženy.');
 			} else {

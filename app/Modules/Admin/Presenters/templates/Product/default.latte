@@ -23,7 +23,7 @@
 						<td> {$product->getCategory()->getName()} </td>
 						<td> {$product->getMaterial()} </td>
 						<td> {$product->getAmountAvailable()} </td>
-						<td>button button</td>
+						<td><a class="crud crud-edit" n:href="Product:manage, $product->getId() . ' ' . $product->getName()">Upravit</a> button</td>
 					</tr>
 				{/foreach}
 			</tbody>
