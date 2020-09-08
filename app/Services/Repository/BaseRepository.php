@@ -26,6 +26,7 @@ abstract class BaseRepository implements IRepository
 	protected function generateNewId($usedIds, $entity): int 
 	{
 		$idLimit = $entity->getIdLimit();
+		
 		if(count($usedIds) >= $idLimit){
 			throw new \Exception('More items that possible ids.');
 		}

@@ -17,6 +17,7 @@ final class ProductPresenter extends BasePresenter
 {
 	private $productRepository;
 	private $categoryRepository;
+	private $entityRepository;
 	
 	public function __construct(IProductRepository $productRepository, ICategoryRepository $categoryRepository){
 		$this->productRepository = $productRepository;
@@ -81,7 +82,28 @@ final class ProductPresenter extends BasePresenter
 	
 	public function manageProductFormSucceeded(Form $form, Array $data): void
 	{
-		dump($data);
-		exit;
+		$data['category'] = $this->categoryRepository->findById($data['category']);
+		$product = ProductFactory::createFromArray($data);
+		
+		if(!$product->getId()){
+			try{
+				$rowsAffected = $this->productRepository->insert($product);
+			} catch (\Exception $ex) {
+				$this->flashMessage('Počet možných ID je nižší než počet kategorií, zvyšte jej.');
+				$this->redirect('Entity:default');
+			}
+			if($rowsAffected === 1){
+				$this->flashMessage('Zboží uloženo.');
+			} else {
+				$this->flashMessage('Něco se pokazilo.');
+			}
+		} else {
+			if($this->productRepository->update($product) === 1){
+				$this->flashMessage('Změny uloženy.');
+			} else {
+				$this->flashMessage('Něco se pokazilo.');
+			}
+		}
+		$this->redirect('Product:default');
 	}
 }

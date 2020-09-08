@@ -116,7 +116,7 @@ final class Product
 			'id' => $this->id,
 			'name' => $this->name,
 			'price' => $this->price,
-			'category' => $this->category,
+			'category' => $this->category->getId(),
 			'material' => $this->material,
 			'amountAvailable' => $this->amountAvailable,
 			'description' => $this->description
