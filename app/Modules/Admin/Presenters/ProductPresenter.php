@@ -26,7 +26,7 @@ final class ProductPresenter extends BasePresenter
 	
 	public function renderDefault(): void
 	{
-		
+		$this->template->products = $this->productRepository->findAll();
 	}
 	
 	public function actionManage(): void
@@ -49,9 +49,9 @@ final class ProductPresenter extends BasePresenter
 			
 		$form->addText('price', 'Cena:')
 			->setRequired('Zboží musí mít cenu.')
-			->addRule($form::NUMERIC, 'Cena musí být kladné číslo.')
+			->addRule($form::FLOAT, 'Cena musí být kladné číslo.')
 			->addFilter(function($value){
-				return intval($value);
+				return floatval($value);
 			});
 			
 		$form->addSelect('category', 'Kategorie:')

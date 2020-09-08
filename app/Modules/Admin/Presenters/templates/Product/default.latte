@@ -15,15 +15,17 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-					<td></td>
-				</tr>
+				{foreach $products as $product}
+					<tr>
+						<td> {$product->getId()} </td>
+						<td> {$product->getName()} </td>
+						<td> {$product->getPrice()} </td>
+						<td> {$product->getCategory()->getName()} </td>
+						<td> {$product->getMaterial()} </td>
+						<td> {$product->getAmountAvailable()} </td>
+						<td>button button</td>
+					</tr>
+				{/foreach}
 			</tbody>
 		</table>
 	</div>
