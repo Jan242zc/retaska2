@@ -8,10 +8,10 @@
 </head>
 
 <body>
-	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 	
 	{control navbarControl}
 	<div class="container">
+		<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 		{include content}
 	</div>
 	{block scripts}

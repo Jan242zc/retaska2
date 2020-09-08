@@ -127,4 +127,29 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 		
 		return $usedIds;
 	}
+	
+	public function getArrayOfUsedNames($currentProductId = null): Array
+	{
+		if(is_null($currentProductId)){
+			$usedNames = $this->database
+				->query("
+					SELECT name
+					FROM product
+				")
+				->fetchPairs();		
+		} else {
+			$usedNames = $this->database
+				->query("
+					SELECT name
+					FROM product
+					WHERE id != ?
+				", $currentProductId)
+				->fetchPairs();
+		}
+		
+		for($i = 0; $i < count($usedNames); $i++){
+			$usedNames[$i] = mb_strtolower($usedNames[$i]);
+		}
+		return $usedNames;
+	}
 }

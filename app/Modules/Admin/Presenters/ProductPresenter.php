@@ -98,7 +98,6 @@ final class ProductPresenter extends BasePresenter
 		$data['category'] = $this->categoryRepository->findById($data['category']);
 		$product = ProductFactory::createFromArray($data);
 		
-		
 		if(!$product->getId()){
 			try{
 				$rowsAffected = $this->productRepository->insert($product);
@@ -115,8 +114,11 @@ final class ProductPresenter extends BasePresenter
 			if($this->productRepository->update($product) === 1){
 				$this->flashMessage('Změny uloženy.');
 			} else {
-				$this->flashMessage('Něco se pokazilo.');
+				$this->flashMessage('Něco se pokazilo nebo nebyly provedeny žádné změny.');
 			}
+		}
+		if(!$nameIsOriginal = $this->verifyNameOriginality($product)){
+			$this->flashMessage('Upozornění: zboží s tímto názvem již existuje.');
 		}
 		$this->redirect('Product:default');
 	}
@@ -129,5 +131,16 @@ final class ProductPresenter extends BasePresenter
 			$this->flashMessage('Zboží nenalezeno.');
 		}
 		$this->redirect('Product:default');
+	}
+	
+	private function verifyNameOriginality($product): bool
+	{
+		if(is_null($product->getId())){	
+			$usedNames = $this->productRepository->getArrayOfUsedNames();
+		} else {
+			$usedNames = $this->productRepository->getArrayOfUsedNames($product->getId());
+		}
+
+		return !in_array(trim(mb_strtolower($product->getName())), $usedNames);
 	}
 }
