@@ -7,5 +7,5 @@ namespace App\Services\Repository\RepositoryInterface;
 
 interface IProductRepository
 {
-	//nothing yet...
+	public function getArrayOfUsedNames($currentProductId = null): Array
 }
