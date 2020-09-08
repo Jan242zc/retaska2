@@ -37,7 +37,12 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 		$arrayOfProducts = [];
 		while($row = $queryResult->fetch()){
 			//I chose this over JOIN as no extension of the category entity will require no subsequent changes of this method
-			$row->category = $this->categoryRepository->findById($row->category); 
+			try{
+				$row->category = $this->categoryRepository->findById($row->category); 				
+			} catch (\Exception $ex){
+				throw $ex;
+			}
+			
 			$arrayOfProducts[] = ProductFactory::createFromObject($row);
 		}
 		
@@ -61,7 +66,12 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 			throw new \Exception('No product found.');
 		}
 		
-		$queryResult->category = $this->categoryRepository->findById($queryResult->category);
+		try{
+			$queryResult->category = $this->categoryRepository->findById($queryResult->category);			
+		} catch (\Exception $ex){
+			throw $ex;
+		}
+		
 		return $product = ProductFactory::createFromObject($queryResult);
 	}
 	
