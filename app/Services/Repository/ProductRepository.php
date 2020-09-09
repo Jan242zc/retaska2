@@ -27,12 +27,16 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 		$this->categoryRepository = $categoryRepository;
 	}
 	
-	public function findAll(): Array
+	public function findAll(int $limit = null, int $offset = 0): Array
 	{
+		$limit = $limit ?? 10000;
+		
 		$queryResult = $this->database->query("
 			SELECT *
 			FROM product
-		");
+			LIMIT ?
+			OFFSET ?
+		", $limit, $offset);
 
 		$arrayOfProducts = [];
 		while($row = $queryResult->fetch()){
@@ -151,5 +155,15 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 			$usedNames[$i] = mb_strtolower($usedNames[$i]);
 		}
 		return $usedNames;
+	}
+	
+	public function getProductsCount(): int
+	{
+		return $this->database
+			->query("
+					SELECT COUNT(*)
+					FROM product
+				")
+			->fetchField();
 	}
 }

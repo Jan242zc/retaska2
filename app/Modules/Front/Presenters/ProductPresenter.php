@@ -20,9 +20,14 @@ final class ProductPresenter extends BasePresenter
 		$this->categoryRepository = $categoryRepository;
 	}
 	
-	public function renderDefault(): void
+	public function renderDefault(int $page = 1): void
 	{
 		$this->template->categories = $this->categoryRepository->findAll();
-		$this->template->products = $this->productRepository->findAll();
+
+		$paginator = new Nette\Utils\Paginator;
+		$paginator->setItemCount($this->productRepository->getProductsCount());
+		$paginator->setItemsPerPage(8);
+		$paginator->setPage($page);
+		$this->template->products = $this->productRepository->findAll($paginator->getLength(), $paginator->getOffset());
 	}
 }

@@ -8,4 +8,5 @@ namespace App\Services\Repository\RepositoryInterface;
 interface IProductRepository
 {
 	public function getArrayOfUsedNames($currentProductId = null): Array;
+	public function getProductsCount(): int;
 }
