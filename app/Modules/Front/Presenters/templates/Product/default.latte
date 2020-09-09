@@ -13,13 +13,13 @@
 					<div class="row">
 						{foreach $products as $product}
 							<div class="product-preview">
-							<p class="product-heading">{$product->getName()}</p>
-							<p class="product-price">
-								{$product->getCategory()->getName()}<br>
-								{$product->getPrice()} Kč <br>							
-								<a class="button-detail" href="#">Detail produktu</a>
-							</p>
-						</div>
+								<p class="product-heading">{$product->getName()}</p>
+								<p class="product-price">
+									{$product->getCategory()->getName()}<br>
+									{$product->getPrice()} Kč <br>							
+									<a class="button-detail" href="#">Detail produktu</a>
+								</p>
+							</div>
 						{/foreach}
 					</div>
 				</div>
