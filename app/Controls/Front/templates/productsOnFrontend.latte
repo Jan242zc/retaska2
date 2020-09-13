@@ -20,9 +20,13 @@
 		</div>
 	</div>
 	<div class="pages">
-		{for $i = 1; $i <= $maxPages ; $i++}
+		{for $i = 1; $i <= $maxPages; $i++}
 			<span class="button-group">
-				<a class="page-button" href="{plink $currentPresenterAndAction, $i, $itemsPerPage}"> {$i} </a>
+				{var $buttonCssClass = "page-button"}
+				{if $i === $page}
+					{var $buttonCssClass .= " page-button-active"}
+				{/if}
+				<a class="{$buttonCssClass}" href="{plink $currentPresenterAndAction, $i, $itemsPerPage}"> {$i} </a>
 			</span>
 		{/for}
 	</div>
