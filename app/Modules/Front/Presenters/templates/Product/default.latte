@@ -9,32 +9,7 @@
 						<div class="category-list-item"><a class="button-category" href="#">{$category->getName()}</a></div>
 					{/foreach}
 				</div>
-				<div class="product-preview-wrapper">
-					<div class="row">
-						{foreach $products as $product}
-							<div class="product-preview">
-								<p class="product-heading">{$product->getName()}</p>
-								<p class="product-price">
-									{$product->getCategory()->getName()}<br>
-									{$product->getPrice()} Kč <br>							
-									<a class="button-detail" href="#">Detail produktu</a>
-								</p>
-							</div>
-						{/foreach}
-					</div>
-				</div>
-				<div class="pages">
-					<span class="button-group">
-						<a class="page-button" n:href="this, 1">
-							1
-						</a>
-					</span>
-					<span class="button-group">
-						<a class="page-button" n:href="this, 2">
-							2
-						</a>
-					</span>
-				</div>
+				{control productsOnFrontendControl $page, $productsPerPage}
 			</div>
 		</div>	
 	</div>

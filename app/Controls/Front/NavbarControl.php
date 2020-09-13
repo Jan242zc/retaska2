@@ -6,7 +6,6 @@ namespace App\Controls\Front;
 
 use Nette;
 use Nette\Application\UI\Control;
-use App\Services\GenericStupidService;
 
 final class NavbarControl extends Control
 {

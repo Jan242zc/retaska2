@@ -22,3 +22,5 @@ services:
 	categoryRepository: App\Services\Repository\CategoryRepository
 	entityRepository: App\Services\Repository\EntityRepository
 	productRepository: App\Services\Repository\ProductRepository
+	iProductsOnFrontendControlFactory: App\Controls\Front\Factory\IProductsOnFrontendControlFactory
+	paginator: Nette\Utils\Paginator

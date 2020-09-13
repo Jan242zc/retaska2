@@ -8,26 +8,32 @@ use Nette;
 use App\Modules\Front\Presenters\BaseFrontPresenter as BasePresenter;
 use App\Services\Repository\RepositoryInterface\IProductRepository;
 use App\Services\Repository\RepositoryInterface\ICategoryRepository;
+use App\Controls\Front\ProductsOnFrontendControl;
+use App\Controls\Front\Factory\IProductsOnFrontendControlFactory;
 
 
 final class ProductPresenter extends BasePresenter
 {
 	private $productRepository;
 	private $categoryRepository;
+	private $productsOnFrontendControlFactory;
 	
-	public function __construct(IProductRepository $productRepository, ICategoryRepository $categoryRepository){
+	public function __construct(IProductRepository $productRepository, ICategoryRepository $categoryRepository, IProductsOnFrontendControlFactory $productsOnFrontendControlFactory){
 		$this->productRepository = $productRepository;
 		$this->categoryRepository = $categoryRepository;
+		$this->productsOnFrontendControlFactory = $productsOnFrontendControlFactory;
 	}
 	
-	public function renderDefault(int $page = 1): void
+	public function renderDefault(int $page = 1, int $productsPerPage = 8): void
 	{
 		$this->template->categories = $this->categoryRepository->findAll();
-
-		$paginator = new Nette\Utils\Paginator;
-		$paginator->setItemCount($this->productRepository->getProductsCount());
-		$paginator->setItemsPerPage(8);
-		$paginator->setPage($page);
-		$this->template->products = $this->productRepository->findAll($paginator->getLength(), $paginator->getOffset());
+		
+		$this->template->page = $page;
+		$this->template->productsPerPage = $productsPerPage;
+	}
+	
+	protected function createComponentProductsOnFrontendControl(): ProductsOnFrontendControl
+	{
+		return $this->productsOnFrontendControlFactory->create();
 	}
 }
