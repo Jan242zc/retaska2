@@ -1,11 +1,11 @@
 {block content}
-	<div>
-		Počet produktů na stránce: 
-		{for $i = $productsPerPageBaseValue; $i <= $maxProductsPerPage; $i *= 2}
-			<a n:href="changeProductsPerPage! $i"> {$i} </a>
-		{/for}
-	</div>
 	<div class="product-preview-wrapper">
+		<div>
+			Počet produktů na stránce: 
+			{for $i = $productsPerPageBaseValue; $i <= $maxProductsPerPage; $i *= 2}
+				<a n:href="changeProductsPerPage! $i"> {$i} </a>
+			{/for}
+		</div>
 		<div class="row">
 			{foreach $products as $product}
 				<div class="product-preview">

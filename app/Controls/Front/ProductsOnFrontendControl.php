@@ -19,6 +19,12 @@ final class ProductsOnFrontendControl extends Control
 	private $paginator;
 	
 	/** @var int */
+	public $productsPerPageBaseValue;
+	
+	/** @var int */
+	public $maxProductsPerPage;
+	
+	/** @var int */
 	/** @persistent */
 	public $page = 1;
 	
@@ -37,20 +43,20 @@ final class ProductsOnFrontendControl extends Control
 		
 		$this->setUpPaginator($numberOfProducts);
 		$this->setUpPageButtons($numberOfProducts);
-		$this->setUpProductsPerPageButtons(4, 64);
+		$this->setUpProductsPerPageButtons($this->productsPerPageBaseValue, $this->maxProductsPerPage);
 		
 		$this->template->products = $this->productRepository->findAll($this->paginator->getLength(), $this->paginator->getOffset());
 
 		$this->template->render(__DIR__ . '\templates\productsOnFrontend.latte');
 	}
 	
-	public function handleChangePage(int $page)
+	public function handleChangePage(int $page): void
 	{
 		$this->page = $page;
 		$this->getPresenter()->redirect('this');
 	}
 	
-	public function handleChangeProductsPerPage(int $productsPerPage)
+	public function handleChangeProductsPerPage(int $productsPerPage): void
 	{
 		$this->productsPerPage = $productsPerPage;
 		$this->getPresenter()->redirect('this');

@@ -22,5 +22,9 @@ services:
 	categoryRepository: App\Services\Repository\CategoryRepository
 	entityRepository: App\Services\Repository\EntityRepository
 	productRepository: App\Services\Repository\ProductRepository
-	iProductsOnFrontendControlFactory: App\Controls\Front\Factory\IProductsOnFrontendControlFactory
+	iProductsOnFrontendControlFactory: 
+		implement: App\Controls\Front\Factory\IProductsOnFrontendControlFactory
+		setup: 
+			- $productsPerPageBaseValue = 8
+			- $maxProductsPerPage = 64
 	paginator: Nette\Utils\Paginator
