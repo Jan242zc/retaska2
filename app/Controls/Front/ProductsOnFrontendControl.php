@@ -34,21 +34,13 @@ final class ProductsOnFrontendControl extends Control
 	public function render(): void
 	{
 		$numberOfProducts = $this->productRepository->getProductsCount();
-		$this->paginator->setItemCount($numberOfProducts);
-		$this->paginator->setItemsPerPage($this->productsPerPage);
-		$this->paginator->setPage($this->page);
+		
+		$this->setUpPaginator($numberOfProducts);
+		$this->setUpPageButtons($numberOfProducts);
+		$this->setUpProductsPerPageButtons(4, 64);
+		
 		$this->template->products = $this->productRepository->findAll($this->paginator->getLength(), $this->paginator->getOffset());
-		
-		$this->template->page = $this->page;
-		$maxPages = round($numberOfProducts / $this->productsPerPage);
-		$this->template->maxPages = $maxPages;
-		
-		$productsPerPageBaseValue = 4;
-		$maxProductsPerPage = 64;
-		$this->template->productsPerPageBaseValue = $productsPerPageBaseValue;
-		$this->template->maxProductsPerPage = $maxProductsPerPage;
-		$this->template->itemsPerPage = $this->productsPerPage;
-		
+
 		$this->template->render(__DIR__ . '\templates\productsOnFrontend.latte');
 	}
 	
@@ -62,5 +54,26 @@ final class ProductsOnFrontendControl extends Control
 	{
 		$this->productsPerPage = $productsPerPage;
 		$this->getPresenter()->redirect('this');
+	}
+	
+	private function setUpPaginator($numberOfProducts): void
+	{
+		$this->paginator->setItemCount($numberOfProducts);
+		$this->paginator->setItemsPerPage($this->productsPerPage);
+		$this->paginator->setPage($this->page);
+	}
+	
+	private function setUpPageButtons($numberOfProducts): void
+	{
+		$this->template->page = $this->page;
+		$maxPages = round($numberOfProducts / $this->productsPerPage);
+		$this->template->maxPages = $maxPages;
+	}
+	
+	private function setUpProductsPerPageButtons($productsPerPageBaseValue, $maxProductsPerPage): void
+	{
+		$this->template->productsPerPageBaseValue = $productsPerPageBaseValue;
+		$this->template->maxProductsPerPage = $maxProductsPerPage;
+		$this->template->itemsPerPage = $this->productsPerPage;
 	}
 }
