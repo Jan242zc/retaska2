@@ -2,7 +2,7 @@
 	<div>
 		Počet produktů na stránce: 
 		{for $i = $productsPerPageBaseValue; $i <= $maxProductsPerPage; $i *= 2}
-			<a href="{plink $currentPresenterAndAction, $page, $i}"> {$i} </a>
+			<a n:href="changeProductsPerPage! $i"> {$i} </a>
 		{/for}
 	</div>
 	<div class="product-preview-wrapper">
@@ -26,7 +26,7 @@
 				{if $i === $page}
 					{var $buttonCssClass .= " page-button-active"}
 				{/if}
-				<a class="{$buttonCssClass}" href="{plink $currentPresenterAndAction, $i, $itemsPerPage}"> {$i} </a>
+				<a class="{$buttonCssClass}" n:href="changePage!, $i"> {$i} </a>
 			</span>
 		{/for}
 	</div>

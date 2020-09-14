@@ -18,30 +18,49 @@ final class ProductsOnFrontendControl extends Control
 	/** @var Paginator */
 	private $paginator;
 	
+	/** @var int */
+	/** @persistent */
+	public $page = 1;
+	
+	/** @var int */
+	/** @persistent */
+	public $productsPerPage = 8;
+	
 	public function __construct(IProductRepository $productRepository, Paginator $paginator){
 		$this->productRepository = $productRepository;
 		$this->paginator = $paginator;
 	}
 	
-	public function render(int $page, int $productsPerPage): void
+	public function render(): void
 	{
 		$numberOfProducts = $this->productRepository->getProductsCount();
 		$this->paginator->setItemCount($numberOfProducts);
-		$this->paginator->setItemsPerPage($productsPerPage);
-		$this->paginator->setPage($page);
+		$this->paginator->setItemsPerPage($this->productsPerPage);
+		$this->paginator->setPage($this->page);
 		$this->template->products = $this->productRepository->findAll($this->paginator->getLength(), $this->paginator->getOffset());
 		
-		$this->template->page = $page;
-		$maxPages = round($numberOfProducts / $productsPerPage);
+		$this->template->page = $this->page;
+		$maxPages = round($numberOfProducts / $this->productsPerPage);
 		$this->template->maxPages = $maxPages;
 		
-		$productsPerPageBaseValue = 8;
+		$productsPerPageBaseValue = 4;
 		$maxProductsPerPage = 64;
 		$this->template->productsPerPageBaseValue = $productsPerPageBaseValue;
 		$this->template->maxProductsPerPage = $maxProductsPerPage;
-		$this->template->itemsPerPage = $productsPerPage;
+		$this->template->itemsPerPage = $this->productsPerPage;
 		
-		$this->template->currentPresenterAndAction = ':' . $this->getPresenter()->getName() .':'. $this->getPresenter()->getAction();
 		$this->template->render(__DIR__ . '\templates\productsOnFrontend.latte');
+	}
+	
+	public function handleChangePage(int $page)
+	{
+		$this->page = $page;
+		$this->getPresenter()->redirect('this');
+	}
+	
+	public function handleChangeProductsPerPage(int $productsPerPage)
+	{
+		$this->productsPerPage = $productsPerPage;
+		$this->getPresenter()->redirect('this');
 	}
 }

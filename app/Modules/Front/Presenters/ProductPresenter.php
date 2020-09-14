@@ -12,6 +12,10 @@ use App\Controls\Front\ProductsOnFrontendControl;
 use App\Controls\Front\Factory\IProductsOnFrontendControlFactory;
 
 
+/**
+* @persistent(productsOnFrontendControl)
+*/
+
 final class ProductPresenter extends BasePresenter
 {
 	private $productRepository;
