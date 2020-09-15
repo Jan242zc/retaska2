@@ -18,8 +18,13 @@ use App\Controls\Front\Factory\IProductsOnFrontendControlFactory;
 
 final class ProductPresenter extends BasePresenter
 {
+	/** @var IProductRepository */
 	private $productRepository;
+	
+	/** @var ICategoryRepository */
 	private $categoryRepository;
+	
+	/** @var IProductsOnFrontendControlFactory */
 	private $productsOnFrontendControlFactory;
 	
 	public function __construct(IProductRepository $productRepository, ICategoryRepository $categoryRepository, IProductsOnFrontendControlFactory $productsOnFrontendControlFactory){
