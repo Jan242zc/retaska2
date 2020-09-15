@@ -1,7 +1,7 @@
 div.container {
 	background-color: #fff;
 	box-sizing: border-box;
-	margin: 3.25em auto 0 auto; /* top tam musí být proto, aby navbar nepřekrýval obsah*/
+	margin: 3.25em auto 0em auto; /* top tam musí být proto, aby navbar nepřekrýval obsah*/
 	padding: 0.75em 0em;
 	width: 85%;
 }

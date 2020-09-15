@@ -3,10 +3,11 @@ div.footer{
 	border-top: 1px solid #b5dde5;
 	box-sizing: border-box;
 	clear: both;
-	margin: 2em auto 0;
+	margin: 0 auto;
 	padding: 0.5em 2em 0.5em;
 	text-align: center;
-	width: 100%;
+	/* padding: 0.75em 0em; */
+	width: 85%;
 }
 
 #retaska_logo_sm {
