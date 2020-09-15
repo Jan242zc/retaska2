@@ -4,9 +4,16 @@
 			<h1 class="middle">Nabídka zboží</h1>
 			<div class="row">
 				<div class="sidebar">
-					<div class="category-list-item"><a class="button-category" n:href="Product:default">Všechny produkty</a></div>
+					<h1 class="middle">Kategorie</h1>
+					{if !is_null($currentCategory)}
+						<div class="category-list-item"><a class="button-category" n:href="Product:default">Všechny produkty</a></div>
+					{/if}
 					{foreach $categories as $category}
-						<div class="category-list-item"><a class="button-category" n:href="this, $category->getId()">{$category->getName()}</a></div>
+						{var $categoryButtonCssClass = 'button-category'}
+						{if $category->getId() == $currentCategory}
+							{var $categoryButtonCssClass .= ' button-category-active'}
+						{/if}
+						<div class="category-list-item"><a class="{$categoryButtonCssClass}" n:href="this, $category->getId()">{$category->getName()}</a></div>
 					{/foreach}
 				</div>
 				{control productsOnFrontendControl $currentCategory}

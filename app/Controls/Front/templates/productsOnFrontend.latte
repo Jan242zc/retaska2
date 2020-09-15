@@ -22,11 +22,11 @@
 	<div class="pages">
 		{for $i = 1; $i <= $maxPages; $i++}
 			<span class="button-group">
-				{var $buttonCssClass = "page-button"}
+				{var $pageButtonCssClass = "page-button"}
 				{if $i === $page}
-					{var $buttonCssClass .= " page-button-active"}
+					{var $pageButtonCssClass .= " page-button-active"}
 				{/if}
-				<a class="{$buttonCssClass}" n:href="changePage!, $i"> {$i} </a>
+				<a class="{$pageButtonCssClass}" n:href="changePage!, $i"> {$i} </a>
 			</span>
 		{/for}
 	</div>
