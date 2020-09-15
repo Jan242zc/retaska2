@@ -37,16 +37,24 @@ final class ProductsOnFrontendControl extends Control
 		$this->paginator = $paginator;
 	}
 	
-	public function render(): void
+	public function render($category = null): void
 	{
-		$numberOfProducts = $this->productRepository->getProductsCount();
+		if(is_null($category)){
+			$numberOfProducts = $this->productRepository->getProductsCount();
+		} else {
+			$numberOfProducts = $this->productRepository->getProductsCountByCategory($category);
+		}
 		
 		$this->setUpPaginator($numberOfProducts);
 		$this->setUpPageButtons($numberOfProducts);
 		$this->setUpProductsPerPageButtons($this->productsPerPageBaseValue, $this->maxProductsPerPage);
 		
-		$this->template->products = $this->productRepository->findAll($this->paginator->getLength(), $this->paginator->getOffset());
-
+		if(is_null($category)){
+			$this->template->products = $this->productRepository->findAll($this->paginator->getLength(), $this->paginator->getOffset());
+		} else {
+			$this->template->products = $this->productRepository->findByCategory($category, $this->paginator->getLength(), $this->paginator->getOffset());
+		}
+		
 		$this->template->render(__DIR__ . '\templates\productsOnFrontend.latte');
 	}
 	

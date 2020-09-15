@@ -29,25 +29,40 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 	
 	public function findAll(int $limit = null, int $offset = 0): Array
 	{
-		$limit = $limit ?? 10000;
-		
+		$limit = $limit ?? $this->getProductsCount(); //I'd much rather use ALL, but that can't be used without string concat (which is an evil thing :P)
+
 		$queryResult = $this->database->query("
 			SELECT *
 			FROM product
 			LIMIT ?
 			OFFSET ?
 		", $limit, $offset);
-
-		$arrayOfProducts = [];
-		while($row = $queryResult->fetch()){
-			//I chose this over JOIN as no extension of the category entity will require no subsequent changes of this method
-			try{
-				$row->category = $this->categoryRepository->findById($row->category); 				
-			} catch (\Exception $ex){
-				throw $ex;
-			}
-			
-			$arrayOfProducts[] = ProductFactory::createFromObject($row);
+		
+		try{
+			$arrayOfProducts = $this->queryResultToArrayOfObjects($queryResult);
+		} catch (\Exception $ex){
+			throw $ex;
+		}
+		
+		return $arrayOfProducts;
+	}
+	
+	public function findByCategory($category, int $limit = null, int $offset = 0): Array
+	{
+		$limit = $limit ?? $this->getProductsCountByCategory($category); //I'd much rather use ALL, but that can't be used without string concat (which is an evil thing :P)
+		
+		$queryResult = $this->database->query("
+			SELECT *
+			FROM product
+			WHERE category = ?
+			LIMIT ?
+			OFFSET ?
+		", $category, $limit, $offset);
+		
+		try{
+			$arrayOfProducts = $this->queryResultToArrayOfObjects($queryResult);
+		} catch (\Exception $ex){
+			throw $ex;
 		}
 		
 		return $arrayOfProducts;
@@ -165,5 +180,33 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 					FROM product
 				")
 			->fetchField();
+	}
+	
+	public function getProductsCountByCategory($category): int
+	{
+		return $this->database
+			->query("
+					SELECT COUNT(*)
+					FROM product
+					WHERE category = ?
+				", $category)
+			->fetchField();
+	}
+	
+	private function queryResultToArrayOfObjects($queryResult): Array
+	{
+		$arrayOfProducts = [];
+		while($row = $queryResult->fetch()){
+			//I chose this over JOIN as no extension of the category entity will require no subsequent changes of this method
+			try{
+				$row->category = $this->categoryRepository->findById($row->category); 				
+			} catch (\Exception $ex){
+				throw $ex;
+			}
+			
+			$arrayOfProducts[] = ProductFactory::createFromObject($row);
+		}
+		
+		return $arrayOfProducts;
 	}
 }

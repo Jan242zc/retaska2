@@ -28,12 +28,10 @@ final class ProductPresenter extends BasePresenter
 		$this->productsOnFrontendControlFactory = $productsOnFrontendControlFactory;
 	}
 	
-	public function renderDefault(int $page = 1, int $productsPerPage = 8): void
+	public function renderDefault($category = null): void
 	{
 		$this->template->categories = $this->categoryRepository->findAll();
-		
-		$this->template->page = $page;
-		$this->template->productsPerPage = $productsPerPage;
+		$this->template->currentCategory = $category;
 	}
 	
 	protected function createComponentProductsOnFrontendControl(): ProductsOnFrontendControl
