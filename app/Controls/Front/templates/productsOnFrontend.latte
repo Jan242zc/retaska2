@@ -13,7 +13,7 @@
 					<p class="product-price">
 						{$product->getCategory()->getName()}<br>
 						{$product->getPrice()} Kč <br>							
-						<a class="button-detail" href="#">Detail produktu</a>
+						<a class="button-detail" href="{plink Product:detail, $product->getId() . ' ' . $product->getName()}">Detail produktu</a>
 					</p>
 				</div>
 			{/foreach}

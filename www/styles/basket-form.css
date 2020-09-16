@@ -1,9 +1,11 @@
 /* BASE CLASS */
 form.add-to-basket{
-	border: 2px solid #D6FDFF;
-	border-radius: 10px;
-	display: block;
+	border-left: 2px solid #D6FDFF;
+	/* border-radius: 10px; */
+	display: inline-block;
+	/* float: right; */
 	padding: .4em .5em;
+	width: 100%;
 }
 
 /* FORM INPUTS */

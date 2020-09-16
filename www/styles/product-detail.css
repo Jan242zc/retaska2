@@ -26,7 +26,7 @@ div.product-description{
 	border-bottom: 3px solid #D6FDFF;
 	content: " "; /*bez toho ::after nefunguje*/
 	display: block; /*ani bez toho ::after nefunguje*/
-	width: 40%;
+	width: 90%;
 }
 
 .price{

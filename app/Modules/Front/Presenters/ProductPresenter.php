@@ -43,4 +43,9 @@ final class ProductPresenter extends BasePresenter
 	{
 		return $this->productsOnFrontendControlFactory->create();
 	}
+	
+	public function renderDetail($id): void
+	{
+		$this->template->product = $this->productRepository->find($id);
+	}
 }

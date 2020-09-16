@@ -1,0 +1,51 @@
+{block content}
+	<div class="container">
+			<div class="everything-wrapper">
+				<a class="link-with-arrow" n:href="Product:default">< Zpět k produktům</a>
+				<h1 class="product-name">{$product->getName()}</h1>
+				<div class="row">
+					
+					<div class="re33">
+						<div class="product-description">
+							<p class="description-heading">
+								Materiál
+							</p>
+							<p class="description-content">
+								{$product->getMaterial()}
+							</p>
+							<p class="description-heading">
+								Rozměry
+							</p>
+							<p class="description-content">
+								? ? ?
+							</p>
+							<p class="description-heading">
+								Dostupnost
+							</p>
+							<p class="description-content">
+								{$product->getAmountAvailable()} kusů na skladě
+							</p>
+							<p class="description-heading">
+								Popis
+							</p>
+							<p class="description-content">
+								{$product->getDescription()}
+							</p>
+						</div>
+					</div>
+					<div class="re33">
+						{*<img class="product-detail-pic" src="taska.png" alt="unavailable.png" >*}
+						<form class="add-to-basket">
+							<span style="display: block; margin-bottom: 0.3em;"><span class="price">{$product->getPrice()} Kč</span> / ks</span>
+							<label for="quantity">Přidat do košíku</label>
+							<input class="quantity" name="quantity" type="text" value=0 />
+							<button id="button-minus" class="button-basket button-basket-minus">-</button>
+							<button id="button-plus" class="button-basket button-basket-plus">+</button>
+							<input type="submit" class="submit" value="Uložit" />
+							<br>
+							<span name="total-price" hidden>Celková cena: <span id="total-price"></span></span>
+						</form>
+					</div>
+				</div>
+				<a class="link-with-arrow" n:href="Product:default">< Zpět k produktům</a>
+			</div>
