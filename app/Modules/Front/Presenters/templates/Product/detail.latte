@@ -36,7 +36,7 @@
 					<div class="re33">
 						{*<img class="product-detail-pic" src="taska.png" alt="unavailable.png" >*}
 						{form addToBasketForm}
-							<span style="display: block; margin-bottom: 0.3em;"><span class="price"><span id="price">{$product->getPrice()}</span> Kč</span> / ks</span>
+							<span style="display: block; margin-bottom: 0.3em;"><span class="price"><span id="price">{$messageFormatter->format([$product->getPrice()])}</span> Kč</span> / ks</span>
 							{label quantity /}
 							{input quantity}
 							<button id="button-minus" class="button-basket button-basket-minus">-</button>

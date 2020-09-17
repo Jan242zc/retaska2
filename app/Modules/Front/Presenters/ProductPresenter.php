@@ -49,6 +49,7 @@ final class ProductPresenter extends BasePresenter
 	{
 		$this->template->product = $this->productRepository->find($id);
 		$this['addToBasketForm']->setDefaults(['product' => $this->productRepository->find($id)->getId()]);
+		$this->template->messageFormatter = new \MessageFormatter('cs_CZ', "{0, number}");
 	}
 	
 	protected function createComponentAddToBasketForm(): Form
