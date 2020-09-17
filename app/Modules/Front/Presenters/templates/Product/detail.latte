@@ -63,13 +63,13 @@
 		
 		function decreaseQuantity(){
 			var quantity = parseInt(document.getElementById('frm-addToBasketForm-quantity').value);
-			quantity === 0 ? quantity : quantity--;
+			quantity = isNaN(quantity) ? 0 : quantity <= 0 ? 0 : --quantity;
 			document.getElementById('frm-addToBasketForm-quantity').value = quantity;
 		}
 		
 		function increaseQuantity(){
 			var quantity = parseInt(document.getElementById('frm-addToBasketForm-quantity').value);
-			quantity++;
+			quantity = isNaN(quantity) ? 0 : quantity < 0 ? 1 : ++quantity;
 			document.getElementById('frm-addToBasketForm-quantity').value = quantity;
 		}
 	
