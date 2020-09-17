@@ -59,7 +59,6 @@ final class ProductPresenter extends BasePresenter
 		$form->addHidden('product')
 			->setHtmlAttribute('id', 'product-id');
 		
-		
 		$form->addText('quantity', 'Přidat do košíku')
 			->setHtmlAttribute('class', 'quantity')
 			->setDefaultValue(5)

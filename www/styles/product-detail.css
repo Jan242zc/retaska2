@@ -35,6 +35,10 @@ div.product-description{
 	font-size: 2.5em;
 }
 
+.total-price-row{
+	margin-top: .5em;
+}
+
 @media(max-width: 1680px){ /*proč tady 1680 = 1850 ?? */
 	.description-content::after{
 		width: 60%;

@@ -36,14 +36,14 @@
 					<div class="re33">
 						{*<img class="product-detail-pic" src="taska.png" alt="unavailable.png" >*}
 						{form addToBasketForm}
-							<span style="display: block; margin-bottom: 0.3em;"><span class="price">{$product->getPrice()} Kč</span> / ks</span>
+							<span style="display: block; margin-bottom: 0.3em;"><span class="price"><span id="price">{$product->getPrice()}</span> Kč</span> / ks</span>
 							{label quantity /}
 							{input quantity}
 							<button id="button-minus" class="button-basket button-basket-minus">-</button>
 							<button id="button-plus" class="button-basket button-basket-plus">+</button>
 							{input submit}
 							<br>
-							<span name="total-price" hidden>Celková cena: <span id="total-price"></span></span>
+							<span id="total-price-row" class="total-price-row" hidden>Celková cena: <span id="total-price-value"></span> Kč</span>
 						{/form}
 					</div>
 				</div>
@@ -61,16 +61,33 @@
 			increaseQuantity();
 		});
 		
+		document.getElementById('frm-addToBasketForm-quantity').addEventListener("keyup", function(e){
+			var quantity = parseInt(document.getElementById('frm-addToBasketForm-quantity').value);
+			quantity = isNaN(quantity) ? 0 : quantity < 0 ? 0 : quantity;
+			updateTotalPrice(quantity);
+		});
+		
 		function decreaseQuantity(){
 			var quantity = parseInt(document.getElementById('frm-addToBasketForm-quantity').value);
 			quantity = isNaN(quantity) ? 0 : quantity <= 0 ? 0 : --quantity;
 			document.getElementById('frm-addToBasketForm-quantity').value = quantity;
+			updateTotalPrice(quantity);
 		}
 		
 		function increaseQuantity(){
 			var quantity = parseInt(document.getElementById('frm-addToBasketForm-quantity').value);
 			quantity = isNaN(quantity) ? 0 : quantity < 0 ? 1 : ++quantity;
 			document.getElementById('frm-addToBasketForm-quantity').value = quantity;
+			updateTotalPrice(quantity);
+		}
+		
+		function updateTotalPrice(quantity){
+			if(!quantity == 0){
+				document.getElementById('total-price-value').innerHTML = Math.ceil(quantity * parseFloat(document.getElementById('price').innerHTML));
+				document.getElementById('total-price-row').style.display = "block";
+			} else {
+				document.getElementById('total-price-row').style.display = "none";
+			}
 		}
 	
 	</script>
