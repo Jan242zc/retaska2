@@ -9,4 +9,5 @@ interface IProductRepository
 {
 	public function getArrayOfUsedNames($currentProductId = null): Array;
 	public function getProductsCount(): int;
+	public function findTopProducts($limit): Array;
 }

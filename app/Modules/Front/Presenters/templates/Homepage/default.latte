@@ -16,41 +16,16 @@
 			<div class="top-products-wrapper">
 				<div class="row">
 					<h1> TOP produkty</h1>
-					<div class="product-preview">
-						<p class="product-heading">Taška A</p>
-						<p class="product-price">
-							5 Kč / ks
-							<br>							
-							<a class="button-detail" href="#">Detail produktu</a>
-						</p>
-					</div>
-
-					<div class="product-preview">
-						<p class="product-heading">Taška B</p>
-						<p class="product-price">
-							15 Kč / ks
-							<br>							
-							<a class="button-detail" href="#">Detail produktu</a>
-						</p>
-					</div>
-
-					<div class="product-preview">
-						<p class="product-heading">Taška C</p>
-						<p class="product-price">
-							20 Kč / ks
-							<br>							
-							<a class="button-detail" href="#">Detail produktu</a>
-						</p>
-					</div>
-
-					<div class="product-preview">
-						<p class="product-heading">Taška D</p>
-						<p class="product-price">
-							30 Kč / ks
-							<br>							
-							<a class="button-detail" href="#">Detail produktu</a>
-						</p>
-					</div>
+					{foreach $topProducts as $product}
+						<div class="product-preview">
+							<p class="product-heading">{$product->getName()}</p>
+							<p class="product-price">
+								{$product->getPrice()} Kč / ks
+								<br>							
+								<a class="button-detail" n:href="Product:detail, $product->getId() . ' ' . $product->getName()">Detail produktu</a>
+							</p>
+						</div>
+					{/foreach}
 				</div>
 			</div>
 		</div> <!--- container --->

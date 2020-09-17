@@ -193,6 +193,18 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 			->fetchField();
 	}
 	
+	public function findTopProducts($limit): Array
+	{
+		$queryResult = $this->database->query("
+			SELECT *
+			FROM product
+			ORDER BY price DESC
+			LIMIT ?
+		", $limit);
+		
+		return $topProducts = $this->queryResultToArrayOfObjects($queryResult);
+	}
+	
 	private function queryResultToArrayOfObjects($queryResult): Array
 	{
 		$arrayOfProducts = [];
