@@ -37,7 +37,7 @@ div.product-description{
 
 @media(max-width: 1680px){ /*proč tady 1680 = 1850 ?? */
 	.description-content::after{
-		width: 20%;
+		width: 60%;
 	}
 }
 

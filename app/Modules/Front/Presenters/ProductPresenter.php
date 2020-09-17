@@ -10,6 +10,7 @@ use App\Services\Repository\RepositoryInterface\IProductRepository;
 use App\Services\Repository\RepositoryInterface\ICategoryRepository;
 use App\Controls\Front\ProductsOnFrontendControl;
 use App\Controls\Front\Factory\IProductsOnFrontendControlFactory;
+use Nette\Application\UI\Form;
 
 
 /**
@@ -47,5 +48,38 @@ final class ProductPresenter extends BasePresenter
 	public function renderDetail($id): void
 	{
 		$this->template->product = $this->productRepository->find($id);
+		$this['addToBasketForm']->setDefaults(['product' => $this->productRepository->find($id)->getId()]);
+	}
+	
+	protected function createComponentAddToBasketForm(): Form
+	{
+		$form = new Form();
+		$form->setHtmlAttribute('class', 'add-to-basket');
+		
+		$form->addHidden('product')
+			->setHtmlAttribute('id', 'product-id');
+		
+		
+		$form->addText('quantity', 'Přidat do košíku')
+			->setHtmlAttribute('class', 'quantity')
+			->setDefaultValue(5)
+			->setRequired('Je nutné zadat počet kusů.')
+			->addRule($form::NUMERIC, 'Množství zboží musí být celé kladné číslo.')
+			->addFilter(function($value){
+				return intval($value);
+			});
+		
+		$form->addSubmit('submit', 'Uložit')
+			->setHtmlAttribute('class', 'submit');
+			
+		$form->onSuccess[] = [$this, 'addToBasketFormSucceeded'];
+		
+		return $form;
+	}
+	
+	public function addToBasketFormSucceeded(Form $form, Array $data)
+	{
+		dump($data);
+		exit;
 	}
 }

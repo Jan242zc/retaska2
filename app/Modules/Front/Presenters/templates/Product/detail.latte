@@ -35,17 +35,43 @@
 					</div>
 					<div class="re33">
 						{*<img class="product-detail-pic" src="taska.png" alt="unavailable.png" >*}
-						<form class="add-to-basket">
+						{form addToBasketForm}
 							<span style="display: block; margin-bottom: 0.3em;"><span class="price">{$product->getPrice()} Kč</span> / ks</span>
-							<label for="quantity">Přidat do košíku</label>
-							<input class="quantity" name="quantity" type="text" value=0 />
+							{label quantity /}
+							{input quantity}
 							<button id="button-minus" class="button-basket button-basket-minus">-</button>
 							<button id="button-plus" class="button-basket button-basket-plus">+</button>
-							<input type="submit" class="submit" value="Uložit" />
+							{input submit}
 							<br>
 							<span name="total-price" hidden>Celková cena: <span id="total-price"></span></span>
-						</form>
+						{/form}
 					</div>
 				</div>
 				<a class="link-with-arrow" n:href="Product:default">< Zpět k produktům</a>
 			</div>
+	</div>
+	<script>
+		document.getElementById('button-minus').addEventListener("click", function(e) { 
+			e.preventDefault();
+			decreaseQuantity();
+		});
+		
+		document.getElementById('button-plus').addEventListener("click", function(e) { 
+			e.preventDefault();
+			increaseQuantity();
+		});
+		
+		function decreaseQuantity(){
+			var quantity = parseInt(document.getElementById('frm-addToBasketForm-quantity').value);
+			quantity === 0 ? quantity : quantity--;
+			document.getElementById('frm-addToBasketForm-quantity').value = quantity;
+		}
+		
+		function increaseQuantity(){
+			var quantity = parseInt(document.getElementById('frm-addToBasketForm-quantity').value);
+			quantity++;
+			document.getElementById('frm-addToBasketForm-quantity').value = quantity;
+		}
+	
+	</script>
+	

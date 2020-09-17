@@ -9,7 +9,7 @@ form.add-to-basket{
 }
 
 /* FORM INPUTS */
-form.add-to-basket label[for="quantity"]{
+form.add-to-basket label[for="frm-addToBasketForm-quantity"]{
 	display: block;
 	margin-bottom: .5em;
 }
