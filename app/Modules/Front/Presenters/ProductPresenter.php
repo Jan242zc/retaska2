@@ -37,6 +37,9 @@ final class ProductPresenter extends BasePresenter
 	public function renderDefault($category = null): void
 	{
 		$this->template->categories = $this->categoryRepository->findAll();
+		if(!is_null($category)){
+			$this['productsOnFrontendControl']->setCategory(intval($category));
+		}
 		$this->template->currentCategory = $category;
 	}
 	
