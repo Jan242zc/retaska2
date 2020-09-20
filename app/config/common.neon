@@ -28,3 +28,4 @@ services:
 			- $productsPerPageBaseValue = 8
 			- $maxProductsPerPage = 64
 	paginator: Nette\Utils\Paginator
+	basketService: App\Services\BasketService
