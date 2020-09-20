@@ -11,6 +11,7 @@ use App\Services\Repository\RepositoryInterface\ICategoryRepository;
 use App\Controls\Front\ProductsOnFrontendControl;
 use App\Controls\Front\Factory\IProductsOnFrontendControlFactory;
 use Nette\Application\UI\Form;
+use App\Services\GeneralServiceInterface\IBasketService;
 
 
 /**
@@ -28,10 +29,14 @@ final class ProductPresenter extends BasePresenter
 	/** @var IProductsOnFrontendControlFactory */
 	private $productsOnFrontendControlFactory;
 	
-	public function __construct(IProductRepository $productRepository, ICategoryRepository $categoryRepository, IProductsOnFrontendControlFactory $productsOnFrontendControlFactory){
+	/** @var IBasketService */
+	private $basketService;	
+	
+	public function __construct(IProductRepository $productRepository, ICategoryRepository $categoryRepository, IProductsOnFrontendControlFactory $productsOnFrontendControlFactory, IBasketService $basketService){
 		$this->productRepository = $productRepository;
 		$this->categoryRepository = $categoryRepository;
 		$this->productsOnFrontendControlFactory = $productsOnFrontendControlFactory;
+		$this->basketService = $basketService;
 	}
 	
 	public function renderDefault($category = null): void
@@ -50,8 +55,12 @@ final class ProductPresenter extends BasePresenter
 	
 	public function renderDetail($id): void
 	{
-		$this->template->product = $this->productRepository->find($id);
-		$this['addToBasketForm']->setDefaults(['product' => $this->productRepository->find($id)->getId()]);
+		$product = $this->productRepository->find($id);
+		$this->template->product = $product;
+		$this['addToBasketForm']->setDefaults([
+			'product_id' => $product->getId(),
+			'product_name' => $product->getName()
+		]);
 		$this->template->messageFormatter = new \MessageFormatter('cs_CZ', "{0, number}");
 	}
 	
@@ -60,8 +69,10 @@ final class ProductPresenter extends BasePresenter
 		$form = new Form();
 		$form->setHtmlAttribute('class', 'add-to-basket');
 		
-		$form->addHidden('product')
+		$form->addHidden('product_id')
 			->setHtmlAttribute('id', 'product-id');
+			
+		$form->addHidden('product_name');
 		
 		$form->addText('quantity', 'Přidat do košíku')
 			->setHtmlAttribute('class', 'quantity')
@@ -82,7 +93,11 @@ final class ProductPresenter extends BasePresenter
 	
 	public function addToBasketFormSucceeded(Form $form, Array $data)
 	{
-		dump($data);
+		// dump($data);
+		// dump($data['product_id'] . ' ' . $data['product_name']);
+		$product = $this->productRepository->find($data['product_id'] . ' ' . $data['product_name']);
+		$this->basketService->addProductToBasket($product, $data['quantity'], 0);
+		dump($this->basketService->getBasket());
 		exit;
 	}
 }

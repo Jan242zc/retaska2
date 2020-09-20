@@ -53,7 +53,6 @@ final class BasketService implements IBasketService
 	public function addProductToBasket(Product $product, int $quantity, float $price)
 	{
 		$product = $product;
-		$quantity = $formData['quantity'];
 		//$price = $sluzbaNaPocitaniCeny->vypocitejCenu($quantity, $price);
 		$price = $quantity * $product->getPrice();
 		$this->basketSessionSection->addItem($product, $quantity, $price);
