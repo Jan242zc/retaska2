@@ -20,7 +20,6 @@ final class BasketPresenter extends BasePresenter
 
 	public function renderDefault(): void
 	{
-		dump($this->basketService->getBasket());
-		exit;
+		$this->template->basketItems = $this->basketService->getAllBasketItems();
 	}
 }

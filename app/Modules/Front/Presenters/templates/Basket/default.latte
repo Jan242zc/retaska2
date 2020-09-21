@@ -1,0 +1,72 @@
+{block content}
+	<div class="container">
+		<div class="everything-wrapper">
+				<h1 class="middle">Nákupní košík</h1>
+				<div class="row">
+					<div class="left">
+						<a class="link-with-arrow" n:href="Product:default">< Zpět ke zboží</a>
+					</div>
+					<div class="right">
+						<a class="link-with-arrow" href="#">Dokončit objednávku ></a>
+					</div>
+				</div>
+				<form class="add-to-basket border-all">
+					<table>
+						<thead>
+							<tr>
+								<td class="product-column">
+									Produkt
+								</td>
+								<td class="price-column">
+									Cena
+								</td>
+								<td class="altogether-column">
+									Celková cena
+								</td>
+								<td class="quantity-column">
+									Množství
+								</td>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach $basketItems as $item}
+								<tr>
+									<td>
+										{$item->getProduct()->getName()}			
+									</td>
+									<td>
+										{$item->getProduct()->getPrice()} Kč / ks
+									</td>
+									<td>
+										{$item->getPrice()} Kč
+									</td>
+									<td>
+										<input type=text name="quantity[]" class="quantity" value={$item->getQuantity()} /> 
+										<button id="button-minus" class="button-basket button-basket-minus">-</button>
+										<button id="button-plus" class="button-basket button-basket-plus">+</button>
+										<input type=checkbox name="toBeDeleted[]" hidden>
+										<button class="button-basket button-basket-delete">Odstranit</button>
+									</td>
+								</tr>
+							{/foreach}
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="3">Provedené změny musejí být uloženy stisknutím tlačítka.</td>
+								<td>tlačítko</td>
+							</tr>
+						</tfoot>
+					</table>
+				</form>
+				<div class="row">
+					<div class="left">
+						<a class="link-with-arrow" n:href="Product:default">< Zpět ke zboží</a>
+					</div>
+					<div class="right">
+						<a class="link-with-arrow" href="#">Dokončit objednávku ></a>
+					</div>
+				</div>
+			</div>
+	
+	
+	</div>

@@ -67,7 +67,7 @@ final class ProductPresenter extends BasePresenter
 	protected function createComponentAddToBasketForm(): Form
 	{
 		$form = new Form();
-		$form->setHtmlAttribute('class', 'add-to-basket');
+		$form->setHtmlAttribute('class', 'add-to-basket border-left');
 		
 		$form->addHidden('product_id')
 			->setHtmlAttribute('id', 'product-id');

@@ -28,12 +28,12 @@ final class BasketService implements IBasketService
 	
 	public function getAllBasketItems(): Array
 	{
-		return $this->basketSessionSection->getContents();
+		return $this->basketSessionSection->getItems();
 	}
 	
 	public function getBasketItemsIds(): Array
 	{
-		return $this->basketSessionSection->getContentsIds();
+		return $this->basketSessionSection->getItemsIds();
 	}
 	
 	public function getBasketItemById($id)
