@@ -60,7 +60,9 @@ final class BasketService implements IBasketService
 	
 	public function removeItemFromBasket($id)
 	{
-		$this->basketSessionSection->removeItem($id);
+		if(in_array($id, $this->getBasketItemsIds())){
+			$this->basketSessionSection->removeItem($id);
+		}
 	}
 	
 	public function removeAllItemsFromBasket()

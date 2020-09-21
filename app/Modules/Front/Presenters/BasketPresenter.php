@@ -39,13 +39,17 @@ final class BasketPresenter extends BasePresenter
 	
 	public function editBasketFormSucceeded(Form $form, Array $data)
 	{
-		dump($data);
+		dump($this->basketService->getBasket());
 		$idValues = $form->getHttpData($form::DATA_LINE, 'id[]');
 		$quantityValues = $form->getHttpData($form::DATA_LINE, 'quantity[]');
 		$toBeDeletedValues = $form->getHttpData($form::DATA_LINE | $form::DATA_KEYS, 'toBeDeleted[]');
-		dump($idValues);
-		dump($quantityValues);
+		// dump($idValues);
+		// dump($quantityValues);
 		dump($toBeDeletedValues);
+		foreach($toBeDeletedValues as $id){
+			$this->basketService->removeItemFromBasket($id);
+		}
+		dump($this->basketService->getBasket());
 		exit;
 	}
 }

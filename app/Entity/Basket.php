@@ -67,6 +67,6 @@ final class Basket
 	
 	public function getItemsIds(): Array
 	{
-		return array_keys($this->items());
+		return array_keys($this->items);
 	}
 }
