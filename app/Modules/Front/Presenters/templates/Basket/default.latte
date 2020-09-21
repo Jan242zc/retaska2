@@ -35,7 +35,7 @@
 									{$item->getProduct()->getName()}			
 								</td>
 								<td>
-									{$item->getProduct()->getPrice()} Kč / ks
+									<span class="product-price">{$item->getProduct()->getPrice()}</span> Kč / ks
 								</td>
 								<td>
 									{$item->getPrice()} Kč
@@ -46,8 +46,8 @@
 								</td>
 								<td>
 									<input type=text name="quantity[]" class="quantity" value={$item->getQuantity()} /> 
-									<button id="button-minus" class="button-basket button-basket-minus">-</button>
-									<button id="button-plus" class="button-basket button-basket-plus">+</button>
+									<button class="button-basket button-basket-minus">-</button>
+									<button class="button-basket button-basket-plus">+</button>
 									<button class="button-basket button-basket-delete">Odstranit</button>
 								</td>
 							</tr>
@@ -72,16 +72,20 @@
 		</div>
 	</div>
 	<script>
-		var inputAndAllButtons = '';
-		
 		document.addEventListener("DOMContentLoaded", function() {
 			setDeleteButtonsEventListener();
+			setMinusButtonEventListener();
+			setPlusButtonEventListener();
+			setQuantityFieldEventListener()
 		});
+		
+		/* DELETING */
+		var inputAndAllButtons = '';
 		
 		function setDeleteButtonsEventListener(){
 			var buttons = document.getElementsByClassName('button-basket-delete');
 			for(i = 0; i < buttons.length; i++){
-				buttons[i].addEventListener("click", setRowToBeDeletedChangeItsClassAndSetTakeBackToGetPrepared)
+				buttons[i].addEventListener("click", setRowToBeDeletedChangeItsClassAndSetTakeBackToGetPrepared);
 			}
 		}
 		
@@ -105,5 +109,74 @@
 			this.parentElement.parentElement.classList.remove('to-be-deleted'); //tr (row)
 			this.parentElement.innerHTML = inputAndAllButtons;
 			setDeleteButtonsEventListener();
+		}
+		
+		/* QUANTITY */
+		function setMinusButtonEventListener(){
+			var buttons = document.getElementsByClassName('button-basket button-basket-minus');
+			for(var i = 0; i < buttons.length; i++){
+				buttons[i].addEventListener("click", minusButtonClicked);
+			}
+		}
+		
+		function setPlusButtonEventListener(){
+			var buttons = document.getElementsByClassName('button-basket button-basket-plus');
+			for(var i = 0; i < buttons.length; i++){
+				buttons[i].addEventListener("click", plusButtonClicked);
+			}
+		}
+		
+		function setQuantityFieldEventListener(){
+			var fields = document.getElementsByClassName('quantity');
+			for(var i = 0; i < fields.length; i++){
+				fields[i].addEventListener("keyup", quantityFieldValueChanged);
+			}
+		}
+		
+		function minusButtonClicked(e){ 
+			e.preventDefault();
+			decreaseQuantity(this);
+		};
+		
+		function plusButtonClicked(e){
+			e.preventDefault();
+			increaseQuantity(this);
+		}
+		
+		function quantityFieldValueChanged(e){
+			updateProductTotalPrice(this, this.value);
+		}
+		
+		function decreaseQuantity(element){
+			var quantityField = getQuantityField(element);
+			var quantity = parseInt(quantityField.value);
+			quantity = isNaN(quantity) ? 0 : quantity <= 0 ? 0 : --quantity;
+			quantityField.value = quantity;
+			updateProductTotalPrice(element, quantity);
+		}
+		
+		function increaseQuantity(element){
+			var quantityField = getQuantityField(element);
+			var quantity = parseInt(quantityField.value);
+			quantity = isNaN(quantity) ? 0 : quantity < 0 ? 1 : ++quantity;
+			quantityField.value = quantity;
+			updateProductTotalPrice(element, quantity);
+		}
+		
+		function updateProductTotalPrice(element, quantity){
+			var productTotalPriceField = getProductTotalPriceField(element);
+			productTotalPriceField.innerHTML = Math.ceil(quantity * parseFloat(getProductPrice(element).innerHTML)) + ' Kč';
+		}
+		
+		function getQuantityField(element){
+			return element.parentElement.parentElement.getElementsByTagName('input')[2];
+		}
+		
+		function getProductTotalPriceField(element){
+			return element.parentElement.parentElement.children[2];
+		}
+		
+		function getProductPrice(element){
+			return element.parentElement.parentElement.getElementsByClassName('product-price')[0];
 		}
 	</script>

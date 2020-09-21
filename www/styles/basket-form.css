@@ -137,6 +137,10 @@ form.add-to-basket tfoot td {
 	font-style: italic;
 }
 
+form.add-to-basket span.product-price{
+	
+}
+
 @media(max-width: 1280px){
 	form.add-to-basket thead td.product-column{
 		width: 35%;
