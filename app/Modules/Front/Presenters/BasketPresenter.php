@@ -42,7 +42,7 @@ final class BasketPresenter extends BasePresenter
 		dump($data);
 		$idValues = $form->getHttpData($form::DATA_LINE, 'id[]');
 		$quantityValues = $form->getHttpData($form::DATA_LINE, 'quantity[]');
-		$toBeDeletedValues = $form->getHttpData($form::DATA_TEXT, 'toBeDeleted[]');
+		$toBeDeletedValues = $form->getHttpData($form::DATA_LINE | $form::DATA_KEYS, 'toBeDeleted[]');
 		dump($idValues);
 		dump($quantityValues);
 		dump($toBeDeletedValues);

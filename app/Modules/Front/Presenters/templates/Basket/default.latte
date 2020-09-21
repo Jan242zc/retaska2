@@ -40,12 +40,14 @@
 								<td>
 									{$item->getPrice()} Kč
 								</td>
-								<td>
+								<td hidden>
 									<input type=text name="id[]" value={$item->getProduct()->getId()} hidden />
+									<input type=checkbox value={$item->getProduct()->getId()} name="toBeDeleted[]"  />
+								</td>
+								<td>
 									<input type=text name="quantity[]" class="quantity" value={$item->getQuantity()} /> 
 									<button id="button-minus" class="button-basket button-basket-minus">-</button>
 									<button id="button-plus" class="button-basket button-basket-plus">+</button>
-									<input type=checkbox name="toBeDeleted[]" hidden />
 									<button class="button-basket button-basket-delete">Odstranit</button>
 								</td>
 							</tr>
@@ -85,7 +87,7 @@
 		
 		function setRowToBeDeletedChangeItsClassAndSetTakeBackToGetPrepared(e){
 			e.preventDefault();
-			this.previousElementSibling.checked = true; //hidden checkbox
+			this.parentElement.parentElement.getElementsByTagName('input')[1].checked = true; //hidden checkbox
 			this.parentElement.parentElement.classList.add('to-be-deleted'); //tr (row)
 			var lastTdInRow = this.parentElement; //td with input and button
 			inputAndAllButtons = lastTdInRow.innerHTML;
