@@ -72,6 +72,7 @@
 		</div>
 	</div>
 	<script>
+		//sets all neccessary event listeners
 		document.addEventListener("DOMContentLoaded", function() {
 			setDeleteButtonsEventListener();
 			setMinusButtonEventListener();
@@ -90,10 +91,13 @@
 			}
 		}
 		
+		//changes the style of a row when it's marked to be deleted and sets the event listener of the 'take back' button
 		function setRowToBeDeletedChangeItsClassAndSetTakeBackToGetPrepared(e){
 			e.preventDefault();
-			this.parentElement.parentElement.getElementsByTagName('input')[1].checked = true; //hidden checkbox
-			this.parentElement.parentElement.classList.add('to-be-deleted'); //tr (row)
+			var checkBoxField = getCheckboxDeleteField(this);
+			checkBoxField.checked = true; //hidden checkbox
+			var parentRow = getParentRow(this);
+			parentRow.classList.add('to-be-deleted'); //tr (row)
 			var lastTdInRow = this.parentElement; //td with input and button
 			inputAndAllButtons = lastTdInRow.innerHTML;
 			lastTdInRow.innerHTML = 'Označeno k odstranění. <span class="take-back">Vzít zpět.</span>';
@@ -102,12 +106,13 @@
 		}
 		
 		function setTakeBackEventListener(element) {
-			//nastavení naslouchače + samotná fce pro vrácení stavu - odškrtnutí, odstranění to be deleted tříd
 			element.addEventListener("click", takeDeletionBack);
 		}
 		
+		//removing delete class from the row, setting listener to the delete button
 		function takeDeletionBack(e){
-			this.parentElement.parentElement.classList.remove('to-be-deleted'); //tr (row)
+			var parentRow = getParentRow(this);
+			parentRow.classList.remove('to-be-deleted'); //tr (row)
 			this.parentElement.innerHTML = inputAndAllButtons;
 			setDeleteButtonsEventListener();
 		}
@@ -134,11 +139,13 @@
 			}
 		}
 		
+		//changing the value of quantity field by -1
 		function minusButtonClicked(e){ 
 			e.preventDefault();
 			decreaseQuantity(this);
 		};
 		
+		//changing the value of quantity field by +1
 		function plusButtonClicked(e){
 			e.preventDefault();
 			increaseQuantity(this);
@@ -148,28 +155,40 @@
 			updateProductTotalPrice(this, this.value);
 		}
 		
+		//changing the value of quantity field by -1
 		function decreaseQuantity(element){
 			var quantityField = getQuantityField(element);
 			var quantity = parseInt(quantityField.value);
-			quantity = isNaN(quantity) ? 0 : quantity <= 0 ? 0 : --quantity;
+			quantity = isNaN(quantity) ? 0 : quantity <= 0 ? 0 : --quantity; //only positive integers allowed
 			quantityField.value = quantity;
 			updateProductTotalPrice(element, quantity);
 		}
 		
+		//changing the value of quantity field by +1
 		function increaseQuantity(element){
 			var quantityField = getQuantityField(element);
 			var quantity = parseInt(quantityField.value);
-			quantity = isNaN(quantity) ? 0 : quantity < 0 ? 1 : ++quantity;
+			quantity = isNaN(quantity) ? 0 : quantity < 0 ? 1 : ++quantity; //only positive integers allowed
 			quantityField.value = quantity;
 			updateProductTotalPrice(element, quantity);
 		}
 		
+		//updating price in the price per product column
 		function updateProductTotalPrice(element, quantity){
 			var productTotalPriceField = getProductTotalPriceField(element);
 			if(isNaN(quantity) || quantity < 0){
 				quantity = 0;
 			}
 			productTotalPriceField.innerHTML = Math.ceil(quantity * parseFloat(getProductPrice(element).innerHTML)) + ' Kč';
+		}
+		
+		/* FUNCTION THAT FIND VARIOUS ELEMENTS IN THE SAME ROW AS WHERE THE CALLING ELEMENT IS SITUATED */
+		function getCheckboxDeleteField(element){
+			return element.parentElement.parentElement.getElementsByTagName('input')[1];
+		}
+		
+		function getParentRow(element){
+			return element.parentElement.parentElement;
 		}
 		
 		function getQuantityField(element){
@@ -192,8 +211,8 @@
 		function formSubmitted(e){
 			var quantityFields = document.getElementsByClassName('quantity');
 			for(var i = 0; i < quantityFields.length; i++){
-				var quantityValue = parseInt(quantityFields[i].value);
-				if(isNaN(quantityValue) || quantityValue < 0){
+				var quantityValue = parseFloat(quantityFields[i].value); //float, because quantity being also integer is verifiend in the if statement
+				if(!Number.isInteger(quantityValue) || isNaN(quantityValue) || quantityValue < 0){
 					e.preventDefault();
 					alert('Množství musí být celé kladné číslo.');
 					break;
