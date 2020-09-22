@@ -30,7 +30,8 @@ final class BasketPresenter extends BasePresenter
 		$form->setHtmlAttribute('class', 'add-to-basket border-all');
 		
 		$form->addSubmit('submit', 'Uložit')
-			->setHtmlAttribute('class', 'submit fullWidth');
+			->setHtmlAttribute('class', 'submit fullWidth')
+			->setHtmlAttribute('id', 'submit');
 		
 		$form->onSuccess[] = [$this, 'editBasketFormSucceeded'];
 		
@@ -44,7 +45,7 @@ final class BasketPresenter extends BasePresenter
 		$quantityValues = $form->getHttpData($form::DATA_LINE, 'quantity[]');
 		$toBeDeletedValues = $form->getHttpData($form::DATA_LINE | $form::DATA_KEYS, 'toBeDeleted[]');
 		// dump($idValues);
-		// dump($quantityValues);
+		dump($quantityValues);
 		dump($toBeDeletedValues);
 		foreach($toBeDeletedValues as $id){
 			$this->basketService->removeItemFromBasket($id);

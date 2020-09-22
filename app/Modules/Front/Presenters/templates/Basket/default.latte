@@ -76,7 +76,8 @@
 			setDeleteButtonsEventListener();
 			setMinusButtonEventListener();
 			setPlusButtonEventListener();
-			setQuantityFieldEventListener()
+			setQuantityFieldEventListener();
+			setFormSubmitEventListener();
 		});
 		
 		/* DELETING */
@@ -165,6 +166,9 @@
 		
 		function updateProductTotalPrice(element, quantity){
 			var productTotalPriceField = getProductTotalPriceField(element);
+			if(isNaN(quantity) || quantity < 0){
+				quantity = 0;
+			}
 			productTotalPriceField.innerHTML = Math.ceil(quantity * parseFloat(getProductPrice(element).innerHTML)) + ' Kč';
 		}
 		
@@ -178,5 +182,22 @@
 		
 		function getProductPrice(element){
 			return element.parentElement.parentElement.getElementsByClassName('product-price')[0];
+		}
+		
+		/* SENSIBILITY */
+		function setFormSubmitEventListener(){
+			document.getElementById('frm-editBasketForm').addEventListener('submit', formSubmitted);
+		}
+		
+		function formSubmitted(e){
+			var quantityFields = document.getElementsByClassName('quantity');
+			for(var i = 0; i < quantityFields.length; i++){
+				var quantityValue = parseInt(quantityFields[i].value);
+				if(isNaN(quantityValue) || quantityValue < 0){
+					e.preventDefault();
+					alert('Množství musí být celé kladné číslo.');
+					break;
+				}
+			}
 		}
 	</script>
