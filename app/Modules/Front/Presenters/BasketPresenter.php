@@ -40,17 +40,42 @@ final class BasketPresenter extends BasePresenter
 	
 	public function editBasketFormSucceeded(Form $form, Array $data)
 	{
-		dump($this->basketService->getBasket());
+		// dump($this->basketService->getBasket());
+		
 		$idValues = $form->getHttpData($form::DATA_LINE, 'id[]');
-		$quantityValues = $form->getHttpData($form::DATA_LINE, 'quantity[]');
-		$toBeDeletedValues = $form->getHttpData($form::DATA_LINE | $form::DATA_KEYS, 'toBeDeleted[]');
-		// dump($idValues);
-		dump($quantityValues);
-		dump($toBeDeletedValues);
-		foreach($toBeDeletedValues as $id){
-			$this->basketService->removeItemFromBasket($id);
+		if(!$this->valuesAreNotStringOrDecimalOrNegative($idValues)){
+			$this->flashMessage('Ale no tak!');
+			$this->redirect('Basket:default');
 		}
+		$quantityValues = $form->getHttpData($form::DATA_LINE, 'quantity[]');
+		if(!$this->valuesAreNotStringOrDecimalOrNegative($quantityValues)){
+			$this->flashMessage('Množství musí být celé kladné číslo.');
+			$this->redirect('Basket:default');
+		}
+		$toBeDeletedValues = $form->getHttpData($form::DATA_LINE | $form::DATA_KEYS, 'toBeDeleted[]');
+		if(!$this->valuesAreNotStringOrDecimalOrNegative($toBeDeletedValues)){
+			$this->flashMessage('Ale no tak!');
+			$this->redirect('Basket:default');
+		}
+		
+		// foreach($toBeDeletedValues as $id){
+			// $this->basketService->removeItemFromBasket($id);
+		// }
+		
+		// dump($idValues);
+		// dump($quantityValues);
+		// dump($toBeDeletedValues);
 		dump($this->basketService->getBasket());
 		exit;
+	}
+	
+	private function valuesAreNotStringOrDecimalOrNegative(Array $array): bool
+	{
+		foreach($array as $value){
+			if(!is_numeric($value) || intval($value) != $value || intval($value) < 0){
+				return false;
+			}
+		}
+		return true;
 	}
 }
