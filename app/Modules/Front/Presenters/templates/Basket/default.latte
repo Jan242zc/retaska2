@@ -38,7 +38,7 @@
 									<span class="product-price">{$item->getProduct()->getPrice()}</span> Kč / ks
 								</td>
 								<td>
-									{$item->getPrice()} Kč
+									<span class="per-product-price">{$item->getPrice()}</span> Kč
 								</td>
 								<td hidden>
 									<input type=text name="id[]" value={$item->getProduct()->getId()} hidden />
@@ -55,7 +55,8 @@
 					</tbody>
 					<tfoot>
 						<tr>
-							<td colspan="3">Provedené změny musejí být uloženy stisknutím tlačítka.</td>
+							<td colspan="2" class="caveat">Provedené změny musejí být uloženy stisknutím tlačítka.</td>
+							<td> <span id="totalPurchasePrice"></span> Kč </td>
 							<td>{input submit}</td>
 						</tr>
 					</tfoot>
@@ -79,6 +80,7 @@
 			setPlusButtonEventListener();
 			setQuantityFieldEventListener();
 			setFormSubmitEventListener();
+			updatePurchaseTotalPrice();
 		});
 		
 		/* DELETING */
@@ -143,6 +145,7 @@
 		function minusButtonClicked(e){ 
 			e.preventDefault();
 			decreaseQuantity(this);
+			updatePurchaseTotalPrice();
 		};
 		
 		//changing the value of quantity field by +1
@@ -162,6 +165,7 @@
 			quantity = isNaN(quantity) ? 0 : quantity <= 0 ? 0 : --quantity; //only positive integers allowed
 			quantityField.value = quantity;
 			updateProductTotalPrice(element, quantity);
+			updatePurchaseTotalPrice();
 		}
 		
 		//changing the value of quantity field by +1
@@ -171,6 +175,7 @@
 			quantity = isNaN(quantity) ? 0 : quantity < 0 ? 1 : ++quantity; //only positive integers allowed
 			quantityField.value = quantity;
 			updateProductTotalPrice(element, quantity);
+			updatePurchaseTotalPrice();
 		}
 		
 		//updating price in the price per product column
@@ -179,7 +184,27 @@
 			if(isNaN(quantity) || quantity < 0){
 				quantity = 0;
 			}
-			productTotalPriceField.innerHTML = Math.ceil(quantity * parseFloat(getProductPrice(element).innerHTML)) + ' Kč';
+			productTotalPriceField.innerHTML = Math.ceil(quantity * parseFloat(getProductPrice(element).innerHTML));
+			updatePurchaseTotalPrice();
+		}
+		
+		function updatePurchaseTotalPrice(){
+			var formRows = getFormTableRows();
+			var prices = [];
+			console.log(formRows);
+			for(var i = 0; i < formRows.length; i++){
+				//var spanWithPerProductPriceInnerHTML = formRows[i].getElementsByClassName('per-product-price')[0].innerHTML;
+				console.log(document.getElementById('frm-editBasketForm').getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].children[i].getElementsByClassName('per-product-price')[0].innerHTML);
+				var spanWithPerProductPriceInnerHTML = document.getElementById('frm-editBasketForm').getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].children[i].getElementsByClassName('per-product-price')[0].innerHTML;
+				var perProductPrice = parseFloat(spanWithPerProductPriceInnerHTML);
+				prices.push(perProductPrice);
+			}
+			var purchaseTotalPrice = 0;
+			for(var i = 0; i < prices.length; i++){
+				purchaseTotalPrice += prices[i];
+			}
+			var totalPurchasePriceElement = document.getElementById('totalPurchasePrice');
+			totalPurchasePriceElement.innerHTML = purchaseTotalPrice;
 		}
 		
 		/* FUNCTION THAT FIND VARIOUS ELEMENTS IN THE SAME ROW AS WHERE THE CALLING ELEMENT IS SITUATED */
@@ -196,11 +221,15 @@
 		}
 		
 		function getProductTotalPriceField(element){
-			return element.parentElement.parentElement.children[2];
+			return element.parentElement.parentElement.children[2].children[0];
 		}
 		
 		function getProductPrice(element){
 			return element.parentElement.parentElement.getElementsByClassName('product-price')[0];
+		}
+		
+		function getFormTableRows(){
+			return document.getElementById('frm-editBasketForm').getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].children;
 		}
 		
 		/* SENSIBILITY */

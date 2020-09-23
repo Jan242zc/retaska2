@@ -134,6 +134,9 @@ form.add-to-basket span.take-back:hover{
 
 form.add-to-basket tfoot td {
 	border-top: 1px solid #5edfff;
+}
+
+form.add-to-basket tfoot td.caveat{
 	font-style: italic;
 }
 
