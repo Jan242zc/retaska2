@@ -191,11 +191,8 @@
 		function updatePurchaseTotalPrice(){
 			var formRows = getFormTableRows();
 			var prices = [];
-			console.log(formRows);
 			for(var i = 0; i < formRows.length; i++){
-				//var spanWithPerProductPriceInnerHTML = formRows[i].getElementsByClassName('per-product-price')[0].innerHTML;
-				console.log(document.getElementById('frm-editBasketForm').getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].children[i].getElementsByClassName('per-product-price')[0].innerHTML);
-				var spanWithPerProductPriceInnerHTML = document.getElementById('frm-editBasketForm').getElementsByTagName('table')[0].getElementsByTagName('tbody')[0].children[i].getElementsByClassName('per-product-price')[0].innerHTML;
+				var spanWithPerProductPriceInnerHTML = formRows[i].getElementsByClassName('per-product-price')[0].innerHTML;
 				var perProductPrice = parseFloat(spanWithPerProductPriceInnerHTML);
 				prices.push(perProductPrice);
 			}
