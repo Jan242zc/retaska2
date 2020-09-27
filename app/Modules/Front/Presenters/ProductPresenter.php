@@ -76,7 +76,7 @@ final class ProductPresenter extends BasePresenter
 		
 		$form->addText('quantity', 'Přidat do košíku')
 			->setHtmlAttribute('class', 'quantity')
-			->setDefaultValue(5)
+			->setDefaultValue(2)
 			->setRequired('Je nutné zadat počet kusů.')
 			->addRule($form::NUMERIC, 'Množství zboží musí být celé kladné číslo.')
 			->addFilter(function($value){
@@ -97,7 +97,6 @@ final class ProductPresenter extends BasePresenter
 		// dump($data['product_id'] . ' ' . $data['product_name']);
 		$product = $this->productRepository->find($data['product_id'] . ' ' . $data['product_name']);
 		$this->basketService->addProductToBasket($product, $data['quantity'], 0);
-		dump($this->basketService->getBasket());
-		exit;
+		$this->redirect('Basket:default');
 	}
 }

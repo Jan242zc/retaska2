@@ -43,9 +43,10 @@
 								<td hidden>
 									<input type=text name="id[]" value={$item->getProduct()->getId()} hidden />
 									<input type=checkbox value={$item->getProduct()->getId()} name="toBeDeleted[]"  />
+									<input type=text name="quantity[]" class="quantity" value={$item->getQuantity()} /> 
 								</td>
 								<td>
-									<input type=text name="quantity[]" class="quantity" value={$item->getQuantity()} /> 
+									<input type=text name="visibleQuantity[]" class="quantity" value={$item->getQuantity()} /> 
 									<button class="button-basket button-basket-minus">-</button>
 									<button class="button-basket button-basket-plus">+</button>
 									<button class="button-basket button-basket-delete">Odstranit</button>
@@ -74,7 +75,7 @@
 	</div>
 	<script>
 		//sets all neccessary event listeners
-		document.addEventListener("DOMContentLoaded", function() {
+		document.addEventListener("DOMContentLoaded", function() { //přidat nastavení "ke smazání" v případě návratu do košíku tlačítkem zpět
 			setDeleteButtonsEventListener();
 			setMinusButtonEventListener();
 			setPlusButtonEventListener();
@@ -155,14 +156,19 @@
 		}
 		
 		function quantityFieldValueChanged(e){
+			var quantityField = getQuantityField(this);
+			var quantity = this.value;
+			quantityField.value = this.value;
 			updateProductTotalPrice(this, this.value);
 		}
 		
 		//changing the value of quantity field by -1
 		function decreaseQuantity(element){
 			var quantityField = getQuantityField(element);
+			var visibleQuantityField = getVisibleQuantityField(element);
 			var quantity = parseInt(quantityField.value);
 			quantity = isNaN(quantity) ? 0 : quantity <= 0 ? 0 : --quantity; //only positive integers allowed
+			visibleQuantityField.value = quantity;
 			quantityField.value = quantity;
 			updateProductTotalPrice(element, quantity);
 			updatePurchaseTotalPrice();
@@ -171,8 +177,10 @@
 		//changing the value of quantity field by +1
 		function increaseQuantity(element){
 			var quantityField = getQuantityField(element);
+			var visibleQuantityField = getVisibleQuantityField(element);
 			var quantity = parseInt(quantityField.value);
 			quantity = isNaN(quantity) ? 0 : quantity < 0 ? 1 : ++quantity; //only positive integers allowed
+			visibleQuantityField.value = quantity;
 			quantityField.value = quantity;
 			updateProductTotalPrice(element, quantity);
 			updatePurchaseTotalPrice();
@@ -216,7 +224,11 @@
 		function getQuantityField(element){
 			return element.parentElement.parentElement.getElementsByTagName('input')[2];
 		}
-		
+
+		function getVisibleQuantityField(element){
+			return element.parentElement.parentElement.getElementsByTagName('input')[3];
+		}
+				
 		function getProductTotalPriceField(element){
 			return element.parentElement.parentElement.children[2].children[0];
 		}

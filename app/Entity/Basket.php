@@ -19,6 +19,7 @@ final class Basket
 	
 	public function __construct(Array $items){
 		$this->items = $items;
+		$this->totalPrice = 0;
 	}
 	
 	public function getItems(): Array
@@ -28,7 +29,7 @@ final class Basket
 	
 	public function getItemById($id): BasketItem
 	{
-		return $this->items[$id];
+		return $this->items[intval($id)];
 	}
 	
 	public function setItems(Array $items): void
@@ -38,7 +39,7 @@ final class Basket
 	
 	public function getTotalPrice(): float
 	{
-		return $this->totalPrice;
+		return $this->totalPrice ?? 0;
 	}
 	
 	public function setTotalPrice(float $totalPrice): void

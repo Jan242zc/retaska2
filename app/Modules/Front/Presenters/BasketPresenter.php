@@ -40,33 +40,31 @@ final class BasketPresenter extends BasePresenter
 	
 	public function editBasketFormSucceeded(Form $form, Array $data)
 	{
-		// dump($this->basketService->getBasket());
-		
 		$idValues = $form->getHttpData($form::DATA_LINE, 'id[]');
-		if(!$this->valuesAreNotStringOrDecimalOrNegative($idValues)){
+		if(!$this->valuesAreNotStringOrDecimalOrNegative($idValues) || !$this->basketService->verifyThatAllTheseItemsInBasket($idValues)){
 			$this->flashMessage('Ale no tak!');
 			$this->redirect('Basket:default');
 		}
 		$quantityValues = $form->getHttpData($form::DATA_LINE, 'quantity[]');
-		if(!$this->valuesAreNotStringOrDecimalOrNegative($quantityValues)){
+		if(!$this->valuesAreNotStringOrDecimalOrNegative($quantityValues) || count($idValues) != count($quantityValues)){
 			$this->flashMessage('Množství musí být celé kladné číslo.');
 			$this->redirect('Basket:default');
 		}
 		$toBeDeletedValues = $form->getHttpData($form::DATA_LINE | $form::DATA_KEYS, 'toBeDeleted[]');
-		if(!$this->valuesAreNotStringOrDecimalOrNegative($toBeDeletedValues)){
+		if(!$this->valuesAreNotStringOrDecimalOrNegative($toBeDeletedValues) || !$this->basketService->verifyThatAllTheseItemsInBasket($toBeDeletedValues)){
 			$this->flashMessage('Ale no tak!');
 			$this->redirect('Basket:default');
 		}
+		$visibleQuantityValues = $form->getHttpData($form::DATA_LINE, 'visibleQuantity[]');
+		if(!$this->valuesAreNotStringOrDecimalOrNegative($visibleQuantityValues)){
+			$this->flashMessage('Množství musí být celé kladné číslo.');
+			$this->redirect('Basket:default');
+		}
+	
+		$this->basketService->adjustBasketByBasketFormData($idValues, $quantityValues, $toBeDeletedValues);
 		
-		// foreach($toBeDeletedValues as $id){
-			// $this->basketService->removeItemFromBasket($id);
-		// }
-		
-		// dump($idValues);
-		// dump($quantityValues);
-		// dump($toBeDeletedValues);
-		dump($this->basketService->getBasket());
-		exit;
+		$this->flashMessage('Změny uloženy.');
+		$this->redirect('Basket:default');
 	}
 	
 	private function valuesAreNotStringOrDecimalOrNegative(Array $array): bool
