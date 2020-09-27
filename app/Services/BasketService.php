@@ -51,27 +51,25 @@ final class BasketService implements IBasketService
 		return $this->basketSessionSection->getItemById($id);
 	}
 	
-	public function addProductToBasket(Product $product, int $quantity, float $price)
+	public function addProductToBasket(Product $product, int $quantity)
 	{
-		$product = $product;
-		//$price = $sluzbaNaPocitaniCeny->vypocitejCenu($quantity, $price);
-		$price = $quantity * $product->getPrice();
+		$price = PriceCalculator::calculateProductTotalPrice($quantity, $product->getPrice());
 		$this->basketSessionSection->addItem($product, $quantity, $price);
-		$oldTotalPrice = $this->basketSessionSection->getTotalPrice() ?? 0;
-		$newTotalPrice = $oldTotalPrice += ($quantity * $product->getPrice());
-		$this->basketSessionSection->setTotalPrice($newTotalPrice);
+		$this->updateAllProductsTotalPrice();
 	}
 	
 	public function removeItemFromBasket($id)
 	{
 		if(in_array($id, $this->getBasketItemsIds())){
 			$this->basketSessionSection->removeItem($id);
+			$this->updateAllProductsTotalPrice();
 		}
 	}
 	
 	public function removeAllItemsFromBasket(): void
 	{
 		$this->basketSessionSection->removeAllItems();
+		$this->updateAllProductsTotalPrice();
 	}
 	
 	public function adjustBasketByBasketFormData(Array $idValuesArray, Array $quantitiesArray, Array $toBeDeletedValuesArray): void

@@ -96,7 +96,7 @@ final class ProductPresenter extends BasePresenter
 		// dump($data);
 		// dump($data['product_id'] . ' ' . $data['product_name']);
 		$product = $this->productRepository->find($data['product_id'] . ' ' . $data['product_name']);
-		$this->basketService->addProductToBasket($product, $data['quantity'], 0);
+		$this->basketService->addProductToBasket($product, $data['quantity']);
 		$this->redirect('Basket:default');
 	}
 }
