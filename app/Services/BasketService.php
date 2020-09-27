@@ -10,6 +10,7 @@ use App\Entity\Basket;
 use App\Entity\BasketItem;
 use App\Entity\Product;
 use App\Services\GeneralServiceInterface\IBasketService;
+use App\Services\PriceCalculator;
 
 
 final class BasketService implements IBasketService
@@ -77,6 +78,7 @@ final class BasketService implements IBasketService
 	{
 		$this->adjustProductsQuantities($idValuesArray, $quantitiesArray);
 		$this->removeTheseItemsFromBasket($toBeDeletedValuesArray);
+		$this->updateAllProductsTotalPrice();
 	}
 	
 	private function removeTheseItemsFromBasket(Array $toBeDeletedIds): void
@@ -91,8 +93,14 @@ final class BasketService implements IBasketService
 		foreach($ids as $key => $id){
 			$product = $this->getBasketItemById($id);
 			$product->setQuantity(intval($quantities[$key]));
-			$product->setPrice(intval($quantities[$key]) * $this->getBasketItemById($id)->getProduct()->getPrice());
+			$productPriceInBasket = PriceCalculator::calculateProductTotalPrice(intval($quantities[$key]), $product->getProduct()->getPrice());
+			$product->setPrice($productPriceInBasket);
 		}
+	}
+	
+	private function updateAllProductsTotalPrice(): void
+	{
+		$this->basketSessionSection->setTotalPrice(PriceCalculator::calculateAllProductsTotalPrice($this->basketSessionSection->getItems()));
 	}
 	
 	public function verifyThatThisItemInBasket(int $id): bool
