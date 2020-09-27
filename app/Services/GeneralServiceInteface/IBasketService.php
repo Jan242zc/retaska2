@@ -16,4 +16,7 @@ interface IBasketService
 	public function addProductToBasket(Product $product, int $quantity): void;
 	public function removeItemFromBasket($id): void;
 	public function removeAllItemsFromBasket(): void;
+	public function adjustBasketByBasketFormData(Array $idValuesArray, Array $quantitiesArray, Array $toBeDeletedValuesArray): void;
+	public function verifyThatThisItemInBasket(int $id): bool;
+	public function verifyThatAllTheseItemsInBasket(array $ids): bool;
 }
