@@ -58,7 +58,7 @@
 						<tr>
 							<td colspan="2" class="caveat">Provedené změny musejí být uloženy stisknutím tlačítka.</td>
 							<td> <span id="totalPurchasePrice"></span> Kč </td>
-							<td>{input submit}</td>
+							<td>{input submit} <a onclick="return confirm('Jste si jistí?');" n:href="Basket:deleteAllItems" class="delete-all halfWidth"> Odstranit vše </a></td>
 						</tr>
 					</tfoot>
 				</table>

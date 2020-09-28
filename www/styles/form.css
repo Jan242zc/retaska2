@@ -38,6 +38,7 @@ form.form > table td.inputs{
 	font-size: 0.8em;
 	font-weight: 500;
 	padding: 0.45em 1em 0.35em;
+	text-decoration: none;
 }
 
 .submit:hover{
@@ -46,6 +47,10 @@ form.form > table td.inputs{
 
 .fullWidth{
 	width: 100%;
+}
+
+.halfWidth{
+	width: 50%;
 }
 
 @media(max-width: 1400px){

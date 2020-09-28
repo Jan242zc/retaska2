@@ -22,6 +22,7 @@ final class BasketPresenter extends BasePresenter
 	public function renderDefault(): void
 	{
 		$this->template->basketItems = $this->basketService->getAllBasketItems();
+		// dump($this->basketService->getBasket());
 	}
 	
 	protected function createComponentEditBasketForm(): Form
@@ -30,7 +31,7 @@ final class BasketPresenter extends BasePresenter
 		$form->setHtmlAttribute('class', 'add-to-basket border-all');
 		
 		$form->addSubmit('submit', 'Uložit')
-			->setHtmlAttribute('class', 'submit fullWidth')
+			->setHtmlAttribute('class', 'submit halfWidth')
 			->setHtmlAttribute('id', 'submit');
 		
 		$form->onSuccess[] = [$this, 'editBasketFormSucceeded'];
@@ -65,6 +66,13 @@ final class BasketPresenter extends BasePresenter
 		
 		$this->flashMessage('Změny uloženy.');
 		$this->redirect('Basket:default');
+	}
+	
+	public function actionDeleteAllItems(): void
+	{
+		$this->basketService->removeAllItemsFromBasket();
+		$this->flashMessage('Všechno zboží smazáno z košíku.');
+		$this->redirect('Basket:default');  
 	}
 	
 	private function valuesAreNotStringOrDecimalOrNegative(Array $array): bool

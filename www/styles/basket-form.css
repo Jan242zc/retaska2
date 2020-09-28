@@ -78,6 +78,22 @@ button.button-basket-delete:hover{
 	background-color: orange;
 }
 
+.delete-all{ /*just a class instead of form.add-to-basket input[type="submit"] as it did not work in the table*/
+	background-color: red;
+	border: 0;
+	border-radius: 5px;
+	color: white;
+	cursor: pointer;
+	font-size: 0.8em;
+	font-weight: 500;
+	padding: 0.45em 1em 0.35em;
+	text-decoration: none;
+}
+
+.delete-all:hover{
+	background-color: orange;
+}
+
 /* TABLE - EDIT BASKET PAGE */
 form.add-to-basket > table{
 	border-collapse: collapse;
