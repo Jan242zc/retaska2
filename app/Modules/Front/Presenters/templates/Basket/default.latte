@@ -1,75 +1,88 @@
 {block content}
+	{if $basketItems}
+		{var $basketNotEmpty = true}
+	{else}
+		{var $basketNotEmpty = false}
+	{/if}
 	<div class="container">
 		<div class="everything-wrapper">
 			<h1 class="middle">Nákupní košík</h1>
 			<div class="row">
 				<div class="left">
-					<a class="link-with-arrow" n:href="Product:default">< Zpět ke zboží</a>
+					<a class="link-with-arrow" n:href="Product:default">< Zpět k nakupování</a>
 				</div>
-				<div class="right">
-					<a class="link-with-arrow" href="#">Dokončit objednávku ></a>
-				</div>
+				{if $basketNotEmpty}
+					<div class="right">
+						<a class="link-with-arrow" href="#">Dokončit objednávku ></a>
+					</div>
+				{/if}
 			</div>
-			{form editBasketForm}
-				<table>
-					<thead>
-						<tr>
-							<td class="product-column">
-								Produkt
-							</td>
-							<td class="price-column">
-								Cena
-							</td>
-							<td class="altogether-column">
-								Celková cena
-							</td>
-							<td class="quantity-column">
-								Množství
-							</td>
-						</tr>
-					</thead>
-					<tbody>
-						{foreach $basketItems as $item}
+			{if $basketNotEmpty}
+				{form editBasketForm}
+					<table>
+						<thead>
 							<tr>
-								<td>
-									{$item->getProduct()->getName()}			
+								<td class="product-column">
+									Produkt
 								</td>
-								<td>
-									<span class="product-price">{$item->getProduct()->getPrice()}</span> Kč / ks
+								<td class="price-column">
+									Cena
 								</td>
-								<td>
-									<span class="per-product-price">{$item->getPrice()}</span> Kč
+								<td class="altogether-column">
+									Celková cena
 								</td>
-								<td hidden>
-									<input type=text name="id[]" value={$item->getProduct()->getId()} hidden />
-									<input type=checkbox value={$item->getProduct()->getId()} name="toBeDeleted[]"  />
-									<input type=text name="quantity[]" class="quantity" value={$item->getQuantity()} /> 
-								</td>
-								<td>
-									<input type=text name="visibleQuantity[]" class="quantity" value={$item->getQuantity()} /> 
-									<button class="button-basket button-basket-minus">-</button>
-									<button class="button-basket button-basket-plus">+</button>
-									<button class="button-basket button-basket-delete">Odstranit</button>
+								<td class="quantity-column">
+									Množství
 								</td>
 							</tr>
-						{/foreach}
-					</tbody>
-					<tfoot>
-						<tr>
-							<td colspan="2" class="caveat">Provedené změny musejí být uloženy stisknutím tlačítka.</td>
-							<td> <span id="totalPurchasePrice"></span> Kč </td>
-							<td>{input submit} <a onclick="return confirm('Jste si jistí?');" n:href="Basket:deleteAllItems" class="delete-all halfWidth"> Odstranit vše </a></td>
-						</tr>
-					</tfoot>
-				</table>
-			{/form}
+						</thead>
+						<tbody>
+							{foreach $basketItems as $item}
+								<tr>
+									<td>
+										{$item->getProduct()->getName()}			
+									</td>
+									<td>
+										<span class="product-price">{$item->getProduct()->getPrice()}</span> Kč / ks
+									</td>
+									<td>
+										<span class="per-product-price">{$item->getPrice()}</span> Kč
+									</td>
+									<td hidden>
+										<input type=text name="id[]" value={$item->getProduct()->getId()} hidden />
+										<input type=checkbox value={$item->getProduct()->getId()} name="toBeDeleted[]"  />
+										<input type=text name="quantity[]" class="quantity" value={$item->getQuantity()} /> 
+									</td>
+									<td>
+										<input type=text name="visibleQuantity[]" class="quantity" value={$item->getQuantity()} /> 
+										<button class="button-basket button-basket-minus">-</button>
+										<button class="button-basket button-basket-plus">+</button>
+										<button class="button-basket button-basket-delete">Odstranit</button>
+									</td>
+								</tr>
+							{/foreach}
+						</tbody>
+						<tfoot>
+							<tr>
+								<td colspan="2" class="caveat">Provedené změny musejí být uloženy stisknutím tlačítka.</td>
+								<td> <span id="totalPurchasePrice"></span> Kč </td>
+								<td>{input submit} <a onclick="return confirm('Jste si jistí?');" n:href="Basket:deleteAllItems" class="delete-all halfWidth"> Odstranit vše </a></td>
+							</tr>
+						</tfoot>
+					</table>
+				{/form}
+			{else}
+				V košíku není žádné zboží.
+			{/if}
 			<div class="row">
 				<div class="left">
-					<a class="link-with-arrow" n:href="Product:default">< Zpět ke zboží</a>
+					<a class="link-with-arrow" n:href="Product:default">< Zpět k nakupování</a>
 				</div>
-				<div class="right">
-					<a class="link-with-arrow" href="#">Dokončit objednávku ></a>
-				</div>
+				{if $basketNotEmpty}
+					<div class="right">
+						<a class="link-with-arrow" href="#">Dokončit objednávku ></a>
+					</div>
+				{/if}
 			</div>
 		</div>
 	</div>
