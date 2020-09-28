@@ -15,7 +15,7 @@ use App\Services\PriceCalculator;
 
 final class BasketService implements IBasketService
 {
-	/* what type to hint? */
+	/** var @Basket */
 	private $basketSessionSection;
 	
 	public function __construct(Session $session){
@@ -31,16 +31,12 @@ final class BasketService implements IBasketService
 		return $sessionSection->basket;
 	}
 	
-	public function getBasket() //:??
-	{
-		return $this->basketSessionSection;
-	}
-	
 	public function getAllBasketItems(): Array
 	{
 		return $this->basketSessionSection->getItems();
 	}
 	
+	//currently used only by this class
 	public function getBasketItemsIds(): Array
 	{
 		return $this->basketSessionSection->getItemsIds();
@@ -58,6 +54,7 @@ final class BasketService implements IBasketService
 		$this->updateAllProductsTotalPrice();
 	}
 	
+	//currently used only by this class
 	public function removeItemFromBasket($id): void
 	{
 		if(in_array($id, $this->getBasketItemsIds())){
@@ -101,6 +98,7 @@ final class BasketService implements IBasketService
 		$this->basketSessionSection->setTotalPrice(PriceCalculator::calculateAllProductsTotalPrice($this->basketSessionSection->getItems()));
 	}
 	
+	//currently not used anywhere
 	public function verifyThatThisItemInBasket(int $id): bool
 	{
 		return in_array($id, $this->getBasketItemsIds());

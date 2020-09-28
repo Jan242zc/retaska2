@@ -22,7 +22,6 @@ final class BasketPresenter extends BasePresenter
 	public function renderDefault(): void
 	{
 		$this->template->basketItems = $this->basketService->getAllBasketItems();
-		// dump($this->basketService->getBasket());
 	}
 	
 	protected function createComponentEditBasketForm(): Form
