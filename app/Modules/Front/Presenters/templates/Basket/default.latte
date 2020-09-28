@@ -127,6 +127,8 @@
 		
 		//removing delete class from the row, setting listener to the delete button
 		function takeDeletionBack(e){
+			var checkBoxField = getCheckboxDeleteField(this);
+			checkBoxField.checked = false; //hidden checkbox
 			var parentRow = getParentRow(this);
 			parentRow.classList.remove('to-be-deleted'); //tr (row)
 			this.parentElement.innerHTML = inputAndAllButtons;
