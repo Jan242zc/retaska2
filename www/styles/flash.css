@@ -1,0 +1,13 @@
+.flash {
+	background-color: #91efff;
+	box-sizing: border-box;
+	color: #000;
+	font-weight: 550;
+	margin: 0 auto;
+	padding: .8em 1em;
+	width: 85%;
+}
+
+.naughty{
+	background-color: #f600eb;
+}

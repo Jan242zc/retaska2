@@ -42,7 +42,7 @@ final class BasketPresenter extends BasePresenter
 	{
 		$idValues = $form->getHttpData($form::DATA_LINE, 'id[]');
 		if(!$this->valuesAreNotStringOrDecimalOrNegative($idValues) || !$this->basketService->verifyThatAllTheseItemsInBasket($idValues)){
-			$this->flashMessage('Ale no tak!');
+			$this->flashMessage('Ale no tak!', 'naughty');
 			$this->redirect('Basket:default');
 		}
 		$quantityValues = $form->getHttpData($form::DATA_LINE, 'quantity[]');
@@ -52,7 +52,7 @@ final class BasketPresenter extends BasePresenter
 		}
 		$toBeDeletedValues = $form->getHttpData($form::DATA_LINE | $form::DATA_KEYS, 'toBeDeleted[]');
 		if(!$this->valuesAreNotStringOrDecimalOrNegative($toBeDeletedValues) || !$this->basketService->verifyThatAllTheseItemsInBasket($toBeDeletedValues)){
-			$this->flashMessage('Ale no tak!');
+			$this->flashMessage('Ale no tak!', 'naughty');
 			$this->redirect('Basket:default');
 		}
 		$visibleQuantityValues = $form->getHttpData($form::DATA_LINE, 'visibleQuantity[]');

@@ -17,6 +17,7 @@ písmo: 2e97ff nebo #1b76ff nebo 0000ff
 @import 'order.css';
 @import 'crud.css';
 @import 'form.css';
+@import 'flash.css';
 
 body {
 	background-color: #ecfcff;
