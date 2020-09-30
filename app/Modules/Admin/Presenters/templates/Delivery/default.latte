@@ -1,0 +1,32 @@
+{block content}
+	<div class="container">
+		<div class="everything-wrapper">
+			<h1 class="middle">Možnosti dopravy</h1>
+			<a class="crud crud-new" n:href="Delivery:manage">Přidat nový</a>
+			{if !$deliveries}
+				<p class="nothing-found">V databázi nebyly nalezeny žádné možnosti dopravy.</p>
+			{else}
+				<table class="crud-table">
+					<thead>
+						<tr>
+							<td id="ids"> ID </td>
+							<td> Název </td>
+							<td id="actions"> Možnosti </td>
+						</tr>
+					</thead>
+					<tbody>
+						{foreach $deliveries as $delivery}
+							<tr>
+								<td> {$delivery->getId()} </td>
+								<td> {$delivery->getName()} </td>
+								<td>
+									<a class="crud crud-edit" n:href="Delivery:manage, $delivery->getId() . ' ' . $delivery->getName()">Upravit</a> 
+									<a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="Delivery:delete, $delivery->getId() . ' ' . $delivery->getName()">Vymazat</a> 
+								</td>
+							</tr>
+						{/foreach}
+					</tbody>
+				</table>
+			{/if}
+		</div>
+	</div>

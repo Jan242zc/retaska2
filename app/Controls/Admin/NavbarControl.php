@@ -18,7 +18,8 @@ final class NavbarControl extends Control
 			'Admin:Entity' => '',
 			'Admin:Product' => '',
 			'Admin:Country' => '',
-			'Admin:Payment' => ''
+			'Admin:Payment' => '',
+			'Admin:Delivery' => ''
 		];
 		
 		$linksCssClasses[$this->getPresenter()->getName()] = $activeLinkCssClass;
