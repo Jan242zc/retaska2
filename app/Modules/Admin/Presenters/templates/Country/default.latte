@@ -21,7 +21,7 @@
 								<td> {$country->getName()} </td>
 								<td>
 									<a class="crud crud-edit" n:href="Country:manage, $country->getId() . ' ' . $country->getName()">Upravit</a> 
-									<!--a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="Country:delete, $country->getId() . ' ' . $country->getName()">Vymazat</a--> 
+									<a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="Country:delete, $country->getId() . ' ' . $country->getName()">Vymazat</a> 
 								</td>
 							</tr>
 						{/foreach}

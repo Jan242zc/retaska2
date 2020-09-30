@@ -66,7 +66,14 @@ final class CountryRepository extends BaseRepository implements ICreatableAndDel
 	
 	public function delete(string $identification)
 	{
+		$identification = $this->chopIdentification($identification);
 		
+		$howDidItGo = $this->database->query("
+			DELETE FROM country
+			WHERE id = ? AND name = ?
+		", $identification['id'], $identification['name']);
+		
+		return $howDidItGo->getRowCount();
 	}
 
 	private function getUsedIds(): array

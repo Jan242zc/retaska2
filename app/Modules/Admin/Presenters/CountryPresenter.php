@@ -93,6 +93,16 @@ final class CountryPresenter extends BasePresenter
 		$this->redirect('Country:default');
 	}
 	
+	public function actionDelete($id): void
+	{
+		if($this->countryRepository->delete($id) === 1){
+			$this->flashMessage('Stát smazán.');
+		} else {
+			$this->flashMessage('Stát nenalezen.');
+		}
+		$this->redirect('Country:default');
+	}
+	
 	private function verifyNameOriginality($country): bool
 	{
 		if(is_null($country->getId())){	
