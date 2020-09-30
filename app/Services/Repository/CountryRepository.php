@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Repository;
 
 use Nette;
-use App\Entity\Factory\CategoryFactory;
+use App\Entity\Factory\CountryFactory;
 use App\Services\Repository\BaseRepository;
 use App\Services\Repository\RepositoryInterface\IRepository;
 use App\Services\Repository\RepositoryInterface\ICreatableAndDeleteableEntityRepository;
@@ -33,7 +33,7 @@ final class CountryRepository extends BaseRepository implements ICreatableAndDel
 		
 		$arrayOfCountries = [];		
 		while($row = $queryResult->fetch()){
-			$arrayOfCountries[] = CategoryFactory::createFromObject($row);
+			$arrayOfCountries[] = CountryFactory::createFromObject($row);
 		}
 		
 		return $arrayOfCountries;
@@ -41,7 +41,22 @@ final class CountryRepository extends BaseRepository implements ICreatableAndDel
 	
 	public function find(string $identification)
 	{
+		$identification = $this->chopIdentification($identification);
 		
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM country
+				WHERE id = ? AND name = ?
+				", $identification['id'], $identification['name']
+				)
+			->fetch();
+		
+		if(is_null($queryResult)){
+			throw new \Exception('No country found.');
+		}
+		
+		return $country = CountryFactory::createFromObject($queryResult);
 	}
 	
 	public function insert($country)
@@ -59,9 +74,18 @@ final class CountryRepository extends BaseRepository implements ICreatableAndDel
 		return $howDidItGo->getRowCount();
 	}
 	
-	public function update($object)
+	public function update($country)
 	{
+		$id = $country->getId();
+		$countryArray = $country->toArray();
+		unset($countryArray['id']);
 		
+		$howDidItGo = $this->database->query("
+			UPDATE country
+			SET", $countryArray, "
+			WHERE id = ?", $id);
+		
+		return $howDidItGo->getRowCount();
 	}
 	
 	public function delete(string $identification)

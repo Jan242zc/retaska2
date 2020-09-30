@@ -35,10 +35,10 @@ final class CountryPresenter extends BasePresenter
 			try{
 				$country = $this->countryRepository->find($id);
 			} catch (\Exception $ex){
-				$this->flashMessage('Zboží nebo kategorie nenalezeny.');
+				$this->flashMessage('Stát nenalezen.');
 				$this->redirect('Country:default');
 			}
-			$formDefaults = $product->toArray();
+			$formDefaults = $country->toArray();
 		}
 		$this['manageCountryForm']->setDefaults($formDefaults);
 	}
