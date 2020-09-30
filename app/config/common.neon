@@ -23,6 +23,7 @@ services:
 	entityRepository: App\Services\Repository\EntityRepository
 	productRepository: App\Services\Repository\ProductRepository
 	countryRepository: App\Services\Repository\CountryRepository
+	paymentRepository: App\Services\Repository\PaymentRepository
 	iProductsOnFrontendControlFactory: 
 		implement: App\Controls\Front\Factory\IProductsOnFrontendControlFactory
 		setup: 

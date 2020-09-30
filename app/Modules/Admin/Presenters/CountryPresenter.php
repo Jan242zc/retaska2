@@ -68,6 +68,11 @@ final class CountryPresenter extends BasePresenter
 	{
 		$country = CountryFactory::createFromArray($data);
 		
+		if(!$nameIsOriginal = $this->verifyNameOriginality($country)){
+			$this->flashMessage('Upozornění: stát s tímto názvem již existuje.');
+			$this->redirect('this');
+		}
+		
 		if(!$country->getId()){
 			try{
 				$rowsAffected = $this->countryRepository->insert($country);
@@ -76,7 +81,7 @@ final class CountryPresenter extends BasePresenter
 				$this->redirect('Entity:default');
 			}
 			if($rowsAffected === 1){
-				$this->flashMessage('Zboží uloženo.');
+				$this->flashMessage('Stát uložen.');
 			} else {
 				$this->flashMessage('Něco se pokazilo.');
 			}
@@ -86,9 +91,6 @@ final class CountryPresenter extends BasePresenter
 			} else {
 				$this->flashMessage('Něco se pokazilo nebo nebyly provedeny žádné změny.');
 			}
-		}
-		if(!$nameIsOriginal = $this->verifyNameOriginality($country)){
-			$this->flashMessage('Upozornění: stát s tímto názvem již existuje.');
 		}
 		$this->redirect('Country:default');
 	}

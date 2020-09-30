@@ -1,0 +1,32 @@
+{block content}
+	<div class="container">
+		<div class="everything-wrapper">
+			<h1 class="middle">Druhy plateb</h1>
+			<a class="crud crud-new" n:href="Payment:manage">Přidat nový</a>
+			{if !$payments}
+				<p class="nothing-found">V databázi nebyly nalezeny žádné druhy plateb.</p>
+			{else}
+				<table class="crud-table">
+					<thead>
+						<tr>
+							<td id="ids"> ID </td>
+							<td> Název </td>
+							<td id="actions"> Možnosti </td>
+						</tr>
+					</thead>
+					<tbody>
+						{foreach $payments as $payment}
+							<tr>
+								<td> {$payment->getId()} </td>
+								<td> {$payment->getName()} </td>
+								<td>
+									<a class="crud crud-edit" n:href="Payment:manage, $payment->getId() . ' ' . $payment->getName()">Upravit</a> 
+									<a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="Payment:delete, $payment->getId() . ' ' . $payment->getName()">Vymazat</a> 
+								</td>
+							</tr>
+						{/foreach}
+					</tbody>
+				</table>
+			{/if}
+		</div>
+	</div>
