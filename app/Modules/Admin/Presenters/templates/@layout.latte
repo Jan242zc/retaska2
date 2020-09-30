@@ -10,13 +10,17 @@
 <body>
 	
 	{control navbarControl}
-	<div class="container">
-		<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
-		{include content}
-	</div>
+	<div id="top-page-fill"></div> <!-- so that the navbar does not cover content -->
+	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
+	{include content}
 	{block scripts}
-	<script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>
-	
+		<script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>
+		<script>
+			document.addEventListener("DOMContentLoaded", function() {
+				var navbarHeight = document.getElementsByClassName('navbar navbar-fixed')[0].clientHeight;
+				document.getElementById('top-page-fill').style.height = navbarHeight + "px";
+			});
+		</script>
 	{/block}
 </body>
 </html>

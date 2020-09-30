@@ -1,50 +1,52 @@
 {block content}
-	<div class="everything-wrapper">
-		<h1 class="middle">Entity</h1>
-		{if !$entities}
-			<p class="nothing-found">Žádné entity nenalezeny. Kontaktujte administrátora.</p>
-		{else}
-			<table class="crud-table">
-				<thead>
-					<tr>
-						<td id="ids">
-							ID
-						</td>
-						<td>
-							Název entity
-						</td>
-						<td>
-							Název entity česky
-						</td>
-						<td>
-							Strop
-						</td>
-						<td id="actions">
-							Možnosti
-						</td>
-					</tr>
-				</thead>
-				<tbody>
-						{foreach $entities as $entity}
-							<tr>
-								<td>
-									{$entity->getId()}
-								</td>
-								<td>
-									{$entity->getName()}
-								</td>
-								<td>
-									{$entity->getNameCzech()}
-								</td>
-								<td>
-									{$entity->getIdLimit()}
-								</td>
-								<td>
-									<a class="crud crud-edit" n:href="Entity:manage, $entity->getId() . ' ' . $entity->getName()">Upravit</a>
-								</td>
-							</tr>
-						{/foreach}
-				</tbody>
-			</table>
-		{/if}
+	<div class="container">
+		<div class="everything-wrapper">
+			<h1 class="middle">Entity</h1>
+			{if !$entities}
+				<p class="nothing-found">Žádné entity nenalezeny. Kontaktujte administrátora.</p>
+			{else}
+				<table class="crud-table">
+					<thead>
+						<tr>
+							<td id="ids">
+								ID
+							</td>
+							<td>
+								Název entity
+							</td>
+							<td>
+								Název entity česky
+							</td>
+							<td>
+								Strop
+							</td>
+							<td id="actions">
+								Možnosti
+							</td>
+						</tr>
+					</thead>
+					<tbody>
+							{foreach $entities as $entity}
+								<tr>
+									<td>
+										{$entity->getId()}
+									</td>
+									<td>
+										{$entity->getName()}
+									</td>
+									<td>
+										{$entity->getNameCzech()}
+									</td>
+									<td>
+										{$entity->getIdLimit()}
+									</td>
+									<td>
+										<a class="crud crud-edit" n:href="Entity:manage, $entity->getId() . ' ' . $entity->getName()">Upravit</a>
+									</td>
+								</tr>
+							{/foreach}
+					</tbody>
+				</table>
+			{/if}
+		</div>
 	</div>

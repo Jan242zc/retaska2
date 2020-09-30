@@ -1,65 +1,68 @@
 {block content}
-	<div class="everything-wrapper">
-		<h1>Vytvořit / upravit zboží</h1>
-		{form manageProductForm}
-			<table>
-				<tbody>
-					<tr>
-						<td class="labels">
-							{label name /}
-						</td>
-						<td class="inputs">
-							{input name}
-						</td>
-					</tr>
-					<tr>
-						<td class="labels">
-							{label price /}
-						</td>
-						<td class="inputs">
-							{input price}
-						</td>
-					</tr>
-					<tr>
-						<td class="labels">
-							{label category /}
-						</td>
-						<td class="inputs">
-							{input category}
-						</td>
-					</tr>
-					<tr>
-						<td class="labels">
-							{label material /}
-						</td>
-						<td class="inputs">
-							{input material}
-						</td>
-					</tr>
-					<tr>
-						<td class="labels">
-							{label amountAvailable /}
-						</td>
-						<td class="inputs">
-							{input amountAvailable}
-						</td>
-					</tr>
-					<tr>
-						<td class="labels">
-							{label description /}
-						</td>
-						<td class="inputs">
-							{input description}
-						</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td>
-							{input submit}
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		{/form}
-		<a class="link-with-arrow" n:href="Product:default"> Zpět na přehled</a>
+	<div class="container">
+		<div class="everything-wrapper">
+			<h1>Vytvořit / upravit zboží</h1>
+			{form manageProductForm}
+				<table>
+					<tbody>
+						<tr>
+							<td class="labels">
+								{label name /}
+							</td>
+							<td class="inputs">
+								{input name}
+							</td>
+						</tr>
+						<tr>
+							<td class="labels">
+								{label price /}
+							</td>
+							<td class="inputs">
+								{input price}
+							</td>
+						</tr>
+						<tr>
+							<td class="labels">
+								{label category /}
+							</td>
+							<td class="inputs">
+								{input category}
+							</td>
+						</tr>
+						<tr>
+							<td class="labels">
+								{label material /}
+							</td>
+							<td class="inputs">
+								{input material}
+							</td>
+						</tr>
+						<tr>
+							<td class="labels">
+								{label amountAvailable /}
+							</td>
+							<td class="inputs">
+								{input amountAvailable}
+							</td>
+						</tr>
+						<tr>
+							<td class="labels">
+								{label description /}
+							</td>
+							<td class="inputs">
+								{input description}
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								{input submit}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			{/form}
+			<a class="link-with-arrow" n:href="Product:default"> Zpět na přehled</a>
+		</div>
 	</div>
+		
