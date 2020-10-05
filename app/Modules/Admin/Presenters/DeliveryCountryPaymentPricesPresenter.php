@@ -113,10 +113,6 @@ final class DeliveryCountryPaymentPricesPresenter extends BasePresenter
 		}
 
 		$deliveryCountryPaymentPrices = DeliveryCountryPaymentPricesFactory::createFromArray($data);
-		// dump($data);
-		// dump($deliveryCountryPaymentPrices);
-		// dump($deliveryCountryPaymentPrices->toArray());
-		// exit;
 
 		if(!$deliveryCountryPaymentPrices->getId()){
 			try{
