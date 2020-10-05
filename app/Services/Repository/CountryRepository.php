@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Repository;
 
 use Nette;
+use App\Entity\Country;
 use App\Entity\Factory\CountryFactory;
 use App\Services\Repository\BaseRepository;
 use App\Services\Repository\RepositoryInterface\IRepository;
@@ -52,11 +53,28 @@ final class CountryRepository extends BaseRepository implements ICreatableAndDel
 				)
 			->fetch();
 		
-		if(is_null($queryResult)){
+		if(!is_null($queryResult)){
 			throw new \Exception('No country found.');
 		}
 		
 		return $country = CountryFactory::createFromObject($queryResult);
+	}
+	
+	public function findById(int $id)
+	{
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM country
+				WHERE id = ?
+				", $id)
+			->fetch();
+
+		if(!is_null($queryResult)){
+			return $country = CountryFactory::createFromObject($queryResult);
+		}
+		
+		return $queryResult;
 	}
 	
 	public function insert($country)
@@ -135,6 +153,18 @@ final class CountryRepository extends BaseRepository implements ICreatableAndDel
 			$usedNames[$i] = mb_strtolower($usedNames[$i]);
 		}
 		return $usedNames;
+	}
+	
+	public function findAllForForm(): Array
+	{
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM country
+			")
+			->fetchPairs();
+			
+		return $queryResult;
 	}
 }
 

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Repository;
 
 use Nette;
+use App\Entity\Delivery;
 use App\Entity\Factory\DeliveryFactory;
 use App\Services\Repository\BaseRepository;
 use App\Services\Repository\RepositoryInterface\IRepository;
@@ -57,6 +58,23 @@ final class DeliveryRepository extends BaseRepository implements ICreatableAndDe
 		}
 		
 		return $delivery = DeliveryFactory::createFromObject($queryResult);
+	}
+	
+	public function findById(int $id)
+	{
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM delivery
+				WHERE id = ?
+				", $id)
+			->fetch();
+
+		if(!is_null($queryResult)){
+			return $delivery = DeliveryFactory::createFromObject($queryResult);
+		}
+		
+		return $queryResult;
 	}
 	
 	public function insert($delivery)
@@ -135,6 +153,18 @@ final class DeliveryRepository extends BaseRepository implements ICreatableAndDe
 			$usedNames[$i] = mb_strtolower($usedNames[$i]);
 		}
 		return $usedNames;
+	}
+	
+	public function findAllForForm(): Array
+	{
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM delivery
+			")
+			->fetchPairs();
+			
+		return $queryResult;
 	}
 }
 

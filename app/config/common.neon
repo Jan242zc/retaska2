@@ -25,6 +25,7 @@ services:
 	countryRepository: App\Services\Repository\CountryRepository
 	paymentRepository: App\Services\Repository\PaymentRepository
 	deliveryRepository: App\Services\Repository\DeliveryRepository
+	deliveryCountryPaymentPricesRepository: App\Services\Repository\DeliveryCountryPaymentPricesRepository
 	iProductsOnFrontendControlFactory: 
 		implement: App\Controls\Front\Factory\IProductsOnFrontendControlFactory
 		setup: 

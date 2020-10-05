@@ -1,0 +1,58 @@
+{block content}
+	<div class="container">
+		<div class="everything-wrapper">
+			<h1>Přidat / upravit druh platby</h1>
+			{form manageDeliveryCountryPaymentPricesForm}
+				<table>
+					<tbody>
+						<tr>
+							<td class="labels">
+								{label delivery /}
+							</td>
+							<td class="inputs">
+								{input delivery}
+							</td>
+						<tr>
+							<td class="labels">
+								{label payment /}
+							</td>
+							<td class="inputs">
+								{input payment}
+							</td>
+						</tr>
+						</tr>
+						<tr>
+							<td class="labels">
+								{label country /}
+							</td>
+							<td class="inputs">
+								{input country}
+							</td>
+						</tr>
+						<tr>
+							<td class="labels">
+								{label deliveryPrice /}
+							</td>
+							<td class="inputs">
+								{input deliveryPrice}
+							</td>
+						</tr>
+							<td class="labels">
+								{label paymentPrice /}
+							</td>
+							<td class="inputs">
+								{input paymentPrice}
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								{input submit}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			{/form}
+			<a class="link-with-arrow" n:href="DeliveryCountryPaymentPrices:default"> Zpět na přehled</a>
+		</div>
+	</div>

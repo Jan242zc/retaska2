@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Repository;
 
 use Nette;
+use App\Entity\Payment;
 use App\Entity\Factory\PaymentFactory;
 use App\Services\Repository\BaseRepository;
 use App\Services\Repository\RepositoryInterface\IRepository;
@@ -57,6 +58,23 @@ final class PaymentRepository extends BaseRepository implements ICreatableAndDel
 		}
 		
 		return $payment = PaymentFactory::createFromObject($queryResult);
+	}
+	
+	public function findById(int $id)
+	{
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM payment
+				WHERE id = ?
+				", $id)
+			->fetch();
+
+		if(!is_null($queryResult)){
+			return $payment = PaymentFactory::createFromObject($queryResult);
+		}
+		
+		return $queryResult;
 	}
 	
 	public function insert($payment)
@@ -135,6 +153,18 @@ final class PaymentRepository extends BaseRepository implements ICreatableAndDel
 			$usedNames[$i] = mb_strtolower($usedNames[$i]);
 		}
 		return $usedNames;
+	}
+	
+	public function findAllForForm(): Array
+	{
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM payment
+			")
+			->fetchPairs();
+			
+		return $queryResult;
 	}
 }
 
