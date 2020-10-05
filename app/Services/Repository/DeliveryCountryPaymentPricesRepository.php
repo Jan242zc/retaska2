@@ -78,7 +78,9 @@ final class DeliveryCountryPaymentPricesRepository extends BaseRepository implem
 		try{
 			$queryResult->delivery = $this->deliveryRepository->findById($queryResult->delivery);
 			$queryResult->payment = $this->paymentRepository->findById($queryResult->payment);
-			$queryResult->country = $this->countryRepository->findById($queryResult->country);
+			if(isset($queryResult->country)){
+				$queryResult->country = $this->countryRepository->findById($queryResult->country);
+			}
 		} catch (\Exception $ex) {
 			throw $ex;
 		}

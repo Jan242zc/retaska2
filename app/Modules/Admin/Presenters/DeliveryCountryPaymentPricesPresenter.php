@@ -27,19 +27,19 @@ final class DeliveryCountryPaymentPricesPresenter extends BasePresenter
 
 	/** @var IPaymentRepository */
 	private $paymentRepository;
-	
+
 	public function __construct(IDeliveryCountryPaymentPricesRepository $deliveryCountryPaymentPricesRepository, IDeliveryRepository $deliveryRepository, ICountryRepository $countryRepository, IPaymentRepository $paymentRepository){
 		$this->deliveryCountryPaymentPricesRepository = $deliveryCountryPaymentPricesRepository;
 		$this->deliveryRepository = $deliveryRepository;
 		$this->countryRepository = $countryRepository;
 		$this->paymentRepository = $paymentRepository;
 	}
-	
+
 	public function renderDefault(): void
 	{
 		$this->template->deliveryCountryPaymentPrices = $this->deliveryCountryPaymentPricesRepository->findAll();
 	}
-	
+
 	public function actionManage($id = null): void
 	{
 		if(!$id){
@@ -57,66 +57,67 @@ final class DeliveryCountryPaymentPricesPresenter extends BasePresenter
 		}
 		$this['manageDeliveryCountryPaymentPricesForm']->setDefaults($formDefaults);
 	}
-	
+
 	protected function createComponentManageDeliveryCountryPaymentPricesForm(): Form
 	{
 		$form = new Form();
 		$form->setHtmlAttribute('class', 'form');
-		
+
 		$form->addHidden('id')
 			->addFilter(function($value){
 					return intval($value);
 				});
-		
+
 		$form->addSelect('delivery', 'Způsob dopravy nebo předání:')
 			->setRequired('Je nutné zadat způsob dopravy nebo předání.')
 			->setItems($this->deliveryRepository->findAllForForm())
 			->setPrompt('Zvolte způsob dopravy nebo předání.');
-			
+
 		$form->addSelect('payment', 'Způsob platby:')
 			->setRequired('Je nutné zadat způsob platby.')
 			->setItems($this->paymentRepository->findAllForForm())
 			->setPrompt('Zvolte způsob platby.');
-		
+
 		$form->addSelect('country', 'Pro stát:')
 			->setItems($this->countryRepository->findAllForForm())
 			->setPrompt('Zvolte stát.');
-			
+
 		$form->addText('deliveryPrice', 'Cena dopravy / předání:')
 			->setRequired('Zadejte cenu dopravy / předání.')
 			->addRule($form::FLOAT, 'Cena musí dopravy být kladné číslo.')
 			->addFilter(function($value){
 				return floatval($value);
 			});
-			
+
 		$form->addText('paymentPrice', 'Cena platby:')
 			->setRequired('Zadejte cenu platby.')
 			->addRule($form::FLOAT, 'Cena platby musí být kladné číslo.')
 			->addFilter(function($value){
 				return floatval($value);
 			});
-		
+
 		$form->addSubmit('submit', 'Uložit')
 			->setHtmlAttribute('class', 'submit');
 			
 		$form->onSuccess[] = [$this, 'manageDdeliveryCountryPaymentPricesFormSucceeded'];
-		
+
 		return $form;
 	}
 	
 	public function manageDdeliveryCountryPaymentPricesFormSucceeded(Form $form, Array $data): void
 	{
-		// dump($data);
-		// exit;		
 		$data['delivery'] = $this->deliveryRepository->findById($data['delivery']);
 		$data['payment'] = $this->paymentRepository->findById($data['payment']);
 		if(!is_null($data['country'])){
 			$data['country'] = $this->countryRepository->findById($data['country']);			
 		}
-		
+
 		$deliveryCountryPaymentPrices = DeliveryCountryPaymentPricesFactory::createFromArray($data);
+		// dump($data);
 		// dump($deliveryCountryPaymentPrices);
-		
+		// dump($deliveryCountryPaymentPrices->toArray());
+		// exit;
+
 		if(!$deliveryCountryPaymentPrices->getId()){
 			try{
 				$rowsAffected = $this->deliveryCountryPaymentPricesRepository->insert($deliveryCountryPaymentPrices);
@@ -138,7 +139,7 @@ final class DeliveryCountryPaymentPricesPresenter extends BasePresenter
 		}
 		$this->redirect('DeliveryCountryPaymentPrices:default');
 	}
-	
+
 	public function actionDelete($id): void
 	{
 		if($this->deliveryCountryPaymentPricesRepository->delete($id) === 1){

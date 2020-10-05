@@ -111,6 +111,8 @@ final class DeliveryCountryPaymentPrices
 		
 		if(isset($this->country)){
 			$array['country'] = $this->country->getId();
+		} else {
+			$array['country'] = null;
 		}
 		
 		return $array;
