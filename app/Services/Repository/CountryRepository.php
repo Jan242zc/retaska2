@@ -54,8 +54,8 @@ final class CountryRepository extends BaseRepository implements ICreatableAndDel
 				", $identification['id'], $identification['name']
 				)
 			->fetch();
-		
-		if(!is_null($queryResult)){
+
+		if(is_null($queryResult)){
 			throw new \Exception('No country found.');
 		}
 		
