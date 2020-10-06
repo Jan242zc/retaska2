@@ -1,49 +1,51 @@
 {block content}
 	<div class="container">
-		<h1>Upravit limit ID</h1>
-		{form manageEntityForm}
-			<table>
-				<tbody>
-					<tr>
-						<td class="labels">
-							Název:
-						</td>
-						<td class="inputs">
-							{$entity->getName()} ({$entity->getNameCzech()})
-						</td>
-					</tr>
-					<tr>
-						<td class="labels">
-							{label name /}
-						</td>
-						<td class="inputs">
-							{input name}
-						</td>
-					</tr>
-					<tr>
-						<td class="labels">
-							{label nameCzech /}
-						</td>
-						<td class="inputs">
-							{input nameCzech}
-						</td>
-					</tr>
-					<tr>
-						<td class="labels">
-							{label idLimit /}
-						</td>
-						<td class="inputs">
-							{input idLimit}
-						</td>
-					</tr>
-					<tr>
-						<td></td>
-						<td>
-							{input submit}
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		{/form}
-		<a class="link-with-arrow" n:href="Entity:default"> Zpět na přehled</a>
+		<div class="everything-wrapper">
+			<h1>Upravit limit ID</h1>
+			{form manageEntityForm}
+				<table>
+					<tbody>
+						<tr>
+							<td class="labels">
+								Název:
+							</td>
+							<td class="inputs">
+								{$entity->getName()} ({$entity->getNameCzech()})
+							</td>
+						</tr>
+						<tr>
+							<td class="labels">
+								{label name /}
+							</td>
+							<td class="inputs">
+								{input name}
+							</td>
+						</tr>
+						<tr>
+							<td class="labels">
+								{label nameCzech /}
+							</td>
+							<td class="inputs">
+								{input nameCzech}
+							</td>
+						</tr>
+						<tr>
+							<td class="labels">
+								{label idLimit /}
+							</td>
+							<td class="inputs">
+								{input idLimit}
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								{input submit}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			{/form}
+			<a class="link-with-arrow" n:href="Entity:default"> Zpět na přehled</a>
+		</div>
 	</div>

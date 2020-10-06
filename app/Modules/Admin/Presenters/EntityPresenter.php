@@ -47,7 +47,7 @@ final class EntityPresenter extends BasePresenter
 				return intval($value);
 			});
 		
-		$form->addHidden('name', 'Název:'); //hidden instead of disabled, as I need it sent data (vanilla JS could helped, but too complicated)
+		$form->addHidden('name', 'Název:'); //hidden instead of disabled, as I need it sent data (vanilla JS could help, but too complicated)
 		
 		$form->addHidden('nameCzech', 'Název česky:'); //dtto
 			
