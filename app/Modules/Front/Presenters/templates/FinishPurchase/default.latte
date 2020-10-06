@@ -1,0 +1,174 @@
+{block content}
+	<div class="container">
+		<div class="everything-wrapper">
+			<h1 class="middle">Dokončit objednávku</h1>
+			<div class="row">
+				<div class="re66">
+					<form class="form">
+						<table>
+							<tbody>
+								<tr>
+									<td colspan="2">
+										<h5 class="form-subheading">Osobní údaje</h5>
+									<td>
+								</tr>
+								<tr>
+									<td class="labels">
+										<label for="customer">Jméno a příjmení:</label>
+									</td>
+									<td class="inputs">
+										<input type="text" name="customer" />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label for="streetAndNumber">Ulice a číslo domu:</label>
+									</td>
+									<td>
+										<input type="text"  name="streetAndNumber" />
+									</td>
+								</tr>
+								</tr>
+									<td>
+										<label for="city">Město:</label>
+									</td>
+									<td>
+										<input type="text" name="city" />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label for="zip">PSČ:</label>
+									</td>
+									<td>
+										<input type="text" name="zip" />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label for="country">Stát:</label>
+									</td>
+									<td>
+										<select name="country">
+											<option value="CR">Česká republika</option>
+											<option value="SR">Slovenská republika</option>
+										</select>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label for="email">E-mail:</label>
+									</td>
+									<td>
+										<input type="email" name="email" />
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label for="phone">Telefonní číslo:</label>
+									</td>
+									<td>
+										<input type="text" name="phone" /> 
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<h5 class="form-subheading">Dodací podmínky</h5>
+									</td>
+								</tr>
+								<tr>
+									<td>Doprava:</td>
+									<td>
+										<input type="radio" id="person" name="delivery" value="person">
+										<label for="person">Osobní odběr</label>
+										<input type="radio" id="PPL" name="delivery" value="PPL">
+										<label for="PPL">PPL</label>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Platba:
+									</td>
+									<td>
+										<input type="radio" id="bankTransfer" name="payment" value="bankTransfer">
+										<label for="bankTransfer">Bankovní převod</label>
+										<input type="radio" id="atCollection" name="payment" value="atCollection">
+										<label for="atCollection">Dobírka</label>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<label for="note">Poznámka:</label>
+									</td>
+									<td>
+										<textarea id="note" name="name" rows="4" cols="30"></textarea>
+									</td>
+								</tr>
+								<tr>
+									<td colspan="2">
+										<input class="submit" type="submit" value="Odeslat" />
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</form>
+				</div>
+				<div class="re33">
+					<h5 class="form-subheading">Rekapitulace objednávky</h5>
+					<div class="order-recap">
+						<div class="row">
+							<div class="order-recap-price-label"> Cena nakupovaného zboží: </div> 
+							<div id="goods-price" class="order-recap-price-of-smth"> 1 000 000 Kč</div>
+						</div>
+						<div class="row">
+							<div class="order-recap-price-label"> Cena dopravy: </div> 
+							<div id="delivery-price" class="order-recap-price-of-smth"> 641 Kč</div>
+						</div>
+						<div class="row">
+							<div class="order-recap-price-label"> Cena platby: </div> 
+							<div id="payment-price" class="order-recap-price-of-smth"> 351 Kč</div>
+						</div>
+						<div class="row">
+							<div class="order-recap-price-label"> Celková cena objednávky: </div> 
+							<div id="total-price" class="order-recap-price-of-smth"> 1 000 992 Kč</div>
+						</div>
+					</div>
+					<div class="order-recap-products">
+						<!--foreach-->
+						<div class="row order-recap-basket-item">
+							<div class="re25"><b>Taška A </b></div>
+							<div class="re25">10 Kč / ks </div>
+							<div class="re25">10 kusů </div>
+							<div class="re25"> 100 Kč </div>
+						</div>
+						<div class="row order-recap-basket-item">
+							<div class="re25"><b>Taška B</b></div>
+							<div class="re25">14 Kč / ks </div>
+							<div class="re25">20 kusů </div>
+							<div class="re25"> 280 Kč </div>
+						</div>
+						<div class="row order-recap-basket-item">
+							<div class="re25"><b>Taška C </b></div>
+							<div class="re25">15 Kč / ks </div>
+							<div class="re25">30 kusů </div>
+							<div class="re25"> 450 Kč </div>
+						</div>
+						<div class="row order-recap-basket-item">
+							<div class="re25"><b>Taška A </b></div>
+							<div class="re25">10 Kč / ks </div>
+							<div class="re25">10 kusů </div>
+							<div class="re25"> 100 Kč </div>
+						</div>
+						<div class="row order-recap-basket-item">
+							<div class="re25"><b>Taška B</b></div>
+							<div class="re25">14 Kč / ks </div>
+							<div class="re25">20 kusů </div>
+							<div class="re25"> 280 Kč </div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div> <!--container-->
+	
