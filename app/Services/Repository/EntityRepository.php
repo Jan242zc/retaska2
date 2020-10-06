@@ -53,6 +53,23 @@ final class EntityRepository extends BaseRepository implements IEntityRepository
 		
 		return EntityFactory::createFromObject($queryResult);
 	}
+	
+	public function findById(int $id)
+	{
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM entity
+				WHERE id = ?
+			", $id)
+			->fetch();
+			
+		if(is_null($queryResult)){
+			throw new \Exception('Entity not found');
+		}
+		
+		return EntityFactory::createFromObject($queryResult);
+	}
 
 	public function update($entity)
 	{

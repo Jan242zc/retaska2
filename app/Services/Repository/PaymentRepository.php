@@ -12,8 +12,11 @@ use App\Services\Repository\RepositoryInterface\IRepository;
 use App\Services\Repository\RepositoryInterface\ICreatableAndDeleteableEntityRepository;
 use App\Services\Repository\RepositoryInterface\IPaymentRepository;
 use App\Services\Repository\RepositoryInterface\IEntityRepository;
+use App\Services\Repository\RepositoryInterface\INameableEntityRepository;
+use App\Services\Repository\RepositoryInterface\ISelectableEntityRepository;
 
-final class PaymentRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, IPaymentRepository
+
+final class PaymentRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, INameableEntityRepository, ISelectableEntityRepository, IPaymentRepository
 {
 	private const ENTITY_IDENTIFICATION = '4 payment';
 	private $entityRepository;

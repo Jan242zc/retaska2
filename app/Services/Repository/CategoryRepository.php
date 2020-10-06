@@ -12,9 +12,11 @@ use App\Services\Repository\RepositoryInterface\IRepository;
 use App\Services\Repository\RepositoryInterface\ICreatableAndDeleteableEntityRepository;
 use App\Services\Repository\RepositoryInterface\ICategoryRepository;
 use App\Services\Repository\RepositoryInterface\IEntityRepository;
+use App\Services\Repository\RepositoryInterface\INameableEntityRepository;
+use App\Services\Repository\RepositoryInterface\ISelectableEntityRepository;
 
 
-final class CategoryRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, ICategoryRepository
+final class CategoryRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, INameableEntityRepository, ISelectableEntityRepository, ICategoryRepository
 {
 	private const ENTITY_IDENTIFICATION = '1 category';
 	private $entityRepository;

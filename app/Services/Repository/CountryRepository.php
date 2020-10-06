@@ -8,12 +8,14 @@ use Nette;
 use App\Entity\Country;
 use App\Entity\Factory\CountryFactory;
 use App\Services\Repository\BaseRepository;
-use App\Services\Repository\RepositoryInterface\IRepository;
 use App\Services\Repository\RepositoryInterface\ICreatableAndDeleteableEntityRepository;
 use App\Services\Repository\RepositoryInterface\ICountryRepository;
 use App\Services\Repository\RepositoryInterface\IEntityRepository;
+use App\Services\Repository\RepositoryInterface\INameableEntityRepository;
+use App\Services\Repository\RepositoryInterface\ISelectableEntityRepository;
 
-final class CountryRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, ICountryRepository
+
+final class CountryRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, INameableEntityRepository, ISelectableEntityRepository,ICountryRepository
 {
 	private const ENTITY_IDENTIFICATION = '3 country';
 	private $entityRepository;
@@ -130,7 +132,7 @@ final class CountryRepository extends BaseRepository implements ICreatableAndDel
 		return $usedIds;
 	}
 
-	public function getArrayOfUsedNames($currentCountryId): Array
+	public function getArrayOfUsedNames($currentCountryId = null): Array
 	{
 		if(is_null($currentCountryId)){
 			$usedNames = $this->database

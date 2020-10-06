@@ -11,12 +11,13 @@ use App\Services\Repository\RepositoryInterface\ICreatableAndDeleteableEntityRep
 use App\Services\Repository\RepositoryInterface\IProductRepository;
 use App\Services\Repository\RepositoryInterface\IEntityRepository;
 use App\Services\Repository\RepositoryInterface\ICategoryRepository;
+use App\Services\Repository\RepositoryInterface\INameableEntityRepository;
 use App\Entity\Product;
 use App\Entity\Factory\ProductFactory;
 use App\Entity\Factory\CategoryFactory;
 
 
-class ProductRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, IProductRepository
+class ProductRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, INameableEntityRepository, IProductRepository
 {
 	private const ENTITY_IDENTIFICATION = '2 product';
 	private $database;
@@ -78,6 +79,30 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 				FROM product
 				WHERE id = ? AND name = ?
 				", $identification['id'], $identification['name']
+				)
+			->fetch();
+		
+		if(is_null($queryResult)){
+			throw new \Exception('No product found.');
+		}
+		
+		try{
+			$queryResult->category = $this->categoryRepository->findById($queryResult->category);			
+		} catch (\Exception $ex){
+			throw $ex;
+		}
+		
+		return $product = ProductFactory::createFromObject($queryResult);
+	}
+	
+	public function findById(int $id): Product
+	{
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM product
+				WHERE id = ?
+				", $id
 				)
 			->fetch();
 		

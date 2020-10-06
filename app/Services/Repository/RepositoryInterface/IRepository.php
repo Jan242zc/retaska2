@@ -8,6 +8,6 @@ namespace App\Services\Repository\RepositoryInterface;
 interface IRepository
 {
 	public function findAll(): Array;
-	public function find(string $identification);
+	public function findById(int $id);
 	public function update($object);
 }

@@ -12,8 +12,11 @@ use App\Services\Repository\RepositoryInterface\IRepository;
 use App\Services\Repository\RepositoryInterface\ICreatableAndDeleteableEntityRepository;
 use App\Services\Repository\RepositoryInterface\IDeliveryRepository;
 use App\Services\Repository\RepositoryInterface\IEntityRepository;
+use App\Services\Repository\RepositoryInterface\INameableEntityRepository;
+use App\Services\Repository\RepositoryInterface\ISelectableEntityRepository;
 
-final class DeliveryRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, IDeliveryRepository
+
+final class DeliveryRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, INameableEntityRepository, ISelectableEntityRepository, IDeliveryRepository
 {
 	private const ENTITY_IDENTIFICATION = '5 delivery';
 	private $entityRepository;
