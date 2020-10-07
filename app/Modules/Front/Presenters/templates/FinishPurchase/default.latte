@@ -118,54 +118,30 @@
 					<div class="order-recap">
 						<div class="row">
 							<div class="order-recap-price-label"> Cena nakupovaného zboží: </div> 
-							<div id="goods-price" class="order-recap-price-of-smth"> 1 000 000 Kč</div>
+							<div id="goods-price" class="order-recap-price-of-smth"> {$productTotalPrice} Kč</div>
 						</div>
 						<div class="row">
 							<div class="order-recap-price-label"> Cena dopravy: </div> 
-							<div id="delivery-price" class="order-recap-price-of-smth"> 641 Kč</div>
+							<div id="delivery-price" class="order-recap-price-of-smth"> 0 Kč</div>
 						</div>
 						<div class="row">
 							<div class="order-recap-price-label"> Cena platby: </div> 
-							<div id="payment-price" class="order-recap-price-of-smth"> 351 Kč</div>
+							<div id="payment-price" class="order-recap-price-of-smth"> 0 Kč</div>
 						</div>
 						<div class="row">
 							<div class="order-recap-price-label"> Celková cena objednávky: </div> 
-							<div id="total-price" class="order-recap-price-of-smth"> 1 000 992 Kč</div>
+							<div id="total-price" class="order-recap-price-of-smth"> {$productTotalPrice} Kč</div>
 						</div>
 					</div>
 					<div class="order-recap-products">
-						<!--foreach-->
-						<div class="row order-recap-basket-item">
-							<div class="re25"><b>Taška A </b></div>
-							<div class="re25">10 Kč / ks </div>
-							<div class="re25">10 kusů </div>
-							<div class="re25"> 100 Kč </div>
-						</div>
-						<div class="row order-recap-basket-item">
-							<div class="re25"><b>Taška B</b></div>
-							<div class="re25">14 Kč / ks </div>
-							<div class="re25">20 kusů </div>
-							<div class="re25"> 280 Kč </div>
-						</div>
-						<div class="row order-recap-basket-item">
-							<div class="re25"><b>Taška C </b></div>
-							<div class="re25">15 Kč / ks </div>
-							<div class="re25">30 kusů </div>
-							<div class="re25"> 450 Kč </div>
-						</div>
-						<div class="row order-recap-basket-item">
-							<div class="re25"><b>Taška A </b></div>
-							<div class="re25">10 Kč / ks </div>
-							<div class="re25">10 kusů </div>
-							<div class="re25"> 100 Kč </div>
-						</div>
-						<div class="row order-recap-basket-item">
-							<div class="re25"><b>Taška B</b></div>
-							<div class="re25">14 Kč / ks </div>
-							<div class="re25">20 kusů </div>
-							<div class="re25"> 280 Kč </div>
-						</div>
-						
+						{foreach $basketItems as $item}
+							<div class="row order-recap-basket-item">
+								<div class="re25"><b>{$item->getProduct()->getName()}</b></div>
+								<div class="re25">{$item->getProduct()->getPrice()} Kč / ks </div>
+								<div class="re25">{$item->getQuantity()} kusů </div>
+								<div class="re25">{$item->getPrice()} Kč </div>
+							</div>
+						{/foreach}
 					</div>
 				</div>
 			</div>

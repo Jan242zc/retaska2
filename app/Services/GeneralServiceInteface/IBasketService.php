@@ -19,4 +19,5 @@ interface IBasketService
 	public function adjustBasketByBasketFormData(Array $idValuesArray, Array $quantitiesArray, Array $toBeDeletedValuesArray): void;
 	public function verifyThatThisItemInBasket(int $id): bool;
 	public function verifyThatAllTheseItemsInBasket(array $ids): bool;
+	public function getTotalProductPrice(): float;
 }

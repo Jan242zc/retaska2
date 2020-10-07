@@ -19,6 +19,7 @@ final class FinishPurchasePresenter extends BasePresenter
 	
 	public function renderDefault(): void
 	{
+		$this->template->productTotalPrice = $this->basketService->getTotalProductPrice();
 		$this->template->basketItems = $this->basketService->getAllBasketItems();
 	}
 }

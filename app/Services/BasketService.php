@@ -114,4 +114,9 @@ final class BasketService implements IBasketService
 		}
 		return true;
 	}
+	
+	public function getTotalProductPrice(): float
+	{
+		return $this->basketSessionSection->getTotalPrice();
+	}
 }
