@@ -4,7 +4,7 @@
 			<h1 class="middle">Dokončit objednávku</h1>
 			<div class="row">
 				<div class="re66">
-					<form class="form">
+					{form purchaseForm}
 						<table>
 							<tbody>
 								<tr>
@@ -13,87 +13,81 @@
 									<td>
 								</tr>
 								<tr>
+									
 									<td class="labels">
-										<label for="customer">Jméno a příjmení:</label>
+										{label name /}
 									</td>
 									<td class="inputs">
-										<input type="text" name="customer" />
+										{input name}
 									</td>
 								</tr>
 								<tr>
 									<td>
-										<label for="streetAndNumber">Ulice a číslo domu:</label>
+										{label streetAndNumber /}
 									</td>
 									<td>
-										<input type="text"  name="streetAndNumber" />
-									</td>
-								</tr>
-								</tr>
-									<td>
-										<label for="city">Město:</label>
-									</td>
-									<td>
-										<input type="text" name="city" />
+										{input streetAndNumber}
 									</td>
 								</tr>
-								<tr>
+								</tr>
 									<td>
-										<label for="zip">PSČ:</label>
+										{label city /}
 									</td>
 									<td>
-										<input type="text" name="zip" />
+										{input city}
 									</td>
 								</tr>
 								<tr>
 									<td>
-										<label for="country">Stát:</label>
+										{label zip /}
 									</td>
 									<td>
-										<select name="country">
-											<option value="CR">Česká republika</option>
-											<option value="SR">Slovenská republika</option>
-										</select>
+										{input zip}
 									</td>
 								</tr>
 								<tr>
 									<td>
-										<label for="email">E-mail:</label>
+										{label country /}
 									</td>
 									<td>
-										<input type="email" name="email" />
+										{input country}
 									</td>
 								</tr>
 								<tr>
 									<td>
-										<label for="phone">Telefonní číslo:</label>
+										{label email /}
 									</td>
 									<td>
-										<input type="text" name="phone" /> 
+										{input email}
 									</td>
 								</tr>
+								<tr>
+									<td>
+										{label phone /}
+									</td>
+									<td>
+										{input phone} 
+									</td>
+								</tr>
+							</tbody>
+							<tbody>
 								<tr>
 									<td colspan="2">
 										<h5 class="form-subheading">Dodací podmínky</h5>
 									</td>
 								</tr>
 								<tr>
-									<td>Doprava:</td>
+									<td>{label delivery /}</td>
 									<td>
-										<input type="radio" id="person" name="delivery" value="person">
-										<label for="person">Osobní odběr</label>
-										<input type="radio" id="PPL" name="delivery" value="PPL">
-										<label for="PPL">PPL</label>
+										{input delivery}
 									</td>
 								</tr>
 								<tr>
 									<td>
-										Platba:
+										{label payment /}
 									</td>
 									<td>
-										<input type="radio" id="bankTransfer" name="payment" value="bankTransfer">
-										<label for="bankTransfer">Bankovní převod</label>
-										<input type="radio" id="atCollection" name="payment" value="atCollection">
-										<label for="atCollection">Dobírka</label>
+										{input payment}
 									</td>
 								</tr>
 								<tr>
@@ -105,13 +99,53 @@
 									</td>
 								</tr>
 								<tr>
+									<td>{label differentAdress /}</td>
+									<td>{input differentAdress}</td>
+								</tr>
+							</tbody>
+							<tbody id="deliveryAdressGroup">
+								<tr>
+									<td>
+										{label deliveryStreetAndNumber /}
+									</td>
+									<td>
+										{input deliveryStreetAndNumber}
+									</td>
+								</tr>
+								</tr>
+									<td>
+										{label deliveryCity /}
+									</td>
+									<td>
+										{input deliveryCity}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										{label deliveryZip /}
+									</td>
+									<td>
+										{input deliveryZip}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										{label deliveryCountry /}
+									</td>
+									<td>
+										{input deliveryCountry}
+									</td>
+								</tr>
+							</tbody>
+							<tbody>
+								<tr>
 									<td colspan="2">
-										<input class="submit" type="submit" value="Odeslat" />
+										{input submit}
 									</td>
 								</tr>
 							</tbody>
 						</table>
-					</form>
+					{/form}
 				</div>
 				<div class="re33">
 					<h5 class="form-subheading">Rekapitulace objednávky</h5>
