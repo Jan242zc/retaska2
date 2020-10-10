@@ -29,59 +29,61 @@ final class FinishPurchasePresenter extends BasePresenter
 		$form = new Form;
 		$form->setHtmlAttribute('class', 'form');
 		
-		$form->addGroup('personalData');
+		$personalData = $form->addContainer('personalData');
 		
-		$form->addText('name', 'Jméno a příjmení:')
+		$personalData->addText('name', 'Jméno a příjmení:')
 			->setRequired('Zadejte své jméno a příjmení.');
 			
-		$form->addText('streetAndNumber', 'Ulice a číslo domu:')
+		$personalData->addText('streetAndNumber', 'Ulice a číslo domu:')
 			->setRequired('Zadejte ulici a číslo domu.');
 			
-		$form->addText('city', 'Město:')
+		$personalData->addText('city', 'Město:')
 			->setRequired('Zadejte město.');
 			
-		$form->addText('zip', 'PSČ:')
+		$personalData->addText('zip', 'PSČ:')
 			//->setRule - numeric...
 			->setRequired('Zadejte PSČ.');
 			
-		$form->addSelect('country', 'Stát:') //opravdu select? nejde třeba select s možností vlastního vstupu, pokud je zaškrtnuto pole lišících se adres?
+		$personalData->addSelect('country', 'Stát:'); //opravdu select? nejde třeba select s možností vlastního vstupu, pokud je zaškrtnuto pole lišících se adres?
 			//->setItems...
-			->setRequired('Zadejte stát.');
+			//->setRequired('Zadejte stát.');
 			
-		$form->addEmail('email', 'E-mail:')
+		$personalData->addEmail('email', 'E-mail:')
 			->setRequired('Zadejte emailovou adresu.');
 		
-		$form->addText('phone', 'Telefonní číslo:')
+		$personalData->addText('phone', 'Telefonní číslo:')
 			->setRequired('Zadejte telefonní číslo.');
 		
-		$form->addGroup('Delivery terms');
+		$deliveryTerms = $form->addContainer('deliveryTerms');
 		
-		$form->addRadioList('delivery', 'Doprava:')
+		$deliveryTerms->addRadioList('delivery', 'Doprava:')
 			->setItems([
 				1 => 'Osobní odběr',
 				2 => 'PLL',
 				3 => 'Česká pošta'
 			]);
 		
-		$form->addRadioList('payment', 'Platba:')
+		$deliveryTerms->addRadioList('payment', 'Platba:')
 			->setItems([
 				1 => 'Hotově při převzetí',
 				2 => 'Převodem'
 			]);
-		
-		$form->addCheckbox('differentAdress', 'Doručit na jinou adresu než fakturační')
+
+		$deliveryTerms->addTextArea('note', 'Poznámka:');
+
+		$deliveryTerms->addCheckbox('differentAdress', 'Doručit na jinou adresu než fakturační')
 			->setHtmlAttribute('id', 'differentAdress');
-		
-		$form->addGroup('Delivery adress');
-		
-		$form->addText('deliveryStreetAndNumber', 'Ulice a číslo domu:');
 			
-		$form->addText('deliveryCity', 'Město:');
+		$deliveryAdress = $form->addContainer('deliveryAdress');
+		
+		$deliveryAdress->addText('streetAndNumber', 'Ulice a číslo domu:');
 			
-		$form->addText('deliveryZip', 'PSČ:');
+		$deliveryAdress->addText('city', 'Město:');
+			
+		$deliveryAdress->addText('zip', 'PSČ:');
 			//->setRule - numeric...
 			
-		$form->addSelect('deliveryCountry', 'Stát:'); //opravdu select? nejde třeba select s možností vlastního vstupu, pokud je zaškrtnuto pole lišících se adres?
+		$deliveryAdress->addSelect('country', 'Stát:'); //opravdu select? nejde třeba select s možností vlastního vstupu, pokud je zaškrtnuto pole lišících se adres?
 			//->setItems...
 		
 		$form->addSubmit('submit', 'Přejít k rekapitulaci')

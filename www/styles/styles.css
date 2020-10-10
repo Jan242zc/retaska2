@@ -53,6 +53,10 @@ a.link-with-arrow:hover{
 	color: #5edfff;
 }
 
+.hidden{
+	display: none;	
+}
+
 #retaska_logo {
 	box-sizing: border-box;
 	float: right;

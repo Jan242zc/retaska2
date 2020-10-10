@@ -7,135 +7,145 @@
 					{form purchaseForm}
 						<table>
 							<tbody>
-								<tr>
-									<td colspan="2">
-										<h5 class="form-subheading">Osobní údaje</h5>
-									<td>
-								</tr>
-								<tr>
-									
-									<td class="labels">
-										{label name /}
-									</td>
-									<td class="inputs">
-										{input name}
-									</td>
-								</tr>
-								<tr>
-									<td>
-										{label streetAndNumber /}
-									</td>
-									<td>
-										{input streetAndNumber}
-									</td>
-								</tr>
-								</tr>
-									<td>
-										{label city /}
-									</td>
-									<td>
-										{input city}
-									</td>
-								</tr>
-								<tr>
-									<td>
-										{label zip /}
-									</td>
-									<td>
-										{input zip}
-									</td>
-								</tr>
-								<tr>
-									<td>
-										{label country /}
-									</td>
-									<td>
-										{input country}
-									</td>
-								</tr>
-								<tr>
-									<td>
-										{label email /}
-									</td>
-									<td>
-										{input email}
-									</td>
-								</tr>
-								<tr>
-									<td>
-										{label phone /}
-									</td>
-									<td>
-										{input phone} 
-									</td>
-								</tr>
+								{formContainer personalData}
+									<tr>
+										<td colspan="2">
+											<h5 class="form-subheading">Fakturační údaje</h5>
+										<td>
+									</tr>
+									<tr>
+										<td class="labels">
+											{label name /}
+										</td>
+										<td class="inputs">
+											{input name}
+										</td>
+									</tr>
+									<tr>
+										<td>
+											{label streetAndNumber /}
+										</td>
+										<td>
+											{input streetAndNumber}
+										</td>
+									</tr>
+									</tr>
+										<td>
+											{label city /}
+										</td>
+										<td>
+											{input city}
+										</td>
+									</tr>
+									<tr>
+										<td>
+											{label zip /}
+										</td>
+										<td>
+											{input zip}
+										</td>
+									</tr>
+									<tr>
+										<td>
+											{label country /}
+										</td>
+										<td>
+											{input country}
+										</td>
+									</tr>
+									<tr>
+										<td>
+											{label email /}
+										</td>
+										<td>
+											{input email}
+										</td>
+									</tr>
+									<tr>
+										<td>
+											{label phone /}
+										</td>
+										<td>
+											{input phone} 
+										</td>
+									</tr>
+								{/formContainer}
 							</tbody>
 							<tbody>
-								<tr>
-									<td colspan="2">
-										<h5 class="form-subheading">Dodací podmínky</h5>
-									</td>
-								</tr>
-								<tr>
-									<td>{label delivery /}</td>
-									<td>
-										{input delivery}
-									</td>
-								</tr>
-								<tr>
-									<td>
-										{label payment /}
-									</td>
-									<td>
-										{input payment}
-									</td>
-								</tr>
-								<tr>
-									<td>
-										<label for="note">Poznámka:</label>
-									</td>
-									<td>
-										<textarea id="note" name="name" rows="4" cols="30"></textarea>
-									</td>
-								</tr>
-								<tr>
-									<td>{label differentAdress /}</td>
-									<td>{input differentAdress}</td>
-								</tr>
+								{formContainer deliveryTerms}
+									<tr>
+										<td colspan="2">
+											<h5 class="form-subheading">Dodací podmínky</h5>
+										</td>
+									</tr>
+									<tr>
+										<td>{label delivery /}</td>
+										<td>
+											{input delivery}
+										</td>
+									</tr>
+									<tr>
+										<td>
+											{label payment /}
+										</td>
+										<td>
+											{input payment}
+										</td>
+									</tr>
+									<tr>
+										<td>
+											{label note /}
+										</td>
+										<td>
+											{input note} <!--rows="4" cols="30"-->
+										</td>
+									</tr>
+									<tr>
+										<td>{label differentAdress /}</td>
+										<td>{input differentAdress}</td>
+									</tr>
+								{/formContainer}
 							</tbody>
-							<tbody id="deliveryAdressGroup">
-								<tr>
-									<td>
-										{label deliveryStreetAndNumber /}
-									</td>
-									<td>
-										{input deliveryStreetAndNumber}
-									</td>
-								</tr>
-								</tr>
-									<td>
-										{label deliveryCity /}
-									</td>
-									<td>
-										{input deliveryCity}
-									</td>
-								</tr>
-								<tr>
-									<td>
-										{label deliveryZip /}
-									</td>
-									<td>
-										{input deliveryZip}
-									</td>
-								</tr>
-								<tr>
-									<td>
-										{label deliveryCountry /}
-									</td>
-									<td>
-										{input deliveryCountry}
-									</td>
-								</tr>
+							<tbody id="deliveryAdressGroup" hidden>
+								{formContainer deliveryAdress}
+									<tr>
+										<td colspan="2">
+											<h5 class="form-subheading">Doručovací adresa</h5>
+										</td>
+									</tr>
+									<tr>
+										<td>
+											{label streetAndNumber /}
+										</td>
+										<td>
+											{input streetAndNumber}
+										</td>
+									</tr>
+									</tr>
+										<td>
+											{label city /}
+										</td>
+										<td>
+											{input city}
+										</td>
+									</tr>
+									<tr>
+										<td>
+											{label zip /}
+										</td>
+										<td>
+											{input zip}
+										</td>
+									</tr>
+									<tr>
+										<td>
+											{label country /}
+										</td>
+										<td>
+											{input country}
+										</td>
+									</tr>
+								{/formContainer}
 							</tbody>
 							<tbody>
 								<tr>
@@ -182,3 +192,16 @@
 		</div>
 	</div> <!--container-->
 	
+	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			
+		});
+		
+		document.getElementById('differentAdress').addEventListener("click", function(){
+			if(document.getElementById('deliveryAdressGroup').hidden !== true){
+				document.getElementById('deliveryAdressGroup').hidden = true;
+			} else {
+				document.getElementById('deliveryAdressGroup').hidden = false;
+			}
+		});
+	</script>
