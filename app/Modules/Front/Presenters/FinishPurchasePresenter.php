@@ -7,6 +7,9 @@ namespace App\Modules\Front\Presenters;
 use App\Modules\Front\Presenters\BaseFrontPresenter AS BasePresenter;
 use App\Services\GeneralServiceInterface\IBasketService;
 use Nette\Application\UI\Form;
+use App\Services\Repository\RepositoryInterface\ICountryRepository;
+use App\Services\Repository\RepositoryInterface\IDeliveryRepository;
+use App\Services\Repository\RepositoryInterface\IPaymentRepository;
 
 
 final class FinishPurchasePresenter extends BasePresenter
@@ -14,8 +17,20 @@ final class FinishPurchasePresenter extends BasePresenter
 	/** @var IBasketService */
 	private $basketService;
 	
-	public function __construct(IBasketService $basketService){
+	/** @var ICountryRepository */
+	private $countryRepository;
+	
+	/** @var IDeliveryRepository */
+	private $deliveryRepository;
+	
+	/** @var IPaymentRepository */
+	private $paymentRepository;
+	
+	public function __construct(IBasketService $basketService, ICountryRepository $countryRepository, IDeliveryRepository $deliveryRepository, IPaymentRepository $paymentRepository){
 		$this->basketService = $basketService;
+		$this->countryRepository = $countryRepository;
+		$this->deliveryRepository = $deliveryRepository;
+		$this->paymentRepository = $paymentRepository;
 	}
 	
 	public function renderDefault(): void
@@ -44,8 +59,8 @@ final class FinishPurchasePresenter extends BasePresenter
 			//->setRule - numeric...
 			->setRequired('Zadejte PSČ.');
 			
-		$personalData->addSelect('country', 'Stát:'); //opravdu select? nejde třeba select s možností vlastního vstupu, pokud je zaškrtnuto pole lišících se adres?
-			//->setItems...
+		$personalData->addSelect('country', 'Stát:') //opravdu select? nejde třeba select s možností vlastního vstupu, pokud je zaškrtnuto pole lišících se adres?
+			->setItems($this->countryRepository->findAllForForm());
 			//->setRequired('Zadejte stát.');
 			
 		$personalData->addEmail('email', 'E-mail:')
@@ -53,27 +68,20 @@ final class FinishPurchasePresenter extends BasePresenter
 		
 		$personalData->addText('phone', 'Telefonní číslo:')
 			->setRequired('Zadejte telefonní číslo.');
-		
+			
+		$personalData->addCheckbox('differentAdress', 'Doručit na jinou adresu než fakturační')
+			->setHtmlAttribute('id', 'differentAdress');
+
 		$deliveryTerms = $form->addContainer('deliveryTerms');
 		
 		$deliveryTerms->addRadioList('delivery', 'Doprava:')
-			->setItems([
-				1 => 'Osobní odběr',
-				2 => 'PLL',
-				3 => 'Česká pošta'
-			]);
+			->setItems($this->deliveryRepository->findAllForForm());
 		
 		$deliveryTerms->addRadioList('payment', 'Platba:')
-			->setItems([
-				1 => 'Hotově při převzetí',
-				2 => 'Převodem'
-			]);
+			->setItems($this->paymentRepository->findAllForForm());
 
 		$deliveryTerms->addTextArea('note', 'Poznámka:');
 
-		$deliveryTerms->addCheckbox('differentAdress', 'Doručit na jinou adresu než fakturační')
-			->setHtmlAttribute('id', 'differentAdress');
-			
 		$deliveryAdress = $form->addContainer('deliveryAdress');
 		
 		$deliveryAdress->addText('streetAndNumber', 'Ulice a číslo domu:');
@@ -83,8 +91,8 @@ final class FinishPurchasePresenter extends BasePresenter
 		$deliveryAdress->addText('zip', 'PSČ:');
 			//->setRule - numeric...
 			
-		$deliveryAdress->addSelect('country', 'Stát:'); //opravdu select? nejde třeba select s možností vlastního vstupu, pokud je zaškrtnuto pole lišících se adres?
-			//->setItems...
+		$deliveryAdress->addSelect('country', 'Stát:') //opravdu select? nejde třeba select s možností vlastního vstupu, pokud je zaškrtnuto pole lišících se adres?
+			->setItems($this->countryRepository->findAllForForm());
 		
 		$form->addSubmit('submit', 'Přejít k rekapitulaci')
 			->setHtmlAttribute('class', 'submit');
