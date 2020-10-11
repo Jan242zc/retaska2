@@ -10,6 +10,7 @@ use Nette\Application\UI\Form;
 use App\Services\Repository\RepositoryInterface\ICountryRepository;
 use App\Services\Repository\RepositoryInterface\IDeliveryRepository;
 use App\Services\Repository\RepositoryInterface\IPaymentRepository;
+use App\Services\DeliveryCountryPaymentPricesArrayGenerator;
 
 
 final class FinishPurchasePresenter extends BasePresenter
@@ -26,17 +27,21 @@ final class FinishPurchasePresenter extends BasePresenter
 	/** @var IPaymentRepository */
 	private $paymentRepository;
 	
-	public function __construct(IBasketService $basketService, ICountryRepository $countryRepository, IDeliveryRepository $deliveryRepository, IPaymentRepository $paymentRepository){
+	private $deliveryCountryPaymentPricesArrayGenerator;
+	
+	public function __construct(IBasketService $basketService, ICountryRepository $countryRepository, IDeliveryRepository $deliveryRepository, IPaymentRepository $paymentRepository, DeliveryCountryPaymentPricesArrayGenerator $deliveryCountryPaymentPricesArrayGenerator){
 		$this->basketService = $basketService;
 		$this->countryRepository = $countryRepository;
 		$this->deliveryRepository = $deliveryRepository;
 		$this->paymentRepository = $paymentRepository;
+		$this->deliveryCountryPaymentPricesArrayGenerator = $deliveryCountryPaymentPricesArrayGenerator;
 	}
 	
 	public function renderDefault(): void
 	{
 		$this->template->productTotalPrice = $this->basketService->getTotalProductPrice();
 		$this->template->basketItems = $this->basketService->getAllBasketItems();
+		$this->deliveryCountryPaymentPricesArrayGenerator->generateTheArray();
 	}
 	
 	protected function createComponentPurchaseForm(): Form

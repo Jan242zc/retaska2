@@ -33,3 +33,4 @@ services:
 			- $maxProductsPerPage = 64
 	paginator: Nette\Utils\Paginator
 	basketService: App\Services\BasketService
+	deliveryCountryPaymentPricesArrayGenerator: App\Services\DeliveryCountryPaymentPricesArrayGenerator
