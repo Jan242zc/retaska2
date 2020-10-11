@@ -74,10 +74,10 @@ final class FinishPurchasePresenter extends BasePresenter
 
 		$deliveryTerms = $form->addContainer('deliveryTerms');
 		
-		$deliveryTerms->addRadioList('delivery', 'Doprava:')
+		$deliveryTerms->addSelect('delivery', 'Doprava:')
 			->setItems($this->deliveryRepository->findAllForForm());
 		
-		$deliveryTerms->addRadioList('payment', 'Platba:')
+		$deliveryTerms->addSelect('payment', 'Platba:')
 			->setItems($this->paymentRepository->findAllForForm());
 
 		$deliveryTerms->addTextArea('note', 'Poznámka:');
