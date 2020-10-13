@@ -194,9 +194,13 @@
 	
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
-			
+			updateDeliveryServices();
 		});
-		
+
+		document.getElementById('frm-purchaseForm-personalData-country').addEventListener("click", function(){
+			updateDeliveryServices();
+		});
+
 		document.getElementById('differentAdress').addEventListener("click", function(){
 			if(document.getElementById('deliveryAdressGroup').hidden !== true){
 				document.getElementById('deliveryAdressGroup').hidden = true;
@@ -204,4 +208,45 @@
 				document.getElementById('deliveryAdressGroup').hidden = false;
 			}
 		});
+
+		function updateDeliveryServices(){
+			var deliveryField = document.getElementById('frm-purchaseForm-personalData-delivery');
+			var numberOfOldOptions = document.getElementById('frm-purchaseForm-deliveryTerms-delivery').options.length;
+			for(var i = numberOfOldOptions - 1; i > -1; i--){
+				document.getElementById('frm-purchaseForm-deliveryTerms-delivery').remove(i);
+			}
+			
+			var newOptions = generateDeliveryServicesOptions(document.getElementById('frm-purchaseForm-personalData-country').value);
+			console.log(newOptions);
+			for(var i = 0; i < newOptions.length; i++){
+				document.getElementById('frm-purchaseForm-deliveryTerms-delivery').add(newOptions[i]);
+			}
+		}
+
+		function generateDeliveryServicesOptions(countryId){
+			const deliveryNames = JSON.parse({json_encode($deliveries)});
+			const magicalCountryIndependentObject = JSON.parse({json_encode($magicalCountryIndependentServicesArray)});
+
+			var countryIndependentKeys = Object.keys(magicalCountryIndependentObject);
+			var options = [];
+			console.log(relevantDeliveryKeys);
+			for(var i = 0; i < countryIndependentKeys.length; i++){
+				var option = document.createElement('option');
+				option.value = countryIndependentKeys[i];
+				option.text = deliveryNames[option.value];
+				options.push(option);
+			}
+			
+			const magicalByCountryObject = JSON.parse({json_encode($magicalByCountryArray)});
+			if(typeof magicalByCountryObject[countryId] !== 'undefined'){
+				var relevantDeliveryKeys = Object.keys(magicalByCountryObject[countryId]);
+				for(var i = 0; i < relevantDeliveryKeys.length; i++){
+					var option = document.createElement('option');
+					option.value = relevantDeliveryKeys[i];
+					option.text = deliveryNames[option.value];
+					options.push(option);
+				}
+			}
+			return options;
+		}
 	</script>

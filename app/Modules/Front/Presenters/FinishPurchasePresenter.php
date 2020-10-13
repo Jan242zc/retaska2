@@ -41,7 +41,15 @@ final class FinishPurchasePresenter extends BasePresenter
 	{
 		$this->template->productTotalPrice = $this->basketService->getTotalProductPrice();
 		$this->template->basketItems = $this->basketService->getAllBasketItems();
-		$this->deliveryCountryPaymentPricesArrayGenerator->generateTheArray();
+		$this->template->magicalByDeliveryArray = $this->deliveryCountryPaymentPricesArrayGenerator->generateByDeliveryArray();
+		// dump($this->deliveryCountryPaymentPricesArrayGenerator->generateByDeliveryArray());
+		$this->template->magicalByCountryArray = $this->deliveryCountryPaymentPricesArrayGenerator->generateByCountryArray();
+		$this->template->magicalCountryIndependentServicesArray = $this->deliveryCountryPaymentPricesArrayGenerator->generateCountryIndependentServicesArray();
+		$this->template->coutries = $this->countryRepository->findAll();
+		$this->template->deliveries = $this->deliveryRepository->findAllForForm();
+		$this->template->payments = $this->paymentRepository->findAll();
+		// dump($this->deliveryCountryPaymentPricesArrayGenerator->generateByCountryArray());
+		// exit;
 	}
 	
 	protected function createComponentPurchaseForm(): Form
