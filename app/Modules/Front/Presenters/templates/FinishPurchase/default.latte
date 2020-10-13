@@ -217,7 +217,6 @@
 			}
 			
 			var newOptions = generateDeliveryServicesOptions(document.getElementById('frm-purchaseForm-personalData-country').value);
-			console.log(newOptions);
 			for(var i = 0; i < newOptions.length; i++){
 				document.getElementById('frm-purchaseForm-deliveryTerms-delivery').add(newOptions[i]);
 			}
@@ -226,24 +225,23 @@
 		function generateDeliveryServicesOptions(countryId){
 			const deliveryNames = JSON.parse({json_encode($deliveries)});
 			const magicalCountryIndependentObject = JSON.parse({json_encode($magicalCountryIndependentServicesArray)});
-
 			var countryIndependentKeys = Object.keys(magicalCountryIndependentObject);
 			var options = [];
-			console.log(relevantDeliveryKeys);
 			for(var i = 0; i < countryIndependentKeys.length; i++){
 				var option = document.createElement('option');
 				option.value = countryIndependentKeys[i];
-				option.text = deliveryNames[option.value];
+				option.text = deliveryNames[option.value] + ' (+' + magicalCountryIndependentObject[countryIndependentKeys[i]].price + ' Kč)';
 				options.push(option);
 			}
 			
 			const magicalByCountryObject = JSON.parse({json_encode($magicalByCountryArray)});
+			console.log(magicalByCountryObject);
 			if(typeof magicalByCountryObject[countryId] !== 'undefined'){
 				var relevantDeliveryKeys = Object.keys(magicalByCountryObject[countryId]);
 				for(var i = 0; i < relevantDeliveryKeys.length; i++){
 					var option = document.createElement('option');
 					option.value = relevantDeliveryKeys[i];
-					option.text = deliveryNames[option.value];
+					option.text = deliveryNames[option.value] + ' (+' + magicalByCountryObject[countryId][relevantDeliveryKeys[i]].price + ' Kč)';
 					options.push(option);
 				}
 			}
