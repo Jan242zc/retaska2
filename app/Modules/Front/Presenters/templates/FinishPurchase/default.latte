@@ -162,19 +162,19 @@
 					<div class="order-recap">
 						<div class="row">
 							<div class="order-recap-price-label"> Cena nakupovaného zboží: </div> 
-							<div id="goods-price" class="order-recap-price-of-smth"> {$productTotalPrice} Kč</div>
+							<div  class="order-recap-price-of-smth"> <span id="goods-price">{$productTotalPrice}</span> Kč</div>
 						</div>
 						<div class="row">
 							<div class="order-recap-price-label"> Cena dopravy: </div> 
-							<div id="delivery-price" class="order-recap-price-of-smth"> 0 Kč</div>
+							<div class="order-recap-price-of-smth"> <span id="delivery-price">0</span> Kč</div>
 						</div>
 						<div class="row">
 							<div class="order-recap-price-label"> Cena platby: </div> 
-							<div id="payment-price" class="order-recap-price-of-smth"> 0 Kč</div>
+							<div class="order-recap-price-of-smth"> <span id="payment-price">0</span> Kč</div>
 						</div>
 						<div class="row">
 							<div class="order-recap-price-label"> Celková cena objednávky: </div> 
-							<div id="total-price" class="order-recap-price-of-smth"> {$productTotalPrice} Kč</div>
+							<div class="order-recap-price-of-smth"> <span id="total-price">{$productTotalPrice}</span> Kč</div>
 						</div>
 					</div>
 					<div class="order-recap-products">
@@ -236,7 +236,7 @@
 				var deliveryPrice = magicalCountryIndependentObject[deliveryId].price;
 			}
 			
-			document.getElementById('delivery-price').innerHTML = deliveryPrice + ' Kč';
+			document.getElementById('delivery-price').innerHTML = deliveryPrice;
 			
 			if(typeof magicalByDeliveryObject[deliveryId][countryId] == 'undefined'){
 				var paymentPrice = magicalByDeliveryObject[deliveryId]["N/A"]["payment"][paymentId];
@@ -245,7 +245,10 @@
 			}
 			
 			console.log(paymentPrice);
-			document.getElementById('payment-price').innerHTML = paymentPrice + ' Kč';
+			document.getElementById('payment-price').innerHTML = paymentPrice;
+			
+			var totalPrice = parseFloat(document.getElementById('goods-price').innerHTML) + deliveryPrice + paymentPrice;
+			document.getElementById('total-price').innerHTML = totalPrice;
 		}
 
 		function updateDeliveryServices(){
