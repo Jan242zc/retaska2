@@ -196,15 +196,22 @@
 		document.addEventListener("DOMContentLoaded", function() {
 			updateDeliveryServices();
 			updatePayments();
+			updateRecapPrices();
 		});
 
 		document.getElementById('frm-purchaseForm-personalData-country').addEventListener("click", function(){
 			updateDeliveryServices();
 			updatePayments();
+			updateRecapPrices();
 		});
 		
 		document.getElementById('frm-purchaseForm-deliveryTerms-delivery').addEventListener("click", function(){
 			updatePayments();
+			updateRecapPrices();
+		});
+		
+		document.getElementById('frm-purchaseForm-deliveryTerms-payment').addEventListener("click", function(){
+			updateRecapPrices();
 		});
 
 		document.getElementById('differentAdress').addEventListener("click", function(){
@@ -214,6 +221,32 @@
 				document.getElementById('deliveryAdressGroup').hidden = false;
 			}
 		});
+		
+		function updateRecapPrices(){
+			const magicalByDeliveryObject = JSON.parse({json_encode($magicalByDeliveryArray)});
+			const magicalByCountryObject = JSON.parse({json_encode($magicalByCountryArray)});
+			const magicalCountryIndependentObject = JSON.parse({json_encode($magicalCountryIndependentServicesArray)});
+			var countryId = document.getElementById('frm-purchaseForm-personalData-country').value;
+			var deliveryId = document.getElementById('frm-purchaseForm-deliveryTerms-delivery').value;
+			var paymentId = document.getElementById('frm-purchaseForm-deliveryTerms-payment').value;
+			console.log(deliveryId);
+			if(typeof magicalCountryIndependentObject[deliveryId] == 'undefined'){
+				var deliveryPrice = magicalByCountryObject[countryId][deliveryId].price;
+			} else {
+				var deliveryPrice = magicalCountryIndependentObject[deliveryId].price;
+			}
+			
+			document.getElementById('delivery-price').innerHTML = deliveryPrice + ' Kč';
+			
+			if(typeof magicalByDeliveryObject[deliveryId][countryId] == 'undefined'){
+				var paymentPrice = magicalByDeliveryObject[deliveryId]["N/A"]["payment"][paymentId];
+			} else {
+				var paymentPrice = magicalByDeliveryObject[deliveryId][countryId]["payment"][paymentId];
+			}
+			
+			console.log(paymentPrice);
+			document.getElementById('payment-price').innerHTML = paymentPrice + ' Kč';
+		}
 
 		function updateDeliveryServices(){
 			var numberOfOldOptions = document.getElementById('frm-purchaseForm-deliveryTerms-delivery').options.length;
