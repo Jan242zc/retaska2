@@ -193,6 +193,12 @@
 	</div> <!--container-->
 	
 	<script>
+		const magicalByDeliveryObject = JSON.parse({json_encode($magicalByDeliveryArray)});
+		const magicalByCountryObject = JSON.parse({json_encode($magicalByCountryArray)});
+		const magicalCountryIndependentObject = JSON.parse({json_encode($magicalCountryIndependentServicesArray)});
+		const paymentNames = JSON.parse({json_encode($payments)});
+		const deliveryNames = JSON.parse({json_encode($deliveries)});
+		
 		document.addEventListener("DOMContentLoaded", function() {
 			updateDeliveryServices();
 			updatePayments();
@@ -223,9 +229,6 @@
 		});
 		
 		function updateRecapPrices(){
-			const magicalByDeliveryObject = JSON.parse({json_encode($magicalByDeliveryArray)});
-			const magicalByCountryObject = JSON.parse({json_encode($magicalByCountryArray)});
-			const magicalCountryIndependentObject = JSON.parse({json_encode($magicalCountryIndependentServicesArray)});
 			var countryId = document.getElementById('frm-purchaseForm-personalData-country').value;
 			var deliveryId = document.getElementById('frm-purchaseForm-deliveryTerms-delivery').value;
 			var paymentId = document.getElementById('frm-purchaseForm-deliveryTerms-payment').value;
@@ -264,8 +267,6 @@
 		}
 
 		function generateDeliveryServicesOptions(countryId){
-			const deliveryNames = JSON.parse({json_encode($deliveries)});
-			const magicalCountryIndependentObject = JSON.parse({json_encode($magicalCountryIndependentServicesArray)});
 			var countryIndependentKeys = Object.keys(magicalCountryIndependentObject);
 			var options = [];
 			for(var i = 0; i < countryIndependentKeys.length; i++){
@@ -275,7 +276,6 @@
 				options.push(option);
 			}
 			
-			const magicalByCountryObject = JSON.parse({json_encode($magicalByCountryArray)});
 			if(typeof magicalByCountryObject[countryId] !== 'undefined'){
 				var relevantDeliveryKeys = Object.keys(magicalByCountryObject[countryId]);
 				for(var i = 0; i < relevantDeliveryKeys.length; i++){
@@ -302,8 +302,6 @@
 		}
 		
 		function generatePaymentOptions(deliveryId, countryId){
-			const paymentNames = JSON.parse({json_encode($payments)});
-			const magicalByDeliveryObject = JSON.parse({json_encode($magicalByDeliveryArray)});
 			if(typeof magicalByDeliveryObject[deliveryId][countryId] == 'undefined'){
 				var relevantPaymentObject = magicalByDeliveryObject[deliveryId]["N/A"].payment;
 			} else {
