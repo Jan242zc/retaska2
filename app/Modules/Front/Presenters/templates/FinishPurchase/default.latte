@@ -195,10 +195,16 @@
 	<script>
 		document.addEventListener("DOMContentLoaded", function() {
 			updateDeliveryServices();
+			updatePayments();
 		});
 
 		document.getElementById('frm-purchaseForm-personalData-country').addEventListener("click", function(){
 			updateDeliveryServices();
+			updatePayments();
+		});
+		
+		document.getElementById('frm-purchaseForm-deliveryTerms-delivery').addEventListener("click", function(){
+			updatePayments();
 		});
 
 		document.getElementById('differentAdress').addEventListener("click", function(){
@@ -210,7 +216,6 @@
 		});
 
 		function updateDeliveryServices(){
-			var deliveryField = document.getElementById('frm-purchaseForm-personalData-delivery');
 			var numberOfOldOptions = document.getElementById('frm-purchaseForm-deliveryTerms-delivery').options.length;
 			for(var i = numberOfOldOptions - 1; i > -1; i--){
 				document.getElementById('frm-purchaseForm-deliveryTerms-delivery').remove(i);
@@ -235,7 +240,6 @@
 			}
 			
 			const magicalByCountryObject = JSON.parse({json_encode($magicalByCountryArray)});
-			console.log(magicalByCountryObject);
 			if(typeof magicalByCountryObject[countryId] !== 'undefined'){
 				var relevantDeliveryKeys = Object.keys(magicalByCountryObject[countryId]);
 				for(var i = 0; i < relevantDeliveryKeys.length; i++){
@@ -244,6 +248,38 @@
 					option.text = deliveryNames[option.value] + ' (+' + magicalByCountryObject[countryId][relevantDeliveryKeys[i]].price + ' Kč)';
 					options.push(option);
 				}
+			}
+			return options;
+		}
+		
+		function updatePayments(){
+			var numberOfOldOptions = document.getElementById('frm-purchaseForm-deliveryTerms-payment').options.length;
+			for(var i = numberOfOldOptions - 1; i > -1; i--){
+				document.getElementById('frm-purchaseForm-deliveryTerms-payment').remove(i);
+			}
+			
+			var countryId = document.getElementById('frm-purchaseForm-personalData-country').value;
+			var newOptions = generatePaymentOptions(document.getElementById('frm-purchaseForm-deliveryTerms-delivery').value, countryId);
+			for(var i = 0; i < newOptions.length; i++){
+				document.getElementById('frm-purchaseForm-deliveryTerms-payment').add(newOptions[i]);
+			}
+		}
+		
+		function generatePaymentOptions(deliveryId, countryId){
+			const paymentNames = JSON.parse({json_encode($payments)});
+			const magicalByDeliveryObject = JSON.parse({json_encode($magicalByDeliveryArray)});
+			if(typeof magicalByDeliveryObject[deliveryId][countryId] == 'undefined'){
+				var relevantPaymentObject = magicalByDeliveryObject[deliveryId]["N/A"].payment;
+			} else {
+				var relevantPaymentObject = magicalByDeliveryObject[deliveryId][countryId].payment;
+			}
+			var relevantPaymentObjectKeys = Object.keys(relevantPaymentObject);
+			var options = [];
+			for(var i = 0; i < relevantPaymentObjectKeys.length; i++){
+				var option = document.createElement('option');
+				option.value = relevantPaymentObjectKeys[i];
+				option.text = paymentNames[option.value] + ' (+' + relevantPaymentObject[option.value] + ' Kč)';
+				options.push(option);
 			}
 			return options;
 		}

@@ -47,7 +47,7 @@ final class FinishPurchasePresenter extends BasePresenter
 		$this->template->magicalCountryIndependentServicesArray = $this->deliveryCountryPaymentPricesArrayGenerator->generateCountryIndependentServicesArray();
 		$this->template->coutries = $this->countryRepository->findAll();
 		$this->template->deliveries = $this->deliveryRepository->findAllForForm();
-		$this->template->payments = $this->paymentRepository->findAll();
+		$this->template->payments = $this->paymentRepository->findAllForForm();
 		// dump($this->deliveryCountryPaymentPricesArrayGenerator->generateByCountryArray());
 		// exit;
 	}
