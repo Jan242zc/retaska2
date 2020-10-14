@@ -232,7 +232,7 @@
 			var countryId = document.getElementById('frm-purchaseForm-personalData-country').value;
 			var deliveryId = document.getElementById('frm-purchaseForm-deliveryTerms-delivery').value;
 			var paymentId = document.getElementById('frm-purchaseForm-deliveryTerms-payment').value;
-			console.log(deliveryId);
+
 			if(typeof magicalCountryIndependentObject[deliveryId] == 'undefined'){
 				var deliveryPrice = magicalByCountryObject[countryId][deliveryId].price;
 			} else {
@@ -247,7 +247,7 @@
 				var paymentPrice = magicalByDeliveryObject[deliveryId][countryId]["payment"][paymentId];
 			}
 			
-			console.log(paymentPrice);
+
 			document.getElementById('payment-price').innerHTML = paymentPrice;
 			
 			var totalPrice = parseFloat(document.getElementById('goods-price').innerHTML) + deliveryPrice + paymentPrice;
@@ -256,8 +256,8 @@
 
 		function updateDeliveryServices(){
 			var numberOfOldOptions = document.getElementById('frm-purchaseForm-deliveryTerms-delivery').options.length;
-			for(var i = numberOfOldOptions - 1; i > -1; i--){
-				document.getElementById('frm-purchaseForm-deliveryTerms-delivery').remove(i);
+			for(var i = 0; i < numberOfOldOptions; i++){
+				document.getElementById('frm-purchaseForm-deliveryTerms-delivery').remove(0);
 			}
 			
 			var newOptions = generateDeliveryServicesOptions(document.getElementById('frm-purchaseForm-personalData-country').value);
@@ -290,8 +290,8 @@
 		
 		function updatePayments(){
 			var numberOfOldOptions = document.getElementById('frm-purchaseForm-deliveryTerms-payment').options.length;
-			for(var i = numberOfOldOptions - 1; i > -1; i--){
-				document.getElementById('frm-purchaseForm-deliveryTerms-payment').remove(i);
+			for(var i = 0; i < numberOfOldOptions; i++){
+				document.getElementById('frm-purchaseForm-deliveryTerms-payment').remove(0);
 			}
 			
 			var countryId = document.getElementById('frm-purchaseForm-personalData-country').value;
