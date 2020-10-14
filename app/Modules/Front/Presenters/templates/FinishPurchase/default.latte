@@ -255,14 +255,19 @@
 		}
 
 		function updateDeliveryServices(){
-			var numberOfOldOptions = document.getElementById('frm-purchaseForm-deliveryTerms-delivery').options.length;
+			const deliverySelectField = document.getElementById('frm-purchaseForm-deliveryTerms-delivery');
+			var newOptions = generateDeliveryServicesOptions(document.getElementById('frm-purchaseForm-personalData-country').value);
+			replaceOptionsInSelectField(deliverySelectField, newOptions);
+		}
+		
+		function replaceOptionsInSelectField(field, newOptions){
+			var numberOfOldOptions = field.options.length;
 			for(var i = 0; i < numberOfOldOptions; i++){
-				document.getElementById('frm-purchaseForm-deliveryTerms-delivery').remove(0);
+				field.remove(0);
 			}
 			
-			var newOptions = generateDeliveryServicesOptions(document.getElementById('frm-purchaseForm-personalData-country').value);
 			for(var i = 0; i < newOptions.length; i++){
-				document.getElementById('frm-purchaseForm-deliveryTerms-delivery').add(newOptions[i]);
+				field.add(newOptions[i]);
 			}
 		}
 
@@ -289,16 +294,10 @@
 		}
 		
 		function updatePayments(){
-			var numberOfOldOptions = document.getElementById('frm-purchaseForm-deliveryTerms-payment').options.length;
-			for(var i = 0; i < numberOfOldOptions; i++){
-				document.getElementById('frm-purchaseForm-deliveryTerms-payment').remove(0);
-			}
-			
+			const paymentSelectField = document.getElementById('frm-purchaseForm-deliveryTerms-payment');			
 			var countryId = document.getElementById('frm-purchaseForm-personalData-country').value;
 			var newOptions = generatePaymentOptions(document.getElementById('frm-purchaseForm-deliveryTerms-delivery').value, countryId);
-			for(var i = 0; i < newOptions.length; i++){
-				document.getElementById('frm-purchaseForm-deliveryTerms-payment').add(newOptions[i]);
-			}
+			replaceOptionsInSelectField(paymentSelectField, newOptions);
 		}
 		
 		function generatePaymentOptions(deliveryId, countryId){
