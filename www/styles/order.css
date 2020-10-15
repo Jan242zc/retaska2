@@ -27,6 +27,16 @@ div.order-recap-products{
 	text-align: justify; 
 }
 
+form.form input, select, textarea {
+	margin-top: 1em;
+}
+
+tr.explanatory-note{
+	font-size: 0.9em;
+	font-style: italic;
+	line-height: 0.5;
+}
+
 @media(max-width: 1320px){
 	.order-recap-price-label{
 		width: 100%;
