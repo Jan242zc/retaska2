@@ -198,7 +198,8 @@
 		const magicalCountryIndependentObject = JSON.parse({json_encode($magicalCountryIndependentServicesArray)});
 		const paymentNames = JSON.parse({json_encode($payments)});
 		const deliveryNames = JSON.parse({json_encode($deliveries)});
-		
+		var differentAdressChecked = false;
+
 		document.addEventListener("DOMContentLoaded", function() {
 			updateDeliveryServices();
 			updatePayments();
@@ -210,12 +211,18 @@
 			updatePayments();
 			updateRecapPrices();
 		});
-		
+
+		document.getElementById('frm-purchaseForm-deliveryAdress-country').addEventListener("click", function(){
+			updateDeliveryServices();
+			updatePayments();
+			updateRecapPrices();
+		});
+
 		document.getElementById('frm-purchaseForm-deliveryTerms-delivery').addEventListener("click", function(){
 			updatePayments();
 			updateRecapPrices();
 		});
-		
+
 		document.getElementById('frm-purchaseForm-deliveryTerms-payment').addEventListener("click", function(){
 			updateRecapPrices();
 		});
@@ -223,9 +230,14 @@
 		document.getElementById('differentAdress').addEventListener("click", function(){
 			if(document.getElementById('deliveryAdressGroup').hidden !== true){
 				document.getElementById('deliveryAdressGroup').hidden = true;
+				differentAdressChecked = false;
 			} else {
 				document.getElementById('deliveryAdressGroup').hidden = false;
+				differentAdressChecked = true;
 			}
+			updateDeliveryServices();
+			updatePayments();
+			updateRecapPrices();
 		});
 		
 		function updateRecapPrices(){
@@ -256,7 +268,11 @@
 
 		function updateDeliveryServices(){
 			const deliverySelectField = document.getElementById('frm-purchaseForm-deliveryTerms-delivery');
-			var newOptions = generateDeliveryServicesOptions(document.getElementById('frm-purchaseForm-personalData-country').value);
+			if(differentAdressChecked == false){
+				var newOptions = generateDeliveryServicesOptions(document.getElementById('frm-purchaseForm-personalData-country').value, false);
+			} else {
+				var newOptions = generateDeliveryServicesOptions(document.getElementById('frm-purchaseForm-deliveryAdress-country').value, true);
+			}
 			replaceOptionsInSelectField(deliverySelectField, newOptions);
 		}
 		
@@ -271,14 +287,16 @@
 			}
 		}
 
-		function generateDeliveryServicesOptions(countryId){
-			var countryIndependentKeys = Object.keys(magicalCountryIndependentObject);
+		function generateDeliveryServicesOptions(countryId, ignoreCountryIndependentDeliveryServices){
 			var options = [];
-			for(var i = 0; i < countryIndependentKeys.length; i++){
-				var option = document.createElement('option');
-				option.value = countryIndependentKeys[i];
-				option.text = deliveryNames[option.value] + ' (+' + magicalCountryIndependentObject[countryIndependentKeys[i]].price + ' Kč)';
-				options.push(option);
+			if(!ignoreCountryIndependentDeliveryServices){
+				var countryIndependentKeys = Object.keys(magicalCountryIndependentObject);
+				for(var i = 0; i < countryIndependentKeys.length; i++){
+					var option = document.createElement('option');
+					option.value = countryIndependentKeys[i];
+					option.text = deliveryNames[option.value] + ' (+' + magicalCountryIndependentObject[countryIndependentKeys[i]].price + ' Kč)';
+					options.push(option);
+				}
 			}
 			
 			if(typeof magicalByCountryObject[countryId] !== 'undefined'){
@@ -294,8 +312,12 @@
 		}
 		
 		function updatePayments(){
-			const paymentSelectField = document.getElementById('frm-purchaseForm-deliveryTerms-payment');			
-			var countryId = document.getElementById('frm-purchaseForm-personalData-country').value;
+			const paymentSelectField = document.getElementById('frm-purchaseForm-deliveryTerms-payment');	
+			if(differentAdressChecked == false){
+				var countryId = document.getElementById('frm-purchaseForm-personalData-country').value;
+			} else {
+				var countryId = document.getElementById('frm-purchaseForm-deliveryAdress-country').value;
+			}
 			var newOptions = generatePaymentOptions(document.getElementById('frm-purchaseForm-deliveryTerms-delivery').value, countryId);
 			replaceOptionsInSelectField(paymentSelectField, newOptions);
 		}
