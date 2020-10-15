@@ -193,9 +193,9 @@
 	</div> <!--container-->
 	
 	<script>
-		const magicalByDeliveryObject = JSON.parse({json_encode($magicalByDeliveryArray)});
-		const magicalByCountryObject = JSON.parse({json_encode($magicalByCountryArray)});
-		const magicalCountryIndependentObject = JSON.parse({json_encode($magicalCountryIndependentServicesArray)});
+		const deliveryServicesGroupedByDelivery = JSON.parse({json_encode($magicalByDeliveryArray)}); //a delivery service is defined by country, delivery and payment
+		const deliveryServicesGroupedByCountry = JSON.parse({json_encode($magicalByCountryArray)});
+		const countryIndependentDeliveryServicesGroupedByDelivery = JSON.parse({json_encode($magicalCountryIndependentServicesArray)});
 		const paymentNames = JSON.parse({json_encode($payments)});
 		const deliveryNames = JSON.parse({json_encode($deliveries)});
 		var differentAdressChecked = false;
@@ -208,27 +208,32 @@
 			updateRecapPrices();
 		});
 
+		//when the country select field is clicked, update delivery + payment possibilities and recalculate prices
 		document.getElementById('frm-purchaseForm-personalData-country').addEventListener("click", function(){
 			updateDeliveryServices();
 			updatePayments();
 			updateRecapPrices();
 		});
 
+		//dtto but the other country field
 		document.getElementById('frm-purchaseForm-deliveryAdress-country').addEventListener("click", function(){
 			updateDeliveryServices();
 			updatePayments();
 			updateRecapPrices();
 		});
 
+		//when the delivery select field is clicked, update payment possibilities and recalculate prices
 		document.getElementById('frm-purchaseForm-deliveryTerms-delivery').addEventListener("click", function(){
 			updatePayments();
 			updateRecapPrices();
 		});
 
+		//when the payment select field is clicked, recalculate prices
 		document.getElementById('frm-purchaseForm-deliveryTerms-payment').addEventListener("click", function(){
 			updateRecapPrices();
 		});
 
+		//when the different adress checkbox field is clicked, show/hide the delivery adress fields and update everything
 		document.getElementById('differentAdress').addEventListener("click", function(){
 			updateDifferentAdressContainer();
 			updateDeliveryServices();
@@ -236,6 +241,7 @@
 			updateRecapPrices();
 		});
 
+		//show or hide the delivery adress container and update the different adress variable
 		function updateDifferentAdressContainer(){
 			if(document.getElementById('differentAdress').checked == true){
 				document.getElementById('deliveryAdressGroup').hidden = false;
@@ -246,31 +252,37 @@
 			}
 		}
 
+		//update all the prices on the right hand site of the page
 		function updateRecapPrices(){
 			var countryId = document.getElementById('frm-purchaseForm-personalData-country').value;
 			var deliveryId = document.getElementById('frm-purchaseForm-deliveryTerms-delivery').value;
 			var paymentId = document.getElementById('frm-purchaseForm-deliveryTerms-payment').value;
 
-			if(typeof magicalCountryIndependentObject[deliveryId] == 'undefined'){
-				var deliveryPrice = magicalByCountryObject[countryId][deliveryId].price;
+			//get the delivery price from one of the delivery services objects
+			if(typeof countryIndependentDeliveryServicesGroupedByDelivery[deliveryId] == 'undefined'){
+				var deliveryPrice = deliveryServicesGroupedByCountry[countryId][deliveryId].price;
 			} else {
-				var deliveryPrice = magicalCountryIndependentObject[deliveryId].price;
-			}
-			
-			document.getElementById('delivery-price').innerHTML = deliveryPrice;
-			
-			if(typeof magicalByDeliveryObject[deliveryId][countryId] == 'undefined'){
-				var paymentPrice = magicalByDeliveryObject[deliveryId]["N/A"]["payment"][paymentId];
-			} else {
-				var paymentPrice = magicalByDeliveryObject[deliveryId][countryId]["payment"][paymentId];
+				var deliveryPrice = countryIndependentDeliveryServicesGroupedByDelivery[deliveryId].price;
 			}
 
+			//update the price in the recap
+			document.getElementById('delivery-price').innerHTML = deliveryPrice;
+
+			//get the payment price from one of the delivery services objects
+			if(typeof deliveryServicesGroupedByDelivery[deliveryId][countryId] == 'undefined'){
+				var paymentPrice = deliveryServicesGroupedByDelivery[deliveryId]["N/A"]["payment"][paymentId];
+			} else {
+				var paymentPrice = deliveryServicesGroupedByDelivery[deliveryId][countryId]["payment"][paymentId];
+			}
+
+			//update the price in the recap
 			document.getElementById('payment-price').innerHTML = paymentPrice;
 
 			var totalPrice = parseFloat(document.getElementById('goods-price').innerHTML) + deliveryPrice + paymentPrice;
 			document.getElementById('total-price').innerHTML = totalPrice;
 		}
 
+		//update options in the delivery field based on the currently selected country
 		function updateDeliveryServices(){
 			const deliverySelectField = document.getElementById('frm-purchaseForm-deliveryTerms-delivery');
 			if(differentAdressChecked == false){
@@ -281,10 +293,11 @@
 			replaceOptionsInSelectField(deliverySelectField, newOptions);
 		}
 
+		//delete all current options and add the new (relevant) ones
 		function replaceOptionsInSelectField(field, newOptions){
 			var numberOfOldOptions = field.options.length;
 			for(var i = 0; i < numberOfOldOptions; i++){
-				field.remove(0);
+				field.remove(0); //indexes are updated after each removal, hence the index 0 instead of i
 			}
 			
 			for(var i = 0; i < newOptions.length; i++){
@@ -292,30 +305,34 @@
 			}
 		}
 
+		//generate new options for the select field based on current country id
 		function generateDeliveryServicesOptions(countryId, ignoreCountryIndependentDeliveryServices){
 			var options = [];
+			//country independent services are ignored when the different adress field is checked - when the customer wishes the goods to be delivered to other than
+			//residential adress, they obviously don't want to pick them up at the store
 			if(!ignoreCountryIndependentDeliveryServices){
-				var countryIndependentKeys = Object.keys(magicalCountryIndependentObject);
+				var countryIndependentKeys = Object.keys(countryIndependentDeliveryServicesGroupedByDelivery);
 				for(var i = 0; i < countryIndependentKeys.length; i++){
 					var option = document.createElement('option');
 					option.value = countryIndependentKeys[i];
-					option.text = deliveryNames[option.value] + ' (+' + magicalCountryIndependentObject[countryIndependentKeys[i]].price + ' Kč)';
+					option.text = deliveryNames[option.value] + ' (+' + countryIndependentDeliveryServicesGroupedByDelivery[countryIndependentKeys[i]].price + ' Kč)';
 					options.push(option);
 				}
 			}
 
-			if(typeof magicalByCountryObject[countryId] !== 'undefined'){
-				var relevantDeliveryKeys = Object.keys(magicalByCountryObject[countryId]);
+			if(typeof deliveryServicesGroupedByCountry[countryId] !== 'undefined'){
+				var relevantDeliveryKeys = Object.keys(deliveryServicesGroupedByCountry[countryId]);
 				for(var i = 0; i < relevantDeliveryKeys.length; i++){
 					var option = document.createElement('option');
 					option.value = relevantDeliveryKeys[i];
-					option.text = deliveryNames[option.value] + ' (+' + magicalByCountryObject[countryId][relevantDeliveryKeys[i]].price + ' Kč)';
+					option.text = deliveryNames[option.value] + ' (+' + deliveryServicesGroupedByCountry[countryId][relevantDeliveryKeys[i]].price + ' Kč)';
 					options.push(option);
 				}
 			}
 			return options;
 		}
 
+		//update options in the payment field based on the currently selected country & delivery
 		function updatePayments(){
 			const paymentSelectField = document.getElementById('frm-purchaseForm-deliveryTerms-payment');	
 			if(differentAdressChecked == false){
@@ -327,11 +344,12 @@
 			replaceOptionsInSelectField(paymentSelectField, newOptions);
 		}
 
+		//generate new options for the select field based on current country id & delivery id
 		function generatePaymentOptions(deliveryId, countryId){
-			if(typeof magicalByDeliveryObject[deliveryId][countryId] == 'undefined'){
-				var relevantPaymentObject = magicalByDeliveryObject[deliveryId]["N/A"].payment;
+			if(typeof deliveryServicesGroupedByDelivery[deliveryId][countryId] == 'undefined'){
+				var relevantPaymentObject = deliveryServicesGroupedByDelivery[deliveryId]["N/A"].payment;
 			} else {
-				var relevantPaymentObject = magicalByDeliveryObject[deliveryId][countryId].payment;
+				var relevantPaymentObject = deliveryServicesGroupedByDelivery[deliveryId][countryId].payment;
 			}
 			var relevantPaymentObjectKeys = Object.keys(relevantPaymentObject);
 			var options = [];
