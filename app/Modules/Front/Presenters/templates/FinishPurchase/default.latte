@@ -201,6 +201,8 @@
 		var differentAdressChecked = false;
 
 		document.addEventListener("DOMContentLoaded", function() {
+			document.getElementById('differentAdress').checked = false; // a terrible hack to 'fix' issue with differentAdress being checked by DA container hidden after returning to this page
+			updateDifferentAdressContainer();
 			updateDeliveryServices();
 			updatePayments();
 			updateRecapPrices();
@@ -228,18 +230,22 @@
 		});
 
 		document.getElementById('differentAdress').addEventListener("click", function(){
-			if(document.getElementById('deliveryAdressGroup').hidden !== true){
-				document.getElementById('deliveryAdressGroup').hidden = true;
-				differentAdressChecked = false;
-			} else {
-				document.getElementById('deliveryAdressGroup').hidden = false;
-				differentAdressChecked = true;
-			}
+			updateDifferentAdressContainer();
 			updateDeliveryServices();
 			updatePayments();
 			updateRecapPrices();
 		});
-		
+
+		function updateDifferentAdressContainer(){
+			if(document.getElementById('differentAdress').checked == true){
+				document.getElementById('deliveryAdressGroup').hidden = false;
+				differentAdressChecked = true;
+			} else {
+				document.getElementById('deliveryAdressGroup').hidden = true;
+				differentAdressChecked = false;
+			}
+		}
+
 		function updateRecapPrices(){
 			var countryId = document.getElementById('frm-purchaseForm-personalData-country').value;
 			var deliveryId = document.getElementById('frm-purchaseForm-deliveryTerms-delivery').value;
@@ -258,10 +264,9 @@
 			} else {
 				var paymentPrice = magicalByDeliveryObject[deliveryId][countryId]["payment"][paymentId];
 			}
-			
 
 			document.getElementById('payment-price').innerHTML = paymentPrice;
-			
+
 			var totalPrice = parseFloat(document.getElementById('goods-price').innerHTML) + deliveryPrice + paymentPrice;
 			document.getElementById('total-price').innerHTML = totalPrice;
 		}
@@ -275,7 +280,7 @@
 			}
 			replaceOptionsInSelectField(deliverySelectField, newOptions);
 		}
-		
+
 		function replaceOptionsInSelectField(field, newOptions){
 			var numberOfOldOptions = field.options.length;
 			for(var i = 0; i < numberOfOldOptions; i++){
@@ -298,7 +303,7 @@
 					options.push(option);
 				}
 			}
-			
+
 			if(typeof magicalByCountryObject[countryId] !== 'undefined'){
 				var relevantDeliveryKeys = Object.keys(magicalByCountryObject[countryId]);
 				for(var i = 0; i < relevantDeliveryKeys.length; i++){
@@ -310,7 +315,7 @@
 			}
 			return options;
 		}
-		
+
 		function updatePayments(){
 			const paymentSelectField = document.getElementById('frm-purchaseForm-deliveryTerms-payment');	
 			if(differentAdressChecked == false){
@@ -321,7 +326,7 @@
 			var newOptions = generatePaymentOptions(document.getElementById('frm-purchaseForm-deliveryTerms-delivery').value, countryId);
 			replaceOptionsInSelectField(paymentSelectField, newOptions);
 		}
-		
+
 		function generatePaymentOptions(deliveryId, countryId){
 			if(typeof magicalByDeliveryObject[deliveryId][countryId] == 'undefined'){
 				var relevantPaymentObject = magicalByDeliveryObject[deliveryId]["N/A"].payment;
