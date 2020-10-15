@@ -203,11 +203,11 @@
 	</div> <!--container-->
 	
 	<script>
-		const deliveryServicesGroupedByDelivery = JSON.parse({json_encode($magicalByDeliveryArray)}); //a delivery service is defined by country, delivery and payment
-		const deliveryServicesGroupedByCountry = JSON.parse({json_encode($magicalByCountryArray)});
-		const countryIndependentDeliveryServicesGroupedByDelivery = JSON.parse({json_encode($magicalCountryIndependentServicesArray)});
-		const paymentNames = JSON.parse({json_encode($payments)});
-		const deliveryNames = JSON.parse({json_encode($deliveries)});
+		const deliveryServicesGroupedByDelivery = JSON.parse({json_encode($deliveryServicesGroupedByDelivery)}); //a delivery service is defined by country, delivery and payment
+		const deliveryServicesGroupedByCountry = JSON.parse({json_encode($deliveryServicesGroupedByCountry)});
+		const countryIndependentDeliveryServicesGroupedByDelivery = JSON.parse({json_encode($countryIndependentDeliveryServicesGroupedByDelivery)});
+		const paymentNames = JSON.parse({json_encode($paymentNames)});
+		const deliveryNames = JSON.parse({json_encode($deliveryNames)});
 		var differentAdressChecked = false;
 
 		document.addEventListener("DOMContentLoaded", function() {

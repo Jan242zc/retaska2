@@ -41,15 +41,11 @@ final class FinishPurchasePresenter extends BasePresenter
 	{
 		$this->template->productTotalPrice = $this->basketService->getTotalProductPrice();
 		$this->template->basketItems = $this->basketService->getAllBasketItems();
-		$this->template->magicalByDeliveryArray = $this->deliveryCountryPaymentPricesArrayGenerator->generateByDeliveryArray();
-		// dump($this->deliveryCountryPaymentPricesArrayGenerator->generateByDeliveryArray());
-		$this->template->magicalByCountryArray = $this->deliveryCountryPaymentPricesArrayGenerator->generateByCountryArray();
-		$this->template->magicalCountryIndependentServicesArray = $this->deliveryCountryPaymentPricesArrayGenerator->generateCountryIndependentServicesArray();
-		$this->template->coutries = $this->countryRepository->findAll();
-		$this->template->deliveries = $this->deliveryRepository->findAllForForm();
-		$this->template->payments = $this->paymentRepository->findAllForForm();
-		// dump($this->deliveryCountryPaymentPricesArrayGenerator->generateByCountryArray());
-		// exit;
+		$this->template->deliveryServicesGroupedByDelivery = $this->deliveryCountryPaymentPricesArrayGenerator->generateByDeliveryArray();
+		$this->template->deliveryServicesGroupedByCountry = $this->deliveryCountryPaymentPricesArrayGenerator->generateByCountryArray();
+		$this->template->countryIndependentDeliveryServicesGroupedByDelivery = $this->deliveryCountryPaymentPricesArrayGenerator->generateCountryIndependentServicesArray();
+		$this->template->deliveryNames = $this->deliveryRepository->findAllForForm();
+		$this->template->paymentNames = $this->paymentRepository->findAllForForm();
 	}
 	
 	protected function createComponentPurchaseForm(): Form
@@ -72,9 +68,9 @@ final class FinishPurchasePresenter extends BasePresenter
 			//->setRule - numeric...
 			->setRequired('Zadejte PSČ.');
 			
-		$personalData->addSelect('country', 'Stát:') //opravdu select? nejde třeba select s možností vlastního vstupu, pokud je zaškrtnuto pole lišících se adres?
-			->setItems($this->countryRepository->findAllForForm());
-			//->setRequired('Zadejte stát.');
+		$personalData->addSelect('country', 'Stát:')
+			->setItems($this->countryRepository->findAllForForm())
+			->setRequired('Zadejte stát.');
 			
 		$personalData->addEmail('email', 'E-mail:')
 			->setRequired('Zadejte emailovou adresu.');
@@ -104,7 +100,7 @@ final class FinishPurchasePresenter extends BasePresenter
 		$deliveryAdress->addText('zip', 'PSČ:');
 			//->setRule - numeric...
 			
-		$deliveryAdress->addSelect('country', 'Stát:') //opravdu select? nejde třeba select s možností vlastního vstupu, pokud je zaškrtnuto pole lišících se adres?
+		$deliveryAdress->addSelect('country', 'Stát:')
 			->setItems($this->countryRepository->findAllForForm());
 		
 		$form->addSubmit('submit', 'Přejít k rekapitulaci')
