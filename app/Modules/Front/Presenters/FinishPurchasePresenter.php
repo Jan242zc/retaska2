@@ -98,11 +98,17 @@ final class FinishPurchasePresenter extends BasePresenter
 
 		$deliveryAdress = $form->addContainer('deliveryAdress');
 		
-		$deliveryAdress->addText('streetAndNumber', 'Ulice a číslo domu:');
+		$deliveryAdress->addText('streetAndNumber', 'Ulice a číslo domu:')
+			->addConditionOn($form['personalData']['differentAdress'], $form::EQUAL, true)
+			->setRequired('Zadejte ulici a číslo domu u doručovací adresy.');
 			
-		$deliveryAdress->addText('city', 'Město:');
+		$deliveryAdress->addText('city', 'Město:')
+			->addConditionOn($form['personalData']['differentAdress'], $form::EQUAL, true)
+			->setRequired('Zadejte město u doručovací adresy.');
 			
-		$deliveryAdress->addText('zip', 'PSČ:');
+		$deliveryAdress->addText('zip', 'PSČ:')
+			->addConditionOn($form['personalData']['differentAdress'], $form::EQUAL, true)
+			->setRequired('Zadejte PSČ u doručovací adresy.');
 			
 		$deliveryAdress->addSelect('country', 'Stát:')
 			->setItems($this->countryRepository->findAllForForm());
@@ -111,7 +117,7 @@ final class FinishPurchasePresenter extends BasePresenter
 			->setHtmlAttribute('class', 'submit');
 		
 		$form->onSuccess[] = [$this, 'purchaseFormSucceeded'];
-		
+
 		return $form;
 	}
 	
