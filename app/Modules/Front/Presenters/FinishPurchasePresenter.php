@@ -70,7 +70,6 @@ final class FinishPurchasePresenter extends BasePresenter
 			->setRequired('Zadejte město.');
 			
 		$personalData->addText('zip', 'PSČ:')
-			//->setRule - numeric...
 			->setRequired('Zadejte PSČ.');
 			
 		$personalData->addSelect('country', 'Stát:')
@@ -81,6 +80,7 @@ final class FinishPurchasePresenter extends BasePresenter
 			->setRequired('Zadejte emailovou adresu.');
 		
 		$personalData->addText('phone', 'Telefonní číslo:')
+			->addRule($form::PATTERN, 'Zadejte platné telefonní číslo.', '^([+]|[00])+\d{7,15}')
 			->setRequired('Zadejte telefonní číslo.');
 			
 		$personalData->addCheckbox('differentAdress', 'Doručit na jinou adresu než fakturační')
@@ -103,7 +103,6 @@ final class FinishPurchasePresenter extends BasePresenter
 		$deliveryAdress->addText('city', 'Město:');
 			
 		$deliveryAdress->addText('zip', 'PSČ:');
-			//->setRule - numeric...
 			
 		$deliveryAdress->addSelect('country', 'Stát:')
 			->setItems($this->countryRepository->findAllForForm());
