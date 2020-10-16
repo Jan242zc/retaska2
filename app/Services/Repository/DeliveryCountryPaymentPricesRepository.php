@@ -88,6 +88,42 @@ final class DeliveryCountryPaymentPricesRepository extends BaseRepository implem
 		return DeliveryCountryPaymentPricesFactory::createFromObject($queryResult);
 	}
 	
+	public function findByDefiningStuff(int $deliveryId, int $paymentId, bool $countryIgnorable, int $countryId = null): DeliveryCountryPaymentPrices
+	{
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM deliverycountrypaymentprices
+				WHERE delivery = ? AND payment = ? AND country = ?
+			", $deliveryId, $paymentId, $countryId)
+			->fetch();
+
+		if(is_null($queryResult) && $countryIgnorable){
+			$queryResult = $this->database
+				->query("
+					SELECT *
+					FROM deliverycountrypaymentprices
+					WHERE delivery = ? AND payment = ?
+				", $deliveryId, $paymentId)
+				->fetch();
+		}
+
+		if(is_null($queryResult)){
+			throw new \Exception('Service not found.');
+		}
+
+		try{
+			$queryResult->delivery = $this->deliveryRepository->findById($queryResult->delivery);
+			$queryResult->payment = $this->paymentRepository->findById($queryResult->payment);
+			if(!is_null($queryResult->country)){
+				$queryResult->country = $this->countryRepository->findById($queryResult->country);			
+			}
+		} catch(\Exception $ex){
+			throw $ex;
+		}
+		return $deliveryCountryPaymentPrices = DeliveryCountryPaymentPricesFactory::createFromObject($queryResult);
+	}
+	
 	public function insert($deliverycountrypaymentprices)
 	{
 		try{

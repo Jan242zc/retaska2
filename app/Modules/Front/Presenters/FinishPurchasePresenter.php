@@ -10,6 +10,7 @@ use Nette\Application\UI\Form;
 use App\Services\Repository\RepositoryInterface\ICountryRepository;
 use App\Services\Repository\RepositoryInterface\IDeliveryRepository;
 use App\Services\Repository\RepositoryInterface\IPaymentRepository;
+use App\Services\Repository\RepositoryInterface\IDeliveryCountryPaymentPricesRepository;
 use App\Services\DeliveryCountryPaymentPricesArrayGenerator;
 
 
@@ -29,12 +30,16 @@ final class FinishPurchasePresenter extends BasePresenter
 	
 	private $deliveryCountryPaymentPricesArrayGenerator;
 	
-	public function __construct(IBasketService $basketService, ICountryRepository $countryRepository, IDeliveryRepository $deliveryRepository, IPaymentRepository $paymentRepository, DeliveryCountryPaymentPricesArrayGenerator $deliveryCountryPaymentPricesArrayGenerator){
+	/** @var IDeliveryCountryPaymentPricesRepository */
+	private $deliveryCountryPaymentPricesRepository;
+	
+	public function __construct(IBasketService $basketService, ICountryRepository $countryRepository, IDeliveryRepository $deliveryRepository, IPaymentRepository $paymentRepository, DeliveryCountryPaymentPricesArrayGenerator $deliveryCountryPaymentPricesArrayGenerator, IDeliveryCountryPaymentPricesRepository $deliveryCountryPaymentPricesRepository){
 		$this->basketService = $basketService;
 		$this->countryRepository = $countryRepository;
 		$this->deliveryRepository = $deliveryRepository;
 		$this->paymentRepository = $paymentRepository;
 		$this->deliveryCountryPaymentPricesArrayGenerator = $deliveryCountryPaymentPricesArrayGenerator;
+		$this->deliveryCountryPaymentPricesRepository = $deliveryCountryPaymentPricesRepository;
 	}
 	
 	public function renderDefault(): void
@@ -113,6 +118,20 @@ final class FinishPurchasePresenter extends BasePresenter
 	
 	public function purchaseFormSucceeded(Form $form, Array $data): void
 	{
+		if($data['personalData']['differentAdress'] === false){
+			$countryId = $data['personalData']['country'];
+			$countryIgnorable = true;
+		} else {
+			$countryId = $data['deliveryAdress']['country'];
+			$countryIgnorable = false;
+		}
+		try{
+			$deliveryService = $this->deliveryCountryPaymentPricesRepository->findByDefiningStuff($data['deliveryTerms']['delivery'], $data['deliveryTerms']['payment'], $countryIgnorable, $countryId);
+		} catch(\Exception $ex){
+			$this->flashMessage('Zadejte platnou kombinaci státu, dopravy a platby.');
+			$this->redirect('this');
+		}
+
 		dump($data);
 		exit;
 	}
