@@ -12,6 +12,7 @@ use App\Services\Repository\RepositoryInterface\IDeliveryRepository;
 use App\Services\Repository\RepositoryInterface\IPaymentRepository;
 use App\Services\Repository\RepositoryInterface\IDeliveryCountryPaymentPricesRepository;
 use App\Services\DeliveryCountryPaymentPricesArrayGenerator;
+use App\Entity\Factory\PurchaseFactory;
 
 
 final class FinishPurchasePresenter extends BasePresenter
@@ -138,7 +139,9 @@ final class FinishPurchasePresenter extends BasePresenter
 			$this->redirect('this');
 		}
 
+		$purchase = PurchaseFactory::createFromFinishPurchaseFormData($data, $deliveryService);
 		dump($data);
+		dump($purchase);
 		exit;
 	}
 }
