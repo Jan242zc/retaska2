@@ -48,7 +48,6 @@ final class Purchase
 	/** @var Country */
 	private $deliveryCountry;
 
-	/** @var string */
 	private $deliveryService;
 
 	/** @var string */
@@ -162,7 +161,7 @@ final class Purchase
 		$this->shipToOtherThanPersonalAdress = $shipToOtherThanPersonalAdress;
 	}
 	
-	public function getDeliveryService(): string
+	public function getDeliveryService()
 	{
 		return $this->deliveryService;
 	}
@@ -222,4 +221,35 @@ final class Purchase
 		$this->note = $note;
 	}
 	
+	public function toFinishPurchaseArray(): Array
+	{
+		$purchaseData = [
+			'personalData' => [
+				'name' => $this->customerName,
+				'streetAndNumber' => $this->customerStreetAndNumber,
+				'city' => $this->customerCity,
+				'zip' => $this->customerZip,
+				'country' => $this->customerCountry->getId(),
+				'email' => $this->email,
+				'phone' => $this->phone,
+				'differentAdress' => $this->shipToOtherThanPersonalAdress
+			],
+			'deliveryTerms' => [
+				'delivery' => $this->deliveryService->getDelivery()->getId(),
+				'payment' => $this->deliveryService->getPayment()->getId(),
+				'note' => $this->note
+			],
+		];
+		
+		if($this->shipToOtherThanPersonalAdress){
+			$purchaseData['deliveryAdress'] = [
+				'streetAndNumber' => $this->deliveryStreetAndNumber,
+				'city' => $this->deliveryCity,
+				'zip' => $this->deliveryZip,
+				'country' => $this->deliveryCountry->getId()
+			];
+		}
+		
+		return $purchaseData;
+	}
 }

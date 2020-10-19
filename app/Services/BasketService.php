@@ -9,6 +9,7 @@ use Nette\Http\Session AS Session;
 use App\Entity\Basket;
 use App\Entity\BasketItem;
 use App\Entity\Product;
+use App\Entity\Purchase;
 use App\Services\GeneralServiceInterface\IBasketService;
 use App\Services\PriceCalculator;
 
@@ -118,5 +119,15 @@ final class BasketService implements IBasketService
 	public function getTotalProductPrice(): float
 	{
 		return $this->basketSessionSection->getTotalPrice();
+	}
+	
+	public function getPurchase(): Purchase
+	{
+		return $this->basketSessionSection->getPurchase();
+	}
+	
+	public function setPurchase(Purchase $purchase): void
+	{
+		$this->basketSessionSection->setPurchase($purchase);
 	}
 }

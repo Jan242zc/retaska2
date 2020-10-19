@@ -52,6 +52,10 @@ final class FinishPurchasePresenter extends BasePresenter
 		$this->template->countryIndependentDeliveryServicesGroupedByDelivery = $this->deliveryCountryPaymentPricesArrayGenerator->generateCountryIndependentServicesArray();
 		$this->template->deliveryNames = $this->deliveryRepository->findAllForForm();
 		$this->template->paymentNames = $this->paymentRepository->findAllForForm();
+		
+		if(!is_null($this->basketService->getPurchase())){
+			$this['purchaseForm']->setDefaults($this->basketService->getPurchase()->toFinishPurchaseArray());
+		}
 	}
 
 	protected function createComponentPurchaseForm(): Form
@@ -114,7 +118,7 @@ final class FinishPurchasePresenter extends BasePresenter
 		$deliveryAdress->addSelect('country', 'Stát:')
 			->setItems($this->countryRepository->findAllForForm());
 
-		$form->addSubmit('submit', 'Přejít k rekapitulaci')
+		$form->addSubmit('submit', 'Uložit a přejít k rekapitulaci')
 			->setHtmlAttribute('class', 'submit');
 
 		$form->onSuccess[] = [$this, 'purchaseFormSucceeded'];
@@ -139,9 +143,18 @@ final class FinishPurchasePresenter extends BasePresenter
 			$this->redirect('this');
 		}
 
+		$data['personalData']['country'] = $this->countryRepository->findById($data['personalData']['country']);
+		$data['deliveryAdress']['country'] = $this->countryRepository->findById($data['deliveryAdress']['country']);
+		
 		$purchase = PurchaseFactory::createFromFinishPurchaseFormData($data, $deliveryService);
-		dump($data);
-		dump($purchase);
-		exit;
+		$this->basketService->setPurchase($purchase);
+		$this->redirect('FinishPurchase:purchaseRecap');
+	}
+	
+	public function renderPurchaseRecap(): void
+	{
+		$this->template->productTotalPrice = $this->basketService->getTotalProductPrice();
+		$this->template->basketItems = $this->basketService->getAllBasketItems();
+		$this->template->purchaseInfoRecap = $this->basketService->getPurchase();
 	}
 }

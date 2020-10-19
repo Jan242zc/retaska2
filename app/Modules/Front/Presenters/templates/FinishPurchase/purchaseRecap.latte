@@ -1,0 +1,183 @@
+{block content}
+	<div class="container">
+		<div class="everything-wrapper">
+			<div class="row">
+				<div class="re50">
+					<table>
+						<tbody>
+							<tr>
+								<td colspan="2">
+									<h5 class="form-subheading">Fakturační údaje</h5>
+								<td>
+							</tr>
+							<tr>
+								<td style="width: 60%">
+									Jméno a příjmení:
+								</td>
+								<td>
+									{$purchaseInfoRecap->getCustomerName()}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Ulice a číslo popisné:
+								</td>
+								<td>
+									{$purchaseInfoRecap->getCustomerStreetAndNumber()}
+								</td>
+							</tr>
+							</tr>
+								<td>
+									Město:
+								</td>
+								<td>
+									{$purchaseInfoRecap->getCustomerCity()}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									PSČ:
+								</td>
+								<td>
+									{$purchaseInfoRecap->getCustomerZip()}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Stát:
+								</td>
+								<td>
+									{$purchaseInfoRecap->getCustomerCountry()->getName()}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Email:
+								</td>
+								<td>
+									{$purchaseInfoRecap->getEmail()}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Telefon:
+								</td>
+								<td>
+									{$purchaseInfoRecap->getPhone()} 
+								</td>
+							</tr>
+							{if !$purchaseInfoRecap->getShipToOtherThanPersonalAdress()}
+								<tr>
+									<td colspan="2">
+										Doručit na fakturační adresu.
+									</td>
+								</tr>
+							{else}
+								<tr>
+									<td colspan="2">
+										<h5 class="form-subheading">Doručovací adresa</h5>
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Ulice a číslo popisné:
+									</td>
+									<td>
+										{$purchaseInfoRecap->getDeliveryStreetAndNumber()}
+									</td>
+								</tr>
+								</tr>
+									<td>
+										Město:
+									</td>
+									<td>
+										{$purchaseInfoRecap->getDeliveryCity()}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										PSČ:
+									</td>
+									<td>
+										{$purchaseInfoRecap->getDeliveryZip()}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										Stát:
+									</td>
+									<td>
+										{$purchaseInfoRecap->getDeliveryCountry()->getName()}
+									</td>
+								</tr>
+							{/if}
+							<tr>
+								<td colspan="2">
+									<h5 class="form-subheading">Dodací podmínky</h5>
+								</td>
+							</tr>
+							<tr>
+								<td>Doprava:</td>
+								<td>
+									{$purchaseInfoRecap->getDeliveryService()->getDelivery()->getName()}
+								</td>
+							</tr>
+							<tr>
+								<td>
+									Platba:
+								</td>
+								<td>
+									{$purchaseInfoRecap->getDeliveryService()->getPayment()->getName()}
+								</td>
+							</tr>
+							{if $purchaseInfoRecap->getNote()}
+								<tr>
+									<td>
+										Poznámka:
+									</td>
+									<td>
+										{$purchaseInfoRecap->getNote()}
+									</td>
+								</tr>
+							{/if}
+						</tbody>
+					</table>
+				</div>
+				<div class="re50">
+					<h5 class="form-subheading">Rekapitulace objednávky</h5>
+					<div class="order-recap">
+						<div class="row">
+							<div class="order-recap-price-label"> Cena nakupovaného zboží: </div> 
+							<div  class="order-recap-price-of-smth"> {$productTotalPrice} Kč</div>
+						</div>
+						<div class="row">
+							<div class="order-recap-price-label"> Cena dopravy: </div> 
+							<div class="order-recap-price-of-smth"> {$purchaseInfoRecap->getDeliveryService()->getDeliveryPrice()} Kč</div>
+						</div>
+						<div class="row">
+							<div class="order-recap-price-label"> Cena platby: </div> 
+							<div class="order-recap-price-of-smth"> {$purchaseInfoRecap->getDeliveryService()->getPaymentPrice()} Kč</div>
+						</div>
+						<div class="row">
+							<div class="order-recap-price-label"> Celková cena objednávky: </div> 
+							<div class="order-recap-price-of-smth"> {$productTotalPrice} Kč</div>
+						</div>
+					</div>
+					<div class="order-recap-products">
+						{foreach $basketItems as $item}
+							<div class="row order-recap-basket-item">
+								<div class="re25"><b>{$item->getProduct()->getName()}</b></div>
+								<div class="re25">{$item->getProduct()->getPrice()} Kč / ks </div>
+								<div class="re25">{$item->getQuantity()} kusů </div>
+								<div class="re25">{$item->getPrice()} Kč </div>
+							</div>
+						{/foreach}
+					</div>
+					<div>
+						<a class="submit" href="#">Odeslat objednávku</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
