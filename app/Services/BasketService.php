@@ -121,6 +121,16 @@ final class BasketService implements IBasketService
 		return $this->basketSessionSection->getTotalPrice();
 	}
 	
+	public function checkAvailibility(): void
+	{
+		foreach($this->getBasketItemsIds() as $id){
+			$item = $this->basketSessionSection->getItemById($id);
+			if($item->getProduct()->getAmountAvailable() < $item->getQuantity()){
+				$item->setRequstedQuantityNotAvailable(true);
+			}
+		}
+	}
+	
 	public function getPurchase(): Purchase
 	{
 		return $this->basketSessionSection->getPurchase();

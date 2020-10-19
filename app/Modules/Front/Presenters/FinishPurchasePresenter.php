@@ -46,11 +46,11 @@ final class FinishPurchasePresenter extends BasePresenter
 	public function renderDefault(): void
 	{
 		$this->template->defaultsSetFromBasket = false;
-		
+
 		if(!is_null($this->basketService->getPurchase())){
 			$this['purchaseForm']->setDefaults($this->basketService->getPurchase()->toFinishPurchaseArray());
 		}
-		
+
 		$this->template->productTotalPrice = $this->basketService->getTotalProductPrice();
 		$this->template->basketItems = $this->basketService->getAllBasketItems();
 		$this->template->deliveryServicesGroupedByDelivery = $this->deliveryCountryPaymentPricesArrayGenerator->generateByDeliveryArray();
@@ -155,6 +155,9 @@ final class FinishPurchasePresenter extends BasePresenter
 	
 	public function renderPurchaseRecap(): void
 	{
+		$this->basketService->checkAvailibility();
+		dump($this->basketService->getAllBasketItems());
+		exit;
 		$this->template->productTotalPrice = $this->basketService->getTotalProductPrice();
 		$this->template->basketItems = $this->basketService->getAllBasketItems();
 		$this->template->purchaseInfoRecap = $this->basketService->getPurchase();
