@@ -45,6 +45,12 @@ final class FinishPurchasePresenter extends BasePresenter
 
 	public function renderDefault(): void
 	{
+		$this->template->defaultsSetFromBasket = false;
+		
+		if(!is_null($this->basketService->getPurchase())){
+			$this['purchaseForm']->setDefaults($this->basketService->getPurchase()->toFinishPurchaseArray());
+		}
+		
 		$this->template->productTotalPrice = $this->basketService->getTotalProductPrice();
 		$this->template->basketItems = $this->basketService->getAllBasketItems();
 		$this->template->deliveryServicesGroupedByDelivery = $this->deliveryCountryPaymentPricesArrayGenerator->generateByDeliveryArray();
@@ -52,10 +58,6 @@ final class FinishPurchasePresenter extends BasePresenter
 		$this->template->countryIndependentDeliveryServicesGroupedByDelivery = $this->deliveryCountryPaymentPricesArrayGenerator->generateCountryIndependentServicesArray();
 		$this->template->deliveryNames = $this->deliveryRepository->findAllForForm();
 		$this->template->paymentNames = $this->paymentRepository->findAllForForm();
-		
-		if(!is_null($this->basketService->getPurchase())){
-			$this['purchaseForm']->setDefaults($this->basketService->getPurchase()->toFinishPurchaseArray());
-		}
 	}
 
 	protected function createComponentPurchaseForm(): Form
