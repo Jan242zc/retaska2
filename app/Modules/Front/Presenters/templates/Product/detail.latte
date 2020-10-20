@@ -43,7 +43,7 @@
 							<button id="button-plus" class="button-basket button-basket-plus">+</button>
 							{input submit}
 							<br>
-							<span id="total-price-row" class="total-price-row" hidden>Celková cena: <span id="total-price-value"></span> Kč</span>
+							<span id="total-price-row" class="total-price-row">Celková cena: <span id="total-price-value"></span> Kč</span>
 						{/form}
 					</div>
 				</div>
@@ -56,7 +56,9 @@
 			if(alreadyInBasket){
 				document.getElementsByTagName('label')[0].innerText = 'Již ve Vašem košíku';
 				document.getElementsByClassName('submit')[0].value = 'Uložit';
+				updateTotalPrice(1);
 			}
+			updateTotalPrice(parseInt(document.getElementById('frm-addToBasketForm-quantity').value));
 		});
 
 		document.getElementById('button-minus').addEventListener("click", function(e) { 
