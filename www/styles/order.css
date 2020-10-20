@@ -37,6 +37,16 @@ tr.explanatory-note{
 	line-height: 0.5;
 }
 
+div.unavailibility-warning{
+	color: red;
+	line-height: 1;
+	margin: 0;
+}
+
+div.unavailibility-warning > a:visited{
+	color: red;
+}
+
 @media(max-width: 1320px){
 	.order-recap-price-label{
 		width: 100%;
