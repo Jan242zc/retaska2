@@ -51,6 +51,14 @@
 			</div>
 	</div>
 	<script>
+		document.addEventListener("DOMContentLoaded", function() {
+			const alreadyInBasket = JSON.parse({json_encode($alreadyInBasket)});
+			if(alreadyInBasket){
+				document.getElementsByTagName('label')[0].innerText = 'Již ve Vašem košíku';
+				document.getElementsByClassName('submit')[0].value = 'Uložit';
+			}
+		});
+
 		document.getElementById('button-minus').addEventListener("click", function(e) { 
 			e.preventDefault();
 			decreaseQuantity();

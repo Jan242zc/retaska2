@@ -100,9 +100,9 @@ final class BasketService implements IBasketService
 	}
 	
 	//currently not used anywhere
-	public function verifyThatThisItemInBasket(int $id): bool
+	public function verifyThatThisItemInBasket($id): bool
 	{
-		return in_array($id, $this->getBasketItemsIds());
+		return in_array(intval($id), $this->getBasketItemsIds());
 	}
 	
 	public function verifyThatAllTheseItemsInBasket(array $ids): bool

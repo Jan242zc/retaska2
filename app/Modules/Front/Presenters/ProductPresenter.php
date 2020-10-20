@@ -57,10 +57,20 @@ final class ProductPresenter extends BasePresenter
 	{
 		$product = $this->productRepository->find($id);
 		$this->template->product = $product;
-		$this['addToBasketForm']->setDefaults([
+		$formDefaults = [
 			'product_id' => $product->getId(),
 			'product_name' => $product->getName()
-		]);
+		];
+		
+		if($basketItem = $this->basketService->verifyThatThisItemInBasket($id)){
+			$formDefaults['quantity'] = $this->basketService->getBasketItemById($id)->getQuantity();
+			$this->template->alreadyInBasket = true;
+		} else {
+			$this->template->alreadyInBasket = false;
+		}
+		
+		$this['addToBasketForm']->setDefaults($formDefaults);
+		
 		$this->template->messageFormatter = new \MessageFormatter('cs_CZ', "{0, number}");
 	}
 	
@@ -73,7 +83,7 @@ final class ProductPresenter extends BasePresenter
 			->setHtmlAttribute('id', 'product-id');
 			
 		$form->addHidden('product_name');
-		
+
 		$form->addText('quantity', 'Přidat do košíku')
 			->setHtmlAttribute('class', 'quantity')
 			->setDefaultValue(2)
@@ -83,11 +93,11 @@ final class ProductPresenter extends BasePresenter
 				return intval($value);
 			});
 		
-		$form->addSubmit('submit', 'Uložit')
+		$form->addSubmit('submit', 'Přidat')
 			->setHtmlAttribute('class', 'submit');
 			
 		$form->onSuccess[] = [$this, 'addToBasketFormSucceeded'];
-		
+
 		return $form;
 	}
 	
