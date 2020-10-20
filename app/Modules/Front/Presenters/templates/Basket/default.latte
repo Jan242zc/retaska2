@@ -43,10 +43,10 @@
 										{$item->getProduct()->getName()}			
 									</td>
 									<td>
-										<span class="product-price">{$item->getProduct()->getPrice()}</span> Kč / ks
+										<span class="product-price">{$messageFormatter->format([$item->getProduct()->getPrice()])}</span> Kč / ks
 									</td>
 									<td>
-										<span class="per-product-price">{$item->getPrice()}</span> Kč
+										<span class="per-product-price">{$messageFormatter->format([$item->getPrice()])}</span> Kč
 									</td>
 									<td hidden>
 										<input type=text name="id[]" value={$item->getProduct()->getId()} hidden />

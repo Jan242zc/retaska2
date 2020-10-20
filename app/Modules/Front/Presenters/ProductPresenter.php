@@ -46,6 +46,8 @@ final class ProductPresenter extends BasePresenter
 			$this['productsOnFrontendControl']->setCategory(intval($category));
 		}
 		$this->template->currentCategory = $category;
+
+		$this->template->messageFormatter = new \MessageFormatter('cs_CZ', "{0, number}");
 	}
 	
 	protected function createComponentProductsOnFrontendControl(): ProductsOnFrontendControl

@@ -12,7 +12,7 @@
 					<p class="product-heading">{$product->getName()}</p>
 					<p class="product-price">
 						{$product->getCategory()->getName()}<br>
-						{$product->getPrice()} Kč <br>							
+						{$messageFormatter->format([$product->getPrice()])} Kč <br>							
 						<a class="button-detail" href="{plink Product:detail, $product->getId() . ' ' . $product->getName()}">Detail produktu</a>
 					</p>
 				</div>

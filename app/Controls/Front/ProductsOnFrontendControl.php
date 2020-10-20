@@ -58,6 +58,7 @@ final class ProductsOnFrontendControl extends Control
 			$this->template->products = $this->productRepository->findByCategory($this->category, $this->paginator->getLength(), $this->paginator->getOffset());
 		}
 		
+		$this->template->messageFormatter = new \MessageFormatter('cs_CZ', "{0, number}");
 		$this->template->render(__DIR__ . '\templates\productsOnFrontend.latte');
 	}
 	

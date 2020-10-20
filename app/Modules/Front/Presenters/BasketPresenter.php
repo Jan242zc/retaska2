@@ -22,6 +22,7 @@ final class BasketPresenter extends BasePresenter
 	public function renderDefault(): void
 	{
 		$this->template->basketItems = $this->basketService->getAllBasketItems();
+		$this->template->messageFormatter = new \MessageFormatter('cs_CZ', "{0, number}");
 	}
 	
 	protected function createComponentEditBasketForm(): Form

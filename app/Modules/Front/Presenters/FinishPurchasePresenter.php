@@ -157,8 +157,7 @@ final class FinishPurchasePresenter extends BasePresenter
 	{
 		$this->basketService->checkAvailibility();
 		$this->basketService->deleteZeros();
-		// dump($this->basketService->getAllBasketItems());
-		// exit;
+
 		$this->template->productTotalPrice = $this->basketService->getTotalProductPrice();
 		$this->template->basketItems = $this->basketService->getAllBasketItems();
 		$this->template->purchaseInfoRecap = $this->basketService->getPurchase();
