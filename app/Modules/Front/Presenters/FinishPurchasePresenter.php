@@ -156,6 +156,7 @@ final class FinishPurchasePresenter extends BasePresenter
 	public function renderPurchaseRecap(): void
 	{
 		$this->basketService->checkAvailibility();
+		$this->basketService->deleteZeros();
 		// dump($this->basketService->getAllBasketItems());
 		// exit;
 		$this->template->productTotalPrice = $this->basketService->getTotalProductPrice();

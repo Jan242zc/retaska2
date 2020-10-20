@@ -131,6 +131,16 @@ final class BasketService implements IBasketService
 		}
 	}
 	
+	public function deleteZeros(): void
+	{
+		foreach($this->getBasketItemsIds() as $id){
+			$item = $this->basketSessionSection->getItemById($id);
+			if($item->getQuantity() === 0){
+				$this->removeItemFromBasket($id);
+			}
+		}
+	}
+	
 	public function getPurchase(): Purchase
 	{
 		return $this->basketSessionSection->getPurchase();

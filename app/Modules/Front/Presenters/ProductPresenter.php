@@ -86,7 +86,7 @@ final class ProductPresenter extends BasePresenter
 
 		$form->addText('quantity', 'Přidat do košíku')
 			->setHtmlAttribute('class', 'quantity')
-			->setDefaultValue(2)
+			->setDefaultValue(1)
 			->setRequired('Je nutné zadat počet kusů.')
 			->addRule($form::NUMERIC, 'Množství zboží musí být celé kladné číslo.')
 			->addFilter(function($value){

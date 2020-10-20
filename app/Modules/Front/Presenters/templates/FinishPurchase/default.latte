@@ -194,6 +194,9 @@
 								<div class="re25">{$item->getProduct()->getPrice()} Kč / ks </div>
 								<div class="re25">{$item->getQuantity()} kusů </div>
 								<div class="re25">{$item->getPrice()} Kč </div>
+								{if $item->getQuantity() === 0}
+									<div class="unavailibility-warning">Bude automaticky odstraněno.</div>
+								{/if}
 							</div>
 						{/foreach}
 					</div>
