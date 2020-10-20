@@ -172,7 +172,7 @@
 					<div class="order-recap">
 						<div class="row">
 							<div class="order-recap-price-label"> Cena nakupovaného zboží: </div> 
-							<div  class="order-recap-price-of-smth"> <span id="goods-price">{$productTotalPrice}</span> Kč</div>
+							<div  class="order-recap-price-of-smth"> <span id="goods-price">{$messageFormatter->format([$productTotalPrice])}</span> Kč</div>
 						</div>
 						<div class="row">
 							<div class="order-recap-price-label"> Cena dopravy: </div> 
@@ -184,16 +184,16 @@
 						</div>
 						<div class="row">
 							<div class="order-recap-price-label"> Celková cena objednávky: </div> 
-							<div class="order-recap-price-of-smth"> <span id="total-price">{$productTotalPrice}</span> Kč</div>
+							<div class="order-recap-price-of-smth"> <span id="total-price">{$messageFormatter->format([$productTotalPrice])}</span> Kč</div>
 						</div>
 					</div>
 					<div class="order-recap-products">
 						{foreach $basketItems as $item}
 							<div class="row order-recap-basket-item">
 								<div class="re25"><b>{$item->getProduct()->getName()}</b></div>
-								<div class="re25">{$item->getProduct()->getPrice()} Kč / ks </div>
+								<div class="re25">{$messageFormatter->format([$item->getProduct()->getPrice()])} Kč / ks </div>
 								<div class="re25">{$item->getQuantity()} kusů </div>
-								<div class="re25">{$item->getPrice()} Kč </div>
+								<div class="re25">{$messageFormatter->format([$item->getPrice()])} Kč </div>
 								{if $item->getQuantity() === 0}
 									<div class="unavailibility-warning">Bude automaticky odstraněno.</div>
 								{/if}

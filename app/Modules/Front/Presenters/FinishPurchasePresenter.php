@@ -58,6 +58,8 @@ final class FinishPurchasePresenter extends BasePresenter
 		$this->template->countryIndependentDeliveryServicesGroupedByDelivery = $this->deliveryCountryPaymentPricesArrayGenerator->generateCountryIndependentServicesArray();
 		$this->template->deliveryNames = $this->deliveryRepository->findAllForForm();
 		$this->template->paymentNames = $this->paymentRepository->findAllForForm();
+		
+		$this->template->messageFormatter = new \MessageFormatter('cs_CZ', "{0, number}");
 	}
 
 	protected function createComponentPurchaseForm(): Form
@@ -161,5 +163,7 @@ final class FinishPurchasePresenter extends BasePresenter
 		$this->template->productTotalPrice = $this->basketService->getTotalProductPrice();
 		$this->template->basketItems = $this->basketService->getAllBasketItems();
 		$this->template->purchaseInfoRecap = $this->basketService->getPurchase();
+		
+		$this->template->messageFormatter = new \MessageFormatter('cs_CZ', "{0, number}");
 	}
 }
