@@ -96,7 +96,8 @@ final class ProductPresenter extends BasePresenter
 			});
 		
 		$form->addSubmit('submit', 'Přidat')
-			->setHtmlAttribute('class', 'submit');
+			->setHtmlAttribute('class', 'submit')
+			->setHtmlAttribute('id', 'submit-button');
 			
 		$form->onSuccess[] = [$this, 'addToBasketFormSucceeded'];
 
@@ -105,9 +106,11 @@ final class ProductPresenter extends BasePresenter
 	
 	public function addToBasketFormSucceeded(Form $form, Array $data)
 	{
-		// dump($data);
-		// dump($data['product_id'] . ' ' . $data['product_name']);
 		$product = $this->productRepository->find($data['product_id'] . ' ' . $data['product_name']);
+		if($product->getAmountAvailable() < $data['quantity']){
+			$this->flashMessage('Tolik zboží na skladě nemáme.');
+			$this->redirect('this');
+		}
 		$this->basketService->addProductToBasket($product, $data['quantity']);
 		$this->redirect('Basket:default');
 	}

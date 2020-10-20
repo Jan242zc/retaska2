@@ -55,18 +55,26 @@
 			const alreadyInBasket = JSON.parse({json_encode($alreadyInBasket)});
 			if(alreadyInBasket){
 				document.getElementsByTagName('label')[0].innerText = 'Již ve Vašem košíku';
-				document.getElementsByClassName('submit')[0].value = 'Uložit';
+				document.getElementById('submit-button').value = 'Uložit';
 				updateTotalPrice(1);
 			}
 			updateTotalPrice(parseInt(document.getElementById('frm-addToBasketForm-quantity').value));
 		});
+		
+		document.getElementById('submit-button').addEventListener("click", function(e) {
+			const amountAvailable = JSON.parse({json_encode($product->getAmountAvailable())});
+			if(amountAvailable < parseInt(document.getElementById('frm-addToBasketForm-quantity').value)){
+				e.preventDefault();
+				alert('Tolik zboží na skladě nemáme.');
+			}
+		});
 
-		document.getElementById('button-minus').addEventListener("click", function(e) { 
+		document.getElementById('button-minus').addEventListener("click", function(e) {
 			e.preventDefault();
 			decreaseQuantity();
 		});
 		
-		document.getElementById('button-plus').addEventListener("click", function(e) { 
+		document.getElementById('button-plus').addEventListener("click", function(e) {
 			e.preventDefault();
 			increaseQuantity();
 		});
