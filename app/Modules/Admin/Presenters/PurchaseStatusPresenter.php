@@ -101,6 +101,16 @@ final class PurchaseStatusPresenter extends BasePresenter
 		$this->redirect('PurchaseStatus:default');
 	}
 
+	public function actionDelete($id): void
+	{
+		if($this->purchaseStatusRepository->delete($id) === 1){
+			$this->flashMessage('Stav objednávky smazán.');
+		} else {
+			$this->flashMessage('Stav objednávky nenalezen.');
+		}
+		$this->redirect('PurchaseStatus:default');
+	}
+
 	private function verifyNameOriginality($purchaseStatus): bool
 	{
 		if(is_null($purchaseStatus->getId())){	

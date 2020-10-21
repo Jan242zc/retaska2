@@ -96,7 +96,16 @@ final class PurchaseStatusRepository extends BaseRepository implements ICreatabl
 	}
 
 	public function delete(string $identification)
-	{}
+	{
+		$identification = $this->chopIdentification($identification);
+		
+		$howDidItGo = $this->database->query("
+			DELETE FROM purchasestatus
+			WHERE id = ? AND name = ?
+		", $identification['id'], $identification['name']);
+		
+		return $howDidItGo->getRowCount();
+	}
 
 	public function getArrayOfUsedNames($currentPurchaseStatusId = null): Array
 	{

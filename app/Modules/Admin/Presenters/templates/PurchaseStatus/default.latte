@@ -29,7 +29,7 @@
 								</td>
 								<td>
 									<a class="crud crud-edit" n:href="PurchaseStatus:manage, $purchaseStatus->getId() . ' ' . $purchaseStatus->getName()">Upravit</a> 
-									{*<a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="purchaseStatus:delete, $purchaseStatus->getId() . ' ' . $purchaseStatus->getName()">Vymazat</a>*}
+									<a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="PurchaseStatus:delete, $purchaseStatus->getId() . ' ' . $purchaseStatus->getName()">Vymazat</a>
 								</td>
 							</tr>
 						{/foreach}
