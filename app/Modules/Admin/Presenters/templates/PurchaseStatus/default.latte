@@ -21,11 +21,11 @@
 								<td> {$purchaseStatus->getId()} </td>
 								<td> {$purchaseStatus->getName()} </td>
 								<td> 
-								{if $purchaseStatus->getMeansCancelled()} 
-									Ano
-								{else}
-									Ne
-								{/if}
+									{if $purchaseStatus->getMeansCancelled()} 
+										Ano
+									{else}
+										Ne
+									{/if}
 								</td>
 								<td>
 									<a class="crud crud-edit" n:href="PurchaseStatus:manage, $purchaseStatus->getId() . ' ' . $purchaseStatus->getName()">Upravit</a> 

@@ -25,7 +25,20 @@ final class PurchaseStatusPresenter extends BasePresenter
 	
 	public function actionManage($id = null): void
 	{
-	
+		if(!$id){
+			$formDefaults = [
+				'id' => null
+			];
+		} else {
+			try{
+				$purchaseStatus = $this->purchaseStatusRepository->find($id);
+			} catch (\Exception $ex){
+				$this->flashMessage('Stav objednávky nenalezen.');
+				$this->redirect('PurchaseStatus:default');
+			}
+			$formDefaults = $purchaseStatus->toArray();
+		}
+		$this['managePurchaseStatusEntityForm']->setDefaults($formDefaults);
 	}
 	
 	protected function createComponentManagePurchaseStatusEntityForm(): Form
@@ -66,12 +79,12 @@ final class PurchaseStatusPresenter extends BasePresenter
 		}
 		
 		if(!$purchaseStatus->getId()){
-			//try{
+			try{
 				$rowsAffected = $this->purchaseStatusRepository->insert($purchaseStatus);
-			// } catch (\Exception $ex) {
-				// $this->flashMessage('Počet možných ID je nižší než počet stavů objednávky, zvyšte jej.');
-				// $this->redirect('Entity:default');
-			// }
+			} catch (\Exception $ex) {
+				$this->flashMessage('Počet možných ID je nižší než počet stavů objednávky, zvyšte jej.');
+				$this->redirect('Entity:default');
+			}
 			if($rowsAffected === 1){
 				$this->flashMessage('Stav objednávky uložen.');
 			} else {

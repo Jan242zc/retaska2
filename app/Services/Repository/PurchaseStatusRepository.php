@@ -42,6 +42,27 @@ final class PurchaseStatusRepository extends BaseRepository implements ICreatabl
 		return $arrayOfPurchaseStatuses;
 	}
 
+	
+	public function find(string $identification)
+	{
+		$identification = $this->chopIdentification($identification);
+		
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM purchasestatus
+				WHERE id = ? AND name = ?
+				", $identification['id'], $identification['name']
+				)
+			->fetch();
+
+		if(is_null($queryResult)){
+			throw new \Exception('No purchase status found.');
+		}
+		
+		return $purchaseStatus = PurchaseStatusFactory::createFromObject($queryResult);
+	}
+
 	public function findById(int $id)
 	{}
 
@@ -60,13 +81,21 @@ final class PurchaseStatusRepository extends BaseRepository implements ICreatabl
 		return $howDidItGo->getRowCount();
 	}
 
-	public function update($object)
-	{}
+	public function update($purchaseStatus)
+	{
+		$id = $purchaseStatus->getId();
+		$purchaseStatusArray = $purchaseStatus->toArray();
+		unset($purchaseStatusArray['id']);
+		
+		$howDidItGo = $this->database->query("
+			UPDATE purchasestatus
+			SET", $purchaseStatusArray, "
+			WHERE id = ?", $id);
+		
+		return $howDidItGo->getRowCount();
+	}
 
 	public function delete(string $identification)
-	{}
-
-	public function find(string $identification)
 	{}
 
 	public function getArrayOfUsedNames($currentPurchaseStatusId = null): Array
