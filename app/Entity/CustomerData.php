@@ -5,27 +5,25 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Country;
+use App\Entity\DeliveryCountryPaymentPrices;
 
 
-final class Purchase
+final class CustomerData
 {
-	/** @var int */
-	private $id;
+	/** @var string */
+	private $name;
 
 	/** @var string */
-	private $customerName;
+	private $streetAndNumber;
 
 	/** @var string */
-	private $customerStreetAndNumber;
+	private $city;
 
 	/** @var string */
-	private $customerCity;
-
-	/** @var string */
-	private $customerZip;
+	private $zip;
 
 	/** @var Country */
-	private $customerCountry;
+	private $country;
 
 	/** @var string */
 	private $email;
@@ -34,7 +32,13 @@ final class Purchase
 	private $phone;
 
 	/** @var bool */
-	private $shipToOtherThanPersonalAdress;
+	private $differentAdress;
+
+	/** @var DeliveryCountryPaymentPrices */
+	private $deliveryService;
+
+	/** @var string */
+	private $note;
 
 	/** @var string */
 	private $deliveryStreetAndNumber;
@@ -48,21 +52,16 @@ final class Purchase
 	/** @var Country */
 	private $deliveryCountry;
 
-	private $deliveryService;
-
-	/** @var string */
-	private $note;
 	
-	public function __construct($id = null, $customerName, $customerStreetAndNumber, $customerCity, $customerZip, $customerCountry, $email, $phone, $shipToOtherThanPersonalAdress, $deliveryService, $deliveryStreetAndNumber = null, $deliveryCity = null, $deliveryZip = null, $deliveryCountry = null, $note = null){
-		$this->id = $id;
-		$this->customerName = $customerName;
-		$this->customerStreetAndNumber = $customerStreetAndNumber;
-		$this->customerCity = $customerCity;
-		$this->customerZip = $customerZip;
-		$this->customerCountry = $customerCountry;
+	public function __construct($name, $streetAndNumber, $city, $zip, $country, $email, $phone, $differentAdress, $deliveryService, $deliveryStreetAndNumber, $deliveryCity = null, $deliveryZip = null, $deliveryCountry = null, $note = null){
+		$this->name = $name;
+		$this->streetAndNumber = $streetAndNumber;
+		$this->city = $city;
+		$this->zip = $zip;
+		$this->country = $country;
 		$this->email = $email;
 		$this->phone = $phone;
-		$this->shipToOtherThanPersonalAdress = $shipToOtherThanPersonalAdress;
+		$this->differentAdress = $differentAdress;
 		$this->deliveryService = $deliveryService;
 		$this->deliveryStreetAndNumber = $deliveryStreetAndNumber;
 		$this->deliveryCity = $deliveryCity;
@@ -70,65 +69,55 @@ final class Purchase
 		$this->deliveryCountry = $deliveryCountry;
 		$this->note = $note;
 	}
-	
-	public function getId()
+
+	public function getName(): string
 	{
-		return $this->id;
+		return $this->name;
 	}
 	
-	public function setId(int $id): void
+	public function setName(string $name): void
 	{
-		$this->id = $id;
+		$this->name = $name;
 	}
 	
-	public function getCustomerName(): string
+	public function getStreetAndNumber(): string
 	{
-		return $this->customerName;
+		return $this->streetAndNumber;
 	}
 	
-	public function setCustomerName(string $customerName): void
+	public function setStreetAndNumber(string $streetAndNumber): void
 	{
-		$this->customerName = $customerName;
+		$this->streetAndNumber = $streetAndNumber;
 	}
 	
-	public function getCustomerStreetAndNumber(): string
+	public function getCity(): string
 	{
-		return $this->customerStreetAndNumber;
+		return $this->city;
 	}
 	
-	public function setCustomerStreetAndNumber(string $customerStreetAndNumber): void
+	public function setCity(string $city): void
 	{
-		$this->customerStreetAndNumber = $customerStreetAndNumber;
+		$this->city = $city;
 	}
 	
-	public function getCustomerCity(): string
+	public function getZip(): string
 	{
-		return $this->customerCity;
+		return $this->zip;
 	}
 	
-	public function setCustomerCity(string $customerCity): void
+	public function setZip(string $zip): void
 	{
-		$this->customerCity = $customerCity;
+		$this->zip = $zip;
 	}
 	
-	public function getCustomerZip(): string
+	public function getCountry(): Country
 	{
-		return $this->customerZip;
+		return $this->country;
 	}
 	
-	public function setCustomerZip(string $customerZip): void
+	public function setCountry(Country $country): void
 	{
-		$this->customerZip = $customerZip;
-	}
-	
-	public function getCustomerCountry(): Country
-	{
-		return $this->customerCountry;
-	}
-	
-	public function setCustomerCountry(Country $customerCountry): void
-	{
-		$this->customerCountry = $customerCountry;
+		$this->country = $country;
 	}
 	
 	public function getEmail(): string
@@ -151,17 +140,17 @@ final class Purchase
 		$this->phone = $phone;
 	}
 	
-	public function getShipToOtherThanPersonalAdress(): bool
+	public function getDifferentAdress(): bool
 	{
-		return $this->shipToOtherThanPersonalAdress;
+		return $this->differentAdress;
 	}
 	
-	public function setShipToOtherThanPersonalAdress(bool $shipToOtherThanPersonalAdress): void
+	public function setDifferentAdress(bool $differentAdress): void
 	{
-		$this->shipToOtherThanPersonalAdress = $shipToOtherThanPersonalAdress;
+		$this->differentAdress = $differentAdress;
 	}
 	
-	public function getDeliveryService()
+	public function getDeliveryService(): DeliveryCountryPaymentPrices
 	{
 		return $this->deliveryService;
 	}
@@ -221,18 +210,18 @@ final class Purchase
 		$this->note = $note;
 	}
 	
-	public function toFinishPurchaseArray(): Array
+	public function toArray(): Array
 	{
 		$purchaseData = [
 			'personalData' => [
-				'name' => $this->customerName,
-				'streetAndNumber' => $this->customerStreetAndNumber,
-				'city' => $this->customerCity,
-				'zip' => $this->customerZip,
-				'country' => $this->customerCountry->getId(),
+				'name' => $this->name,
+				'streetAndNumber' => $this->streetAndNumber,
+				'city' => $this->city,
+				'zip' => $this->zip,
+				'country' => $this->country->getId(),
 				'email' => $this->email,
 				'phone' => $this->phone,
-				'differentAdress' => $this->shipToOtherThanPersonalAdress
+				'differentAdress' => $this->differentAdress
 			],
 			'deliveryTerms' => [
 				'delivery' => $this->deliveryService->getDelivery()->getId(),
@@ -241,7 +230,7 @@ final class Purchase
 			],
 		];
 		
-		if($this->shipToOtherThanPersonalAdress){
+		if($this->differentAdress){
 			$purchaseData['deliveryAdress'] = [
 				'streetAndNumber' => $this->deliveryStreetAndNumber,
 				'city' => $this->deliveryCity,

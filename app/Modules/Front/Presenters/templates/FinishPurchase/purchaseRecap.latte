@@ -15,7 +15,7 @@
 									Jméno a příjmení:
 								</td>
 								<td>
-									{$purchaseInfoRecap->getCustomerName()}
+									{$purchaseInfoRecap->getName()}
 								</td>
 							</tr>
 							<tr>
@@ -23,7 +23,7 @@
 									Ulice a číslo popisné:
 								</td>
 								<td>
-									{$purchaseInfoRecap->getCustomerStreetAndNumber()}
+									{$purchaseInfoRecap->getStreetAndNumber()}
 								</td>
 							</tr>
 							</tr>
@@ -31,7 +31,7 @@
 									Město:
 								</td>
 								<td>
-									{$purchaseInfoRecap->getCustomerCity()}
+									{$purchaseInfoRecap->getCity()}
 								</td>
 							</tr>
 							<tr>
@@ -39,7 +39,7 @@
 									PSČ:
 								</td>
 								<td>
-									{$purchaseInfoRecap->getCustomerZip()}
+									{$purchaseInfoRecap->getZip()}
 								</td>
 							</tr>
 							<tr>
@@ -47,7 +47,7 @@
 									Stát:
 								</td>
 								<td>
-									{$purchaseInfoRecap->getCustomerCountry()->getName()}
+									{$purchaseInfoRecap->getCountry()->getName()}
 								</td>
 							</tr>
 							<tr>
@@ -66,7 +66,7 @@
 									{$purchaseInfoRecap->getPhone()} 
 								</td>
 							</tr>
-							{if !$purchaseInfoRecap->getShipToOtherThanPersonalAdress()}
+							{if !$purchaseInfoRecap->getDifferentAdress()}
 								<tr>
 									<td colspan="2">
 										Doručit na fakturační adresu.

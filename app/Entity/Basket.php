@@ -7,7 +7,7 @@ namespace App\Entity;
 use Nette;
 use App\Entity\BasketItem;
 use App\Entity\Product;
-use App\Entity\Purchase;
+use App\Entity\CustomerData;
 
 
 final class Basket
@@ -18,9 +18,9 @@ final class Basket
 	/** @var float */
 	private $totalPrice;
 	
-	/** @var Purchase */
-	private $purchase;
-	
+	/** @var CustomerData */
+	private $customerData;
+
 	public function __construct(Array $items){
 		$this->items = $items;
 		$this->totalPrice = 0;
@@ -75,13 +75,13 @@ final class Basket
 		return array_keys($this->items);
 	}
 	
-	public function getPurchase(): Purchase
+	public function getCustomerData()
 	{
-		return $this->purchase;
+		return $this->customerData;
 	}
 	
-	public function setPurchase(Purchase $purchase): void
+	public function setCustomerData(CustomerData $customerData): void
 	{
-		$this->purchase = $purchase;
+		$this->customerData = $customerData;
 	}
 }

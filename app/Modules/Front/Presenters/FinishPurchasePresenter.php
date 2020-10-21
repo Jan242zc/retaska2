@@ -12,7 +12,7 @@ use App\Services\Repository\RepositoryInterface\IDeliveryRepository;
 use App\Services\Repository\RepositoryInterface\IPaymentRepository;
 use App\Services\Repository\RepositoryInterface\IDeliveryCountryPaymentPricesRepository;
 use App\Services\DeliveryCountryPaymentPricesArrayGenerator;
-use App\Entity\Factory\PurchaseFactory;
+use App\Entity\Factory\CustomerDataFactory;
 
 
 final class FinishPurchasePresenter extends BasePresenter
@@ -47,8 +47,8 @@ final class FinishPurchasePresenter extends BasePresenter
 	{
 		$this->template->defaultsSetFromBasket = false;
 
-		if(!is_null($this->basketService->getPurchase())){
-			$this['purchaseForm']->setDefaults($this->basketService->getPurchase()->toFinishPurchaseArray());
+		if(!is_null($this->basketService->getCustomerData())){
+			$this['purchaseForm']->setDefaults($this->basketService->getCustomerData()->toArray());
 		}
 
 		$this->template->productTotalPrice = $this->basketService->getTotalProductPrice();
@@ -150,8 +150,8 @@ final class FinishPurchasePresenter extends BasePresenter
 		$data['personalData']['country'] = $this->countryRepository->findById($data['personalData']['country']);
 		$data['deliveryAdress']['country'] = $this->countryRepository->findById($data['deliveryAdress']['country']);
 		
-		$purchase = PurchaseFactory::createFromFinishPurchaseFormData($data, $deliveryService);
-		$this->basketService->setPurchase($purchase);
+		$customerData = CustomerDataFactory::createFromArray($data, $deliveryService);
+		$this->basketService->setCustomerData($customerData);
 		$this->redirect('FinishPurchase:purchaseRecap');
 	}
 	
@@ -162,7 +162,7 @@ final class FinishPurchasePresenter extends BasePresenter
 
 		$this->template->productTotalPrice = $this->basketService->getTotalProductPrice();
 		$this->template->basketItems = $this->basketService->getAllBasketItems();
-		$this->template->purchaseInfoRecap = $this->basketService->getPurchase();
+		$this->template->purchaseInfoRecap = $this->basketService->getCustomerData();
 		
 		$this->template->messageFormatter = new \MessageFormatter('cs_CZ', "{0, number}");
 	}

@@ -9,7 +9,7 @@ use Nette\Http\Session AS Session;
 use App\Entity\Basket;
 use App\Entity\BasketItem;
 use App\Entity\Product;
-use App\Entity\Purchase;
+use App\Entity\CustomerData;
 use App\Services\GeneralServiceInterface\IBasketService;
 use App\Services\PriceCalculator;
 
@@ -141,13 +141,13 @@ final class BasketService implements IBasketService
 		}
 	}
 	
-	public function getPurchase(): Purchase
+	public function getCustomerData()
 	{
-		return $this->basketSessionSection->getPurchase();
+		return $this->basketSessionSection->getCustomerData();
 	}
 	
-	public function setPurchase(Purchase $purchase): void
+	public function setCustomerData(CustomerData $customerData): void
 	{
-		$this->basketSessionSection->setPurchase($purchase);
+		$this->basketSessionSection->setCustomerData($customerData);
 	}
 }
