@@ -42,7 +42,6 @@ final class PurchaseStatusRepository extends BaseRepository implements ICreatabl
 		return $arrayOfPurchaseStatuses;
 	}
 
-	
 	public function find(string $identification)
 	{
 		$identification = $this->chopIdentification($identification);
@@ -64,7 +63,21 @@ final class PurchaseStatusRepository extends BaseRepository implements ICreatabl
 	}
 
 	public function findById(int $id)
-	{}
+	{
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM purchasestatus
+				WHERE id = ?
+				", $id)
+			->fetch();
+
+		if(!is_null($queryResult)){
+			return $purchaseStatus = PurchaseStatusFactory::createFromObject($queryResult);
+		}
+		
+		return $queryResult;
+	}
 
 	public function insert($purchaseStatus)
 	{
@@ -133,7 +146,16 @@ final class PurchaseStatusRepository extends BaseRepository implements ICreatabl
 	}
 
 	public function findAllForForm(): Array
-	{}
+	{
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM purchasestatus
+			")
+			->fetchPairs();
+			
+		return $queryResult;
+	}
 	
 	private function getUsedIds(): array
 	{
