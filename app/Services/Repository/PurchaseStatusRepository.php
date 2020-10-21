@@ -27,7 +27,20 @@ final class PurchaseStatusRepository extends BaseRepository implements ICreatabl
 	}
 
 	public function findAll(): Array
-	{}
+	{
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM purchasestatus
+			");
+		
+		$arrayOfCountries = [];		
+		while($row = $queryResult->fetch()){
+			$arrayOfPurchaseStatuses[] = PurchaseStatusFactory::createFromObject($row);
+		}
+		
+		return $arrayOfPurchaseStatuses;
+	}
 
 	public function findById(int $id)
 	{}

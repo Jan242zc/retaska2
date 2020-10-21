@@ -20,6 +20,7 @@ final class PurchaseStatusPresenter extends BasePresenter
 	
 	public function renderDefault(): void
 	{
+		$this->template->purchaseStatuses = $this->purchaseStatusRepository->findAll();
 	}
 	
 	public function actionManage($id = null): void

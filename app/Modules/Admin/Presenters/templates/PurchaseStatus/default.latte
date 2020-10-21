@@ -3,7 +3,7 @@
 		<div class="everything-wrapper">
 			<h1 class="middle">Možné stavy objednávek</h1>
 			<a class="crud crud-new" n:href="PurchaseStatus:manage">Přidat nový</a>
-			{if !isset($payments)}
+			{if !isset($purchaseStatuses)}
 				<p class="nothing-found">V databázi nebyly nalezeny žádné možné stavy objednávek.</p>
 			{else}
 				<table class="crud-table">
@@ -11,17 +11,25 @@
 						<tr>
 							<td id="ids"> ID </td>
 							<td> Název </td>
+							<td> Znamená zrušená </td>
 							<td id="actions"> Možnosti </td>
 						</tr>
 					</thead>
 					<tbody>
-						{foreach $payments as $payment}
+						{foreach $purchaseStatuses as $purchaseStatus}
 							<tr>
-								<td> {$payment->getId()} </td>
-								<td> {$payment->getName()} </td>
+								<td> {$purchaseStatus->getId()} </td>
+								<td> {$purchaseStatus->getName()} </td>
+								<td> 
+								{if $purchaseStatus->getMeansCancelled()} 
+									Ano
+								{else}
+									Ne
+								{/if}
+								</td>
 								<td>
-									<a class="crud crud-edit" n:href="PurchaseStatus:manage, $payment->getId() . ' ' . $payment->getName()">Upravit</a> 
-									<a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="Payment:delete, $payment->getId() . ' ' . $payment->getName()">Vymazat</a> 
+									<a class="crud crud-edit" n:href="PurchaseStatus:manage, $purchaseStatus->getId() . ' ' . $purchaseStatus->getName()">Upravit</a> 
+									{*<a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="purchaseStatus:delete, $purchaseStatus->getId() . ' ' . $purchaseStatus->getName()">Vymazat</a>*}
 								</td>
 							</tr>
 						{/foreach}
