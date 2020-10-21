@@ -1,0 +1,35 @@
+{block content}
+	<div class="container">
+		<div class="everything-wrapper">
+			<h1>Přidat / upravit stav objednávky</h1>
+			{form managePurchaseStatusEntityForm}
+				<table>
+					<tbody>
+						<tr>
+							<td class="labels">
+								{label name /}
+							</td>
+							<td class="inputs">
+								{input name}
+							</td>
+						</tr>
+						<tr>
+							<td class="labels">
+								{label meansCancelled /}
+							</td>
+							<td class="inputs">
+								{input meansCancelled}
+							</td>
+						</tr>
+						<tr>
+							<td></td>
+							<td>
+								{input submit}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			{/form}
+			<a class="link-with-arrow" n:href="PurchaseStatus:default"> Zpět na přehled</a>
+		</div>
+	</div>
