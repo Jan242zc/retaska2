@@ -51,4 +51,13 @@ final class PurchaseStatus
 	{
 		$this->meansCancelled = $meansCancelled;
 	}
+
+	public function toArray(): Array
+	{
+		return [
+			'id' => $this->id,
+			'name' => $this->name,
+			'means_cancelled' => $this->meansCancelled ? 1 : 0
+		];
+	}
 }

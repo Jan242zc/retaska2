@@ -11,7 +11,7 @@ final class PurchaseStatusFactory
 {
 	public static function createFromArray(array $data): PurchaseStatus
 	{
-		$meansCancelled = $data['means_cancelled'] ? false : true;
+		$meansCancelled = $data['means_cancelled'] ? true : false;
 		if(!$data['id']){
 			return new PurchaseStatus(null, $data['name'], $meansCancelled);
 		} else {
@@ -21,7 +21,7 @@ final class PurchaseStatusFactory
 	
 	public static function createFromObject($object): PurchaseStatus
 	{
-		$meansCancelled = $object->means_cancelled ? false : true;
+		$meansCancelled = $object->means_cancelled ? true : false;
 		if(!$object->id){
 			return new PurchaseStatus(null, $object->name, $meansCancelled);
 		} else {
