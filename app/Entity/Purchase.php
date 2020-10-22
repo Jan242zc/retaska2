@@ -52,6 +52,9 @@ final class Purchase
 	/** @var PurchaseStatus */
 	private $purchaseStatus;
 	
+	/** @var array */
+	private $purchaseItems;
+	
 	/** @var string */
 	private $deliveryStreetAndNumber;
 	
@@ -67,7 +70,7 @@ final class Purchase
 	/** @var string */
 	private $note;
 	
-	public function __construct(int $id = null, string $customerName, string $customerStreetAndNumber, string $customerCity, string $customerZip, Country $customerCountry, string $email, string $phone, string $deliveryName, float $deliveryPrice, string $paymentName, float $paymentPrice, bool $shipToOtherThanCustomerAdress, PurchaseStatus $purchaseStatus, string $deliveryStreetAndNumber= null, string $deliveryCity= null, string $deliveryZip= null, Country $deliveryCountry= null, string $note= null){
+	public function __construct(int $id = null, string $customerName, string $customerStreetAndNumber, string $customerCity, string $customerZip, Country $customerCountry, string $email, string $phone, string $deliveryName, float $deliveryPrice, string $paymentName, float $paymentPrice, bool $shipToOtherThanCustomerAdress, PurchaseStatus $purchaseStatus, array $purchaseItems, string $deliveryStreetAndNumber = null, string $deliveryCity = null, string $deliveryZip = null, Country $deliveryCountry= null, string $note = null){
 		$this->id = $id;
 		$this->customerName = $customerName;
 		$this->customerStreetAndNumber = $customerStreetAndNumber;
@@ -82,6 +85,7 @@ final class Purchase
 		$this->paymentPrice = $paymentPrice;
 		$this->shipToOtherThanCustomerAdress = $shipToOtherThanCustomerAdress;
 		$this->purchaseStatus = $purchaseStatus;
+		$this->purchaseItems = $purchaseItems;
 		$this->deliveryStreetAndNumber = $deliveryStreetAndNumber;
 		$this->deliveryCity = $deliveryCity;
 		$this->deliveryZip = $deliveryZip;
@@ -217,6 +221,16 @@ final class Purchase
 	public function setPurchaseStatus(PurchaseStatus $purchaseStatus): void
 	{
 		$this->purchaseStatus = $purchaseStatus;
+	}
+		
+	public function getPurchaseItems(): array
+	{
+		return $this->purchaseItems;
+	}
+	
+	public function setPurchaseItems(array $purchaseItems): void
+	{
+		$this->purchaseItems = $purchaseItems;
 	}
 	
 	public function getDeliveryStreetAndNumber()
