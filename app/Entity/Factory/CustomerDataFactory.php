@@ -18,7 +18,7 @@ final class CustomerDataFactory
 	
 	private static function nullEmptyNullableElements(Array $data): Array
 	{
-		$data['deliveryTerms']['payment'] = $data['deliveryTerms']['payment'] !== "" ? $data['deliveryTerms']['payment'] : null;
+		//SMAZAT?? $data['deliveryTerms']['payment'] = $data['deliveryTerms']['payment'] !== "" ? $data['deliveryTerms']['payment'] : null;
 		$data['deliveryAdress']['streetAndNumber'] = $data['deliveryAdress']['streetAndNumber'] !== "" ? $data['deliveryAdress']['streetAndNumber'] : null;
 		$data['deliveryAdress']['city'] = $data['deliveryAdress']['city'] !== "" ? $data['deliveryAdress']['city'] : null;
 		$data['deliveryAdress']['zip'] = $data['deliveryAdress']['zip'] !== "" ? $data['deliveryAdress']['zip'] : null;

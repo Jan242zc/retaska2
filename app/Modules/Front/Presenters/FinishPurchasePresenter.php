@@ -13,6 +13,7 @@ use App\Services\Repository\RepositoryInterface\IPaymentRepository;
 use App\Services\Repository\RepositoryInterface\IDeliveryCountryPaymentPricesRepository;
 use App\Services\DeliveryCountryPaymentPricesArrayGenerator;
 use App\Entity\Factory\CustomerDataFactory;
+use App\Entity\Factory\PurchaseFactory;
 
 
 final class FinishPurchasePresenter extends BasePresenter
@@ -165,5 +166,12 @@ final class FinishPurchasePresenter extends BasePresenter
 		$this->template->purchaseInfoRecap = $this->basketService->getCustomerData();
 		
 		$this->template->messageFormatter = new \MessageFormatter('cs_CZ', "{0, number}");
+	}
+	
+	public function actionSavePurchase(): void
+	{
+		$purchase = PurchaseFactory::createFromCustomerData($this->basketService->getCustomerData());
+		dump($purchase);
+		exit;
 	}
 }

@@ -70,7 +70,7 @@ final class Purchase
 	/** @var string */
 	private $note;
 	
-	public function __construct(int $id = null, string $customerName, string $customerStreetAndNumber, string $customerCity, string $customerZip, Country $customerCountry, string $email, string $phone, string $deliveryName, float $deliveryPrice, string $paymentName, float $paymentPrice, bool $shipToOtherThanCustomerAdress, PurchaseStatus $purchaseStatus, array $purchaseItems, string $deliveryStreetAndNumber = null, string $deliveryCity = null, string $deliveryZip = null, Country $deliveryCountry= null, string $note = null){
+	public function __construct(int $id = null, string $customerName, string $customerStreetAndNumber, string $customerCity, string $customerZip, Country $customerCountry, string $email, string $phone, string $deliveryName, float $deliveryPrice, string $paymentName, float $paymentPrice, bool $shipToOtherThanCustomerAdress, PurchaseStatus $purchaseStatus = null, array $purchaseItems = null, string $deliveryStreetAndNumber = null, string $deliveryCity = null, string $deliveryZip = null, Country $deliveryCountry= null, string $note = null){
 		$this->id = $id;
 		$this->customerName = $customerName;
 		$this->customerStreetAndNumber = $customerStreetAndNumber;
@@ -213,7 +213,7 @@ final class Purchase
 		$this->shipToOtherThanCustomerAdress = $shipToOtherThanCustomerAdress;
 	}
 	
-	public function getPurchaseStatus(): PurchaseStatus
+	public function getPurchaseStatus()
 	{
 		return $this->purchaseStatus;
 	}
@@ -223,7 +223,7 @@ final class Purchase
 		$this->purchaseStatus = $purchaseStatus;
 	}
 		
-	public function getPurchaseItems(): array
+	public function getPurchaseItems()
 	{
 		return $this->purchaseItems;
 	}

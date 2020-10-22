@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Entity\Factory;
 
 use App\Entity\Purchase;
+use App\Entity\CustomerData;
+use App\Entity\Basket;
 
 
 final class PurchaseFactory
@@ -55,5 +57,31 @@ final class PurchaseFactory
 		$object->note = $object->note === '' ? null : $object->note;
 		
 		return $object;
+	}
+	
+	public static function createFromCustomerData(CustomerData $customerData): Purchase
+	{
+		return new Purchase(
+			null,
+			$customerData->getName(),
+			$customerData->getStreetAndNumber(),
+			$customerData->getCity(),
+			$customerData->getZip(),
+			$customerData->getCountry(),
+			$customerData->getEmail(),
+			$customerData->getPhone(),
+			$customerData->getDeliveryService()->getDelivery()->getName(),
+			$customerData->getDeliveryService()->getDeliveryPrice(),
+			$customerData->getDeliveryService()->getPayment()->getName(),
+			$customerData->getDeliveryService()->getPaymentPrice(),
+			$customerData->getDifferentAdress(),
+			null,
+			null,
+			$customerData->getDeliveryStreetAndNumber(),
+			$customerData->getDeliveryCity(),
+			$customerData->getDeliveryZip(),
+			$customerData->getDeliveryCountry(),
+			$customerData->getNote()
+		);
 	}
 }
