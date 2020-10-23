@@ -8,6 +8,7 @@ use Nette;
 use App\Services\Repository\BaseRepository;
 use App\Services\Repository\RepositoryInterface\IPurchaseRepository;
 use App\Services\Repository\RepositoryInterface\IPurchaseItemRepository;
+use App\Services\Repository\RepositoryInterface\IPurchaseStatusRepository;
 use App\Services\Repository\RepositoryInterface\IEntityRepository;
 use App\Services\Repository\RepositoryInterface\ICreatableAndDeleteableEntityRepository;
 use App\Entity\Purchase;
@@ -20,11 +21,13 @@ final class PurchaseRepository extends BaseRepository implements ICreatableAndDe
 	private $entityRepository;
 	private $database;
 	private $purchaseItemRepository;
+	private $purchaseStatusRepository;
 	
-	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database, IPurchaseItemRepository $purchaseItemRepository){
+	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database, IPurchaseItemRepository $purchaseItemRepository, IPurchaseStatusRepository $purchaseStatusRepository){
 		$this->entityRepository = $entityRepository;
 		$this->database = $database;
 		$this->purchaseItemRepository = $purchaseItemRepository;
+		$this->purchaseStatusRepository = $purchaseStatusRepository;
 	}
 	
 	public function findAll(): Array
@@ -40,15 +43,14 @@ final class PurchaseRepository extends BaseRepository implements ICreatableAndDe
 			throw $ex;
 		}
 
-		$purchase = $purchase->toArray();
-		$purchase['purchaseStatus_id'] = 1;
+		$purchase->setPurchaseStatus($this->purchaseStatusRepository->findDefaultStatusForNewPurchases());
 
 		$howDidItGo = $this->database->query("
 			INSERT INTO purchase
-			", $purchase);
+			", $purchase->toArray());
 
 		return [
-			'id' => $purchase['id'],
+			'id' => $purchase->getId(),
 			'rowCount' => $howDidItGo->getRowCount()
 			];
 	}

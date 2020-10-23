@@ -195,16 +195,15 @@ final class FinishPurchasePresenter extends BasePresenter
 		} catch(\Exception $ex){
 			$this->flashMessage('Při zpracování objednávky došlo k chybě. Zkuste to prosím později.');
 			$this->redirect('FinishPurchase:purchaseRecap');
-		} finally {
-			if($howDidSavingPurchaseGo['rowCount'] !== 1 || $purchaseItemsRowCount !== count($this->basketService->getAllBasketItems())){
+		}
+		if($howDidSavingPurchaseGo['rowCount'] !== 1 || $purchaseItemsRowCount !== count($this->basketService->getAllBasketItems())){
+			//sniž množství na skladě
+			//zresetuj košík
+			//$this->redirect('Poděkování');
 				$this->flashMessage('Při zpracování objednávky došlo k chybě. Zkuste to prosím později.');
 				$this->redirect('FinishPurchase:purchaseRecap');
 			}
 			$this->flashMessage('Ď');
 			$this->redirect('Homepage:default');
-			//sniž množství na skladě
-			//zresetuj košík
-			//$this->redirect('Poděkování');
-		}
 	}
 }

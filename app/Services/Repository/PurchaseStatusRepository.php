@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Repository;
 
 use Nette;
+use App\Entity\PurchaseStatus;
 use App\Services\Repository\BaseRepository;
 use App\Services\Repository\RepositoryInterface\IPurchaseStatusRepository;
 use App\Services\Repository\RepositoryInterface\ICreatableAndDeleteableEntityRepository;
@@ -170,7 +171,7 @@ final class PurchaseStatusRepository extends BaseRepository implements ICreatabl
 		return $queryResult;
 	}
 
-	public function setDefaultStatusForNewPurchases($purchaseStatus)
+	public function setDefaultStatusForNewPurchases(PurchaseStatus $purchaseStatus): int
 	{
 		$this->database->query("
 			UPDATE purchasestatus
@@ -184,6 +185,19 @@ final class PurchaseStatusRepository extends BaseRepository implements ICreatabl
 		", $purchaseStatus->getId(), $purchaseStatus->getName());
 
 		return $howDidItGo->getRowCount();
+	}
+
+	public function findDefaultStatusForNewPurchases(): PurchaseStatus
+	{
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM purchasestatus
+				WHERE default_for_new_purchases = 1
+			")
+			->fetch();
+
+		return $purchaseStatus = PurchaseStatusFactory::createFromObject($queryResult);
 	}
 
 	private function getUsedIds(): array
