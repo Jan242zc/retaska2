@@ -156,7 +156,36 @@ final class PurchaseStatusRepository extends BaseRepository implements ICreatabl
 			
 		return $queryResult;
 	}
-	
+
+	public function findAllForNewDefaultForm(): Array
+	{
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM purchasestatus
+				WHERE means_cancelled = 0
+			")
+			->fetchPairs();
+
+		return $queryResult;
+	}
+
+	public function setDefaultStatusForNewPurchases($purchaseStatus)
+	{
+		$this->database->query("
+			UPDATE purchasestatus
+			SET default_for_new_purchases = 0
+		");
+
+		$howDidItGo = $this->database->query("
+			UPDATE purchasestatus
+			SET default_for_new_purchases = 1
+			WHERE id = ? AND name = ? AND means_cancelled = 0
+		", $purchaseStatus->getId(), $purchaseStatus->getName());
+
+		return $howDidItGo->getRowCount();
+	}
+
 	private function getUsedIds(): array
 	{
 		$usedIds = $this->database

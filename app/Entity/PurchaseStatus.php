@@ -12,13 +12,17 @@ final class PurchaseStatus
 
 	/** @var string */
 	private $name;
+	
+	/** @var bool */
+	private $defaultForNewPurchases;
 
 	/** @var bool */
 	private $meansCancelled;
 
-	public function __construct($id = null, string $name, bool $meansCancelled){
+	public function __construct($id = null, string $name, bool $defaultForNewPurchases, bool $meansCancelled){
 		$this->id = $id;
 		$this->name = $name;
+		$this->defaultForNewPurchases = $defaultForNewPurchases;
 		$this->meansCancelled = $meansCancelled;
 	}
 
@@ -41,6 +45,16 @@ final class PurchaseStatus
 	{
 		$this->name = $name;
 	}
+	
+	public function getDefaultForNewPurchases(): bool
+	{
+		return $this->defaultForNewPurchases;
+	}
+
+	public function setDefaultForNewPurchases(bool $defaultForNewPurchases): void
+	{
+		$this->defaultForNewPurchases = $defaultForNewPurchases;
+	}
 
 	public function getMeansCancelled(): bool
 	{
@@ -57,6 +71,7 @@ final class PurchaseStatus
 		return [
 			'id' => $this->id,
 			'name' => $this->name,
+			'default_for_new_purchases' => $this->defaultForNewPurchases ? 1 : 0,
 			'means_cancelled' => $this->meansCancelled ? 1 : 0
 		];
 	}

@@ -3,6 +3,7 @@
 		<div class="everything-wrapper">
 			<h1 class="middle">Možné stavy objednávek</h1>
 			<a class="crud crud-new" n:href="PurchaseStatus:manage">Přidat nový</a>
+			<a class="crud crud-edit" n:href="PurchaseStatus:pickNewDefault">Nastavit původní pro nové objednávky</a>
 			{if !isset($purchaseStatuses)}
 				<p class="nothing-found">V databázi nebyly nalezeny žádné možné stavy objednávek.</p>
 			{else}
@@ -12,6 +13,7 @@
 							<td id="ids"> ID </td>
 							<td> Název </td>
 							<td> Znamená zrušená </td>
+							<td> Pozn. </td>
 							<td id="actions"> Možnosti </td>
 						</tr>
 					</thead>
@@ -25,6 +27,11 @@
 										Ano
 									{else}
 										Ne
+									{/if}
+								</td>
+								<td> 
+									{if $purchaseStatus->getDefaultForNewPurchases()} 
+										Původní možnost pro nové objednávky.
 									{/if}
 								</td>
 								<td>

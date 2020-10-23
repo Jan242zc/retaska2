@@ -45,27 +45,29 @@ final class PurchaseStatusPresenter extends BasePresenter
 	{
 		$form = new Form();
 		$form->setHtmlAttribute('class', 'form');
-		
+
 		$form->addHidden('id')
 			->addFilter(function($value){
 					return intval($value);
 				});
-		
+
 		$form->addText('name', 'Název:')
 			->setRequired('Stav musí mít název.');
-		
+
 		$form->addSelect('means_cancelled', 'Znamená, že objednávka je zrušena:')
 			->setItems([
 				0 => 'Ne',
 				1 => 'Ano'
 			])
 			->setRequired('Vyplňte druhé pole.');
-		
+
+		$form->addHidden('default_for_new_purchases');
+
 		$form->addSubmit('submit', 'Uložit')
 			->setHtmlAttribute('class', 'submit');
-			
+
 		$form->onSuccess[] = [$this, 'managePurchaseStatusEntityFormSucceeded'];
-		
+
 		return $form;
 	}
 	
@@ -99,6 +101,36 @@ final class PurchaseStatusPresenter extends BasePresenter
 		}
 
 		$this->redirect('PurchaseStatus:default');
+	}
+
+	protected function createComponentPickNewDefaultStatusForm(): Form
+	{
+		$form = new Form();
+		$form->setHtmlAttribute('class', 'form');
+
+		$form->addSelect('newDefault', 'Původní stav pro nové objednávky:')
+			->setItems($this->purchaseStatusRepository->findAllForNewDefaultForm())
+			->setPrompt('Zvolte možnost.');
+
+		$form->addSubmit('save', 'Uložit')
+			->setHtmlAttribute('class', 'submit');
+
+		$form->onSuccess[] = [$this, 'pickNewDefaultStatusFormSucceeded'];
+
+		return $form;
+	}
+
+	public function pickNewDefaultStatusFormSucceeded(Form $form, Array $data): void
+	{
+		$purchaseStatus = $this->purchaseStatusRepository->findById($data['newDefault']);
+
+		if($this->purchaseStatusRepository->setDefaultStatusForNewPurchases($purchaseStatus) === 1){
+			$this->flashMessage('Změny uloženy.');
+			$this->redirect('PurchaseStatus:default');
+		} else {
+			$this->flashMessage('Něco se pokazilo.');
+			$this->redirect('this');
+		}
 	}
 
 	public function actionDelete($id): void

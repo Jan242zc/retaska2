@@ -7,4 +7,5 @@ namespace App\Services\Repository\RepositoryInterface;
 
 interface IPurchaseStatusRepository
 {
+	public function setDefaultStatusForNewPurchases($purchaseStatus);
 }
