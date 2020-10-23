@@ -182,12 +182,29 @@ final class FinishPurchasePresenter extends BasePresenter
 	
 	public function actionSavePurchase(): void
 	{
-		$totalPurchasePrice = PriceCalculator::calculateTotalPurchasePrice($this->basketService->getTotalProductPrice(), $this->basketService->getCustomerData()->getDeliveryService()->getDeliveryPrice(), $this->basketService->getCustomerData()->getDeliveryService()->getPaymentPrice());
+		$totalProductPrice = $this->basketService->getTotalProductPrice();
+		$deliveryPrice = $this->basketService->getCustomerData()->getDeliveryService()->getDeliveryPrice();
+		$paymentPrice = $this->basketService->getCustomerData()->getDeliveryService()->getPaymentPrice();
+		$totalPurchasePrice = PriceCalculator::calculateTotalPurchasePrice($totalProductPrice, $deliveryPrice, $paymentPrice);
+		
 		$purchase = PurchaseFactory::createFromCustomerData($this->basketService->getCustomerData(), $totalPurchasePrice);
 		$purchaseItems = PurchaseItemFactory::createFromBasketData($this->basketService->getAllBasketItems());
-		$howDidItGo = $this->purchaseRepository->insert($purchase);
-		$rowCount = $this->purchaseItemRepository->insertMultiple($howDidItGo['id'], $purchaseItems);
-		dump($rowCount);
-		exit;
+		try{
+			$howDidSavingPurchaseGo = $this->purchaseRepository->insert($purchase);
+			$purchaseItemsRowCount = $this->purchaseItemRepository->insertMultiple($howDidSavingPurchaseGo['id'], $purchaseItems);
+		} catch(\Exception $ex){
+			$this->flashMessage('Při zpracování objednávky došlo k chybě. Zkuste to prosím později.');
+			$this->redirect('FinishPurchase:purchaseRecap');
+		} finally {
+			if($howDidSavingPurchaseGo['rowCount'] !== 1 || $purchaseItemsRowCount !== count($this->basketService->getAllBasketItems())){
+				$this->flashMessage('Při zpracování objednávky došlo k chybě. Zkuste to prosím později.');
+				$this->redirect('FinishPurchase:purchaseRecap');
+			}
+			$this->flashMessage('Ď');
+			$this->redirect('Homepage:default');
+			//sniž množství na skladě
+			//zresetuj košík
+			//$this->redirect('Poděkování');
+		}
 	}
 }
