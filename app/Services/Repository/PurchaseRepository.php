@@ -32,23 +32,25 @@ final class PurchaseRepository extends BaseRepository implements ICreatableAndDe
 	public function findById(int $id)
 	{}
 
-	public function insert($purchase, $purchaseItems)
+	public function insert($purchase)
 	{
 		try{
-			$delivery->setId($this->generateNewId($this->getUsedIds(), $this->entityRepository->find(self::ENTITY_IDENTIFICATION)));
+			$purchase->setId($this->generateNewId($this->getUsedIds(), $this->entityRepository->find(self::ENTITY_IDENTIFICATION)));
 		} catch(\Exception $ex){
 			throw $ex;
 		}
 
+		$purchase = $purchase->toArray();
+		$purchase['purchaseStatus_id'] = 1;
+
 		$howDidItGo = $this->database->query("
 			INSERT INTO purchase
-			", $purchase->toArray());
+			", $purchase);
 
-		dump($howDidItGo);
-
-		// $this->purchaseItemRepository->insert()
-
-		return $howDidItGo->getRowCount();
+		return [
+			'id' => $purchase['id'],
+			'rowCount' => $howDidItGo->getRowCount()
+			];
 	}
 	
 	public function update($object)

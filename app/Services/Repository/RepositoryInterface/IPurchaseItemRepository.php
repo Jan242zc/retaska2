@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Repository\RepositoryInterface;
 
 
-class IPurchaseItemRepository
+interface IPurchaseItemRepository
 {
+	public function insertMultiple(int $purchaseId, array $items): int;
 }

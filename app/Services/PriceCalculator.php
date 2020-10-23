@@ -21,4 +21,9 @@ final class PriceCalculator
 		}
 		return $totalPrice;
 	}
+	
+	public static function calculateTotalPurchasePrice(float $totalProductsPrice, float $deliveryPrice, float $paymentPrice): float
+	{
+		return $totalProductsPrice + $deliveryPrice + $paymentPrice;		
+	}
 }

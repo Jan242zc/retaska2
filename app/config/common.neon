@@ -35,3 +35,5 @@ services:
 	basketService: App\Services\BasketService
 	deliveryCountryPaymentPricesArrayGenerator: App\Services\DeliveryCountryPaymentPricesArrayGenerator
 	purchaseStatusRepository: App\Services\Repository\PurchaseStatusRepository
+	purchaseRepository: App\Services\Repository\PurchaseRepository
+	purchaseItemRepository: App\Services\Repository\PurchaseItemRepository

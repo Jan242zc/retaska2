@@ -10,7 +10,10 @@ use Nette\Application\UI\Form;
 use App\Services\Repository\RepositoryInterface\ICountryRepository;
 use App\Services\Repository\RepositoryInterface\IDeliveryRepository;
 use App\Services\Repository\RepositoryInterface\IPaymentRepository;
+use App\Services\Repository\RepositoryInterface\IPurchaseRepository;
+use App\Services\Repository\RepositoryInterface\IPurchaseItemRepository;
 use App\Services\Repository\RepositoryInterface\IDeliveryCountryPaymentPricesRepository;
+use App\Services\PriceCalculator;
 use App\Services\DeliveryCountryPaymentPricesArrayGenerator;
 use App\Entity\Factory\CustomerDataFactory;
 use App\Entity\Factory\PurchaseFactory;
@@ -35,13 +38,21 @@ final class FinishPurchasePresenter extends BasePresenter
 
 	/** @var IDeliveryCountryPaymentPricesRepository */
 	private $deliveryCountryPaymentPricesRepository;
+	
+	/** @var IPurchaseRepository */
+	private $purchaseRepository;
+	
+	/** @var IPurchaseItemRepository */
+	private $purchaseItemRepository;
 
-	public function __construct(IBasketService $basketService, ICountryRepository $countryRepository, IDeliveryRepository $deliveryRepository, IPaymentRepository $paymentRepository, DeliveryCountryPaymentPricesArrayGenerator $deliveryCountryPaymentPricesArrayGenerator, IDeliveryCountryPaymentPricesRepository $deliveryCountryPaymentPricesRepository){
+	public function __construct(IBasketService $basketService, ICountryRepository $countryRepository, IDeliveryRepository $deliveryRepository, IPaymentRepository $paymentRepository, DeliveryCountryPaymentPricesArrayGenerator $deliveryCountryPaymentPricesArrayGenerator, IPurchaseRepository $purchaseRepository, IPurchaseItemRepository $purchaseItemRepository, IDeliveryCountryPaymentPricesRepository $deliveryCountryPaymentPricesRepository){
 		$this->basketService = $basketService;
 		$this->countryRepository = $countryRepository;
 		$this->deliveryRepository = $deliveryRepository;
 		$this->paymentRepository = $paymentRepository;
 		$this->deliveryCountryPaymentPricesArrayGenerator = $deliveryCountryPaymentPricesArrayGenerator;
+		$this->purchaseRepository = $purchaseRepository;
+		$this->purchaseItemRepository = $purchaseItemRepository;
 		$this->deliveryCountryPaymentPricesRepository = $deliveryCountryPaymentPricesRepository;
 	}
 
@@ -171,10 +182,12 @@ final class FinishPurchasePresenter extends BasePresenter
 	
 	public function actionSavePurchase(): void
 	{
-		$purchase = PurchaseFactory::createFromCustomerData($this->basketService->getCustomerData());
-		dump($purchase);
+		$totalPurchasePrice = PriceCalculator::calculateTotalPurchasePrice($this->basketService->getTotalProductPrice(), $this->basketService->getCustomerData()->getDeliveryService()->getDeliveryPrice(), $this->basketService->getCustomerData()->getDeliveryService()->getPaymentPrice());
+		$purchase = PurchaseFactory::createFromCustomerData($this->basketService->getCustomerData(), $totalPurchasePrice);
 		$purchaseItems = PurchaseItemFactory::createFromBasketData($this->basketService->getAllBasketItems());
-		dump($purchaseItems);
+		$howDidItGo = $this->purchaseRepository->insert($purchase);
+		$rowCount = $this->purchaseItemRepository->insertMultiple($howDidItGo['id'], $purchaseItems);
+		dump($rowCount);
 		exit;
 	}
 }

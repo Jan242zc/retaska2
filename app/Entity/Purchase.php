@@ -46,6 +46,9 @@ final class Purchase
 	/** @var float */
 	private $paymentPrice;
 	
+	/** @var float */
+	private $totalPrice;
+	
 	/** @var bool */
 	private $shipToOtherThanCustomerAdress;
 	
@@ -70,7 +73,7 @@ final class Purchase
 	/** @var string */
 	private $note;
 	
-	public function __construct(int $id = null, string $customerName, string $customerStreetAndNumber, string $customerCity, string $customerZip, Country $customerCountry, string $email, string $phone, string $deliveryName, float $deliveryPrice, string $paymentName, float $paymentPrice, bool $shipToOtherThanCustomerAdress, PurchaseStatus $purchaseStatus = null, array $purchaseItems = null, string $deliveryStreetAndNumber = null, string $deliveryCity = null, string $deliveryZip = null, Country $deliveryCountry= null, string $note = null){
+	public function __construct(int $id = null, string $customerName, string $customerStreetAndNumber, string $customerCity, string $customerZip, Country $customerCountry, string $email, string $phone, string $deliveryName, float $deliveryPrice, string $paymentName, float $paymentPrice, float $totalPrice, bool $shipToOtherThanCustomerAdress, PurchaseStatus $purchaseStatus = null, array $purchaseItems = null, string $deliveryStreetAndNumber = null, string $deliveryCity = null, string $deliveryZip = null, Country $deliveryCountry = null, string $note = null){
 		$this->id = $id;
 		$this->customerName = $customerName;
 		$this->customerStreetAndNumber = $customerStreetAndNumber;
@@ -83,6 +86,7 @@ final class Purchase
 		$this->deliveryPrice = $deliveryPrice;
 		$this->paymentName = $paymentName;
 		$this->paymentPrice = $paymentPrice;
+		$this->totalPrice = $totalPrice;
 		$this->shipToOtherThanCustomerAdress = $shipToOtherThanCustomerAdress;
 		$this->purchaseStatus = $purchaseStatus;
 		$this->purchaseItems = $purchaseItems;
@@ -98,7 +102,7 @@ final class Purchase
 		return $this->id;
 	}
 	
-	public function setId(string $id): void
+	public function setId(int $id): void
 	{
 		$this->id = $id;
 	}
@@ -188,7 +192,7 @@ final class Purchase
 		return $this->deliveryPrice;
 	}
 	
-	public function setDeliveryPrice(string $deliveryPrice): void
+	public function setDeliveryPrice(float $deliveryPrice): void
 	{
 		$this->deliveryPrice = $deliveryPrice;
 	}
@@ -201,6 +205,26 @@ final class Purchase
 	public function setPaymentName(string $paymentName): void
 	{
 		$this->paymentName = $paymentName;
+	}
+	
+	public function getPaymentPrice(): float
+	{
+		return $this->paymentPrice;
+	}
+	
+	public function setPaymentPrice(float $paymentPrice): void
+	{
+		$this->paymentPrice = $paymentPrice;
+	}
+	
+	public function getTotalPrice(): float
+	{
+		return $this->totalPrice;
+	}
+	
+	public function setTotalPrice(float $totalPrice): void
+	{
+		$this->totalPrice = $totalPrice;
 	}
 	
 	public function getShipToOtherThanCustomerAdress(): bool
@@ -298,8 +322,9 @@ final class Purchase
 			'deliveryPrice' => $this->deliveryPrice,
 			'paymentName' => $this->paymentName,
 			'paymentPrice' => $this->paymentPrice,
+			'totalPrice' => $this->totalPrice,
 			'shipToOtherThanCustomerAdress' => $this->shipToOtherThanCustomerAdress,
-			'purchaseStatus' => $this->purchaseStatus->getId(),
+			'purchaseStatus_id' => null,
 			'deliveryStreetAndNumber' => null,
 			'deliveryCity' => null,
 			'deliveryZip' => null,
@@ -312,6 +337,10 @@ final class Purchase
 			$array['deliveryCity'] = $this->deliveryCity;
 			$array['deliveryZip'] = $this->deliveryZip;
 			$array['deliveryCountry'] = $this->deliveryCountry->getId();
+		}
+		
+		if(!is_null($this->purchaseStatus)){
+			$array['purchaseStatus_id'] = $this->purchaseStatus->getId();
 		}
 		
 		if(!is_null($this->note)){
