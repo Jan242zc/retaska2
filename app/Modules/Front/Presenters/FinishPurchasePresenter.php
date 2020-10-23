@@ -14,6 +14,7 @@ use App\Services\Repository\RepositoryInterface\IDeliveryCountryPaymentPricesRep
 use App\Services\DeliveryCountryPaymentPricesArrayGenerator;
 use App\Entity\Factory\CustomerDataFactory;
 use App\Entity\Factory\PurchaseFactory;
+use App\Entity\Factory\PurchaseItemFactory;
 
 
 final class FinishPurchasePresenter extends BasePresenter
@@ -172,6 +173,8 @@ final class FinishPurchasePresenter extends BasePresenter
 	{
 		$purchase = PurchaseFactory::createFromCustomerData($this->basketService->getCustomerData());
 		dump($purchase);
+		$purchaseItems = PurchaseItemFactory::createFromBasketData($this->basketService->getAllBasketItems());
+		dump($purchaseItems);
 		exit;
 	}
 }

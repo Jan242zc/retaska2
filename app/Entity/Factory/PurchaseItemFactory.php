@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity\Factory;
 
 use App\Entity\PurchaseItem;
+use App\Entity\BasketItem;
 
 
 final class PurchaseItemFactory
@@ -29,5 +30,21 @@ final class PurchaseItemFactory
 		}
 		
 		return new PurchaseItem($id, $object->purchase_id, $object->product_id, $object->product_name, $object->product_price, $object->quantity, $object->price);
+	}
+	
+	public static function createFromBasketData(Array $basketItems): Array
+	{
+		$result = [];
+		
+		foreach($basketItems as $item){
+			$result[] = self::createFromBasketItemData($item);
+		}
+		
+		return $result;
+	}
+	
+	public static function createFromBasketItemData(BasketItem $basketItem): PurchaseItem
+	{
+		return new PurchaseItem(null, null, $basketItem->getProduct()->getId(), $basketItem->getProduct()->getName(), $basketItem->getProduct()->getPrice(), $basketItem->getQuantity(), $basketItem->getPrice());
 	}
 }
