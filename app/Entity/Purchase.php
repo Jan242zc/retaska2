@@ -52,12 +52,15 @@ final class Purchase
 	/** @var bool */
 	private $shipToOtherThanCustomerAdress;
 	
+	/** @var \DateTime */
+	private $createdAt;
+	
 	/** @var PurchaseStatus */
 	private $purchaseStatus;
 	
 	/** @var array */
 	private $purchaseItems;
-	
+
 	/** @var string */
 	private $deliveryStreetAndNumber;
 	
@@ -73,7 +76,7 @@ final class Purchase
 	/** @var string */
 	private $note;
 	
-	public function __construct(int $id = null, string $customerName, string $customerStreetAndNumber, string $customerCity, string $customerZip, Country $customerCountry, string $email, string $phone, string $deliveryName, float $deliveryPrice, string $paymentName, float $paymentPrice, float $totalPrice, bool $shipToOtherThanCustomerAdress, PurchaseStatus $purchaseStatus = null, array $purchaseItems = null, string $deliveryStreetAndNumber = null, string $deliveryCity = null, string $deliveryZip = null, Country $deliveryCountry = null, string $note = null){
+	public function __construct(int $id = null, string $customerName, string $customerStreetAndNumber, string $customerCity, string $customerZip, Country $customerCountry, string $email, string $phone, string $deliveryName, float $deliveryPrice, string $paymentName, float $paymentPrice, float $totalPrice, bool $shipToOtherThanCustomerAdress, \DateTime $createdAt = null, PurchaseStatus $purchaseStatus = null, array $purchaseItems = null, string $deliveryStreetAndNumber = null, string $deliveryCity = null, string $deliveryZip = null, Country $deliveryCountry = null, string $note = null){
 		$this->id = $id;
 		$this->customerName = $customerName;
 		$this->customerStreetAndNumber = $customerStreetAndNumber;
@@ -88,6 +91,7 @@ final class Purchase
 		$this->paymentPrice = $paymentPrice;
 		$this->totalPrice = $totalPrice;
 		$this->shipToOtherThanCustomerAdress = $shipToOtherThanCustomerAdress;
+		$this->createdAt = $createdAt;
 		$this->purchaseStatus = $purchaseStatus;
 		$this->purchaseItems = $purchaseItems;
 		$this->deliveryStreetAndNumber = $deliveryStreetAndNumber;
@@ -237,6 +241,16 @@ final class Purchase
 		$this->shipToOtherThanCustomerAdress = $shipToOtherThanCustomerAdress;
 	}
 	
+	public function getCreatedAt()
+	{
+		return $this->createdAt;
+	}
+	
+	public function setCreatedAt(\DateTime $createdAt): void
+	{
+		$this->createdAt = $createdAt;
+	}
+		
 	public function getPurchaseStatus()
 	{
 		return $this->purchaseStatus;
@@ -324,6 +338,7 @@ final class Purchase
 			'paymentPrice' => $this->paymentPrice,
 			'totalPrice' => $this->totalPrice,
 			'shipToOtherThanCustomerAdress' => $this->shipToOtherThanCustomerAdress,
+			'created_at' => null,
 			'purchaseStatus_id' => null,
 			'deliveryStreetAndNumber' => null,
 			'deliveryCity' => null,
@@ -337,6 +352,10 @@ final class Purchase
 			$array['deliveryCity'] = $this->deliveryCity;
 			$array['deliveryZip'] = $this->deliveryZip;
 			$array['deliveryCountry'] = $this->deliveryCountry->getId();
+		}
+		
+		if(!is_null($this->purchaseStatus)){
+			$array['created_at'] = $this->createdAt;
 		}
 		
 		if(!is_null($this->purchaseStatus)){

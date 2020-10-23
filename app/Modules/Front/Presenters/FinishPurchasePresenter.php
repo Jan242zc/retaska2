@@ -197,9 +197,9 @@ final class FinishPurchasePresenter extends BasePresenter
 			$this->redirect('FinishPurchase:purchaseRecap');
 		}
 		if($howDidSavingPurchaseGo['rowCount'] !== 1 || $purchaseItemsRowCount !== count($this->basketService->getAllBasketItems())){
-			//sniž množství na skladě
-			//zresetuj košík
-			//$this->redirect('Poděkování');
+				//sniž množství na skladě
+				//zresetuj košík
+				//$this->redirect('Poděkování');
 				$this->flashMessage('Při zpracování objednávky došlo k chybě. Zkuste to prosím později.');
 				$this->redirect('FinishPurchase:purchaseRecap');
 			}

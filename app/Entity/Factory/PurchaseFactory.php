@@ -21,7 +21,7 @@ final class PurchaseFactory
 		
 		$data = self::nullNullableInArray($data);
 		
-		return new Purchase($id, $data['customerName'], $data['customerStreetAndNumber'], $data['customerCity'], $data['customerZip'], $data['customerCountry'], $data['email'], $data['phone'], $data['deliveryName'], $data['deliveryPrice'], $data['paymentName'], $data['paymentPrice'], $data['totalPrice'], $data['shipToOtherThanCustomerAdress'], $data['purchaseStatus'], $data['purchaseItems'], $data['deliveryStreetAndNumber'], $data['deliveryCity'], $data['deliveryZip'], $data['deliveryCountry'], $data['note']);
+		return new Purchase($id, $data['customerName'], $data['customerStreetAndNumber'], $data['customerCity'], $data['customerZip'], $data['customerCountry'], $data['email'], $data['phone'], $data['deliveryName'], $data['deliveryPrice'], $data['paymentName'], $data['paymentPrice'], $data['totalPrice'], $data['shipToOtherThanCustomerAdress'], $data['created_at'], $data['purchaseStatus'], $data['purchaseItems'], $data['deliveryStreetAndNumber'], $data['deliveryCity'], $data['deliveryZip'], $data['deliveryCountry'], $data['note']);
 	}
 	
 	public static function createFromObject($object): Purchase
@@ -34,7 +34,7 @@ final class PurchaseFactory
 		
 		$object = self::nullNullableInObject($object);
 		
-		return new Purchase($id, $object->customerName, $object->customerStreetAndNumber, $object->customerCity, $object->customerZip, $object->customerCountry, $object->email, $object->phone, $object->deliveryName, $object->deliveryPrice, $object->paymentName, $object->paymentPrice, $object->totalPrice, $object->shipToOtherThanCustomerAdress, $object->purchaseStatus, $object->purchaseItems, $object->deliveryStreetAndNumber, $object->deliveryCity, $object->deliveryZip, $object->deliveryCountry, $object->note);
+		return new Purchase($id, $object->customerName, $object->customerStreetAndNumber, $object->customerCity, $object->customerZip, $object->customerCountry, $object->email, $object->phone, $object->deliveryName, $object->deliveryPrice, $object->paymentName, $object->paymentPrice, $object->totalPrice, $object->shipToOtherThanCustomerAdress, $object->created_at, $object->purchaseStatus, $object->purchaseItems, $object->deliveryStreetAndNumber, $object->deliveryCity, $object->deliveryZip, $object->deliveryCountry, $object->note);
 	}
 	
 	private static function nullNullableInArray(array $data): array
@@ -76,6 +76,7 @@ final class PurchaseFactory
 			$customerData->getDeliveryService()->getPaymentPrice(),
 			$totalPrice,
 			$customerData->getDifferentAdress(),
+			null,
 			null,
 			null,
 			$customerData->getDeliveryStreetAndNumber(),

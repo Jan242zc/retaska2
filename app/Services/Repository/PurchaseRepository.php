@@ -44,6 +44,7 @@ final class PurchaseRepository extends BaseRepository implements ICreatableAndDe
 		}
 
 		$purchase->setPurchaseStatus($this->purchaseStatusRepository->findDefaultStatusForNewPurchases());
+		$purchase->setCreatedAt(new \DateTime('now'));
 
 		$howDidItGo = $this->database->query("
 			INSERT INTO purchase
