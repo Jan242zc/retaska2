@@ -12,15 +12,20 @@ use App\Entity\Product;
 use App\Entity\CustomerData;
 use App\Services\GeneralServiceInterface\IBasketService;
 use App\Services\PriceCalculator;
+use App\Services\Repository\RepositoryInterface\IProductRepository;
 
 
 final class BasketService implements IBasketService
 {
-	/** var @Basket */
+	/** @var Basket */
 	private $basketSessionSection;
 	
-	public function __construct(Session $session){
+	/** @var IProductRepository */
+	private $productRepository;
+	
+	public function __construct(Session $session, IProductRepository $productRepository){
 		$this->basketSessionSection = $this->getThisServicesSessionSection($session);
+		$this->productRepository = $productRepository;
 	}
 	
 	private function getThisServicesSessionSection($session) //what to return?
@@ -121,14 +126,21 @@ final class BasketService implements IBasketService
 		return $this->basketSessionSection->getTotalPrice();
 	}
 	
-	public function checkAvailibility(): void
+	public function checkAvailibility(): bool
 	{
+		//update available amount of the products in basket
+		$this->basketSessionSection->setItems($this->productRepository->updateAvailableQuantitiesOfBasketItems($this->basketSessionSection->getItems()));
+		$anyProductInBasketUnavailable = false;
+
 		foreach($this->getBasketItemsIds() as $id){
 			$item = $this->basketSessionSection->getItemById($id);
 			if($item->getProduct()->getAmountAvailable() < $item->getQuantity()){
 				$item->setRequstedQuantityNotAvailable(true);
+				$anyProductInBasketUnavailable = true;
 			}
 		}
+		
+		return $anyProductInBasketUnavailable;
 	}
 	
 	public function deleteZeros(): void
