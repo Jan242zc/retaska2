@@ -13,6 +13,7 @@ use App\Services\Repository\RepositoryInterface\IEntityRepository;
 use App\Services\Repository\RepositoryInterface\ICategoryRepository;
 use App\Services\Repository\RepositoryInterface\INameableEntityRepository;
 use App\Entity\Product;
+use App\Entity\BasketItem;
 use App\Entity\Factory\ProductFactory;
 use App\Entity\Factory\CategoryFactory;
 
@@ -244,6 +245,28 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 		}
 		
 		return $basketItems;
+	}
+
+	
+	public function decreaseAvailableAmountsByBasketData(Array $basketItems): int
+	{
+		$rows = 0;
+		foreach($basketItems as $basketItem){
+			$rows += $this->decreaseAvailableAmountByBasketItem($basketItem);
+		}
+
+		return $rows;
+	}
+	
+	private function decreaseAvailableAmountByBasketItem(BasketItem $basketItem): int
+	{
+		$howDidItGo = $this->database->query("
+			UPDATE product
+			SET amountAvailable = amountAvailable - ?
+			WHERE id = ?
+		", $basketItem->getQuantity(), $basketItem->getProduct()->getId());
+		
+		return $howDidItGo->getRowCount();
 	}
 
 	private function queryResultToArrayOfObjects($queryResult): Array

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Services\Repository;
 
 use Nette;
+use App\Entity\BasketItem;
 use App\Services\Repository\BaseRepository;
 use App\Services\Repository\RepositoryInterface\IPurchaseRepository;
 use App\Services\Repository\RepositoryInterface\IPurchaseItemRepository;
@@ -60,7 +61,7 @@ final class PurchaseRepository extends BaseRepository implements ICreatableAndDe
 	{}
 	public function delete(string $identification)
 	{}
-	
+
 	private function getUsedIds(): array
 	{
 		$usedIds = $this->database

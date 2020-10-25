@@ -12,6 +12,7 @@ use App\Services\Repository\RepositoryInterface\IDeliveryRepository;
 use App\Services\Repository\RepositoryInterface\IPaymentRepository;
 use App\Services\Repository\RepositoryInterface\IPurchaseRepository;
 use App\Services\Repository\RepositoryInterface\IPurchaseItemRepository;
+use App\Services\Repository\RepositoryInterface\IProductRepository;
 use App\Services\Repository\RepositoryInterface\IDeliveryCountryPaymentPricesRepository;
 use App\Services\PriceCalculator;
 use App\Services\DeliveryCountryPaymentPricesArrayGenerator;
@@ -44,8 +45,11 @@ final class FinishPurchasePresenter extends BasePresenter
 	
 	/** @var IPurchaseItemRepository */
 	private $purchaseItemRepository;
+	
+	/** @var IProductRepository */
+	private $productRepository;
 
-	public function __construct(IBasketService $basketService, ICountryRepository $countryRepository, IDeliveryRepository $deliveryRepository, IPaymentRepository $paymentRepository, DeliveryCountryPaymentPricesArrayGenerator $deliveryCountryPaymentPricesArrayGenerator, IPurchaseRepository $purchaseRepository, IPurchaseItemRepository $purchaseItemRepository, IDeliveryCountryPaymentPricesRepository $deliveryCountryPaymentPricesRepository){
+	public function __construct(IBasketService $basketService, ICountryRepository $countryRepository, IDeliveryRepository $deliveryRepository, IPaymentRepository $paymentRepository, DeliveryCountryPaymentPricesArrayGenerator $deliveryCountryPaymentPricesArrayGenerator, IPurchaseRepository $purchaseRepository, IPurchaseItemRepository $purchaseItemRepository, IDeliveryCountryPaymentPricesRepository $deliveryCountryPaymentPricesRepository, IProductRepository $productRepository){
 		$this->basketService = $basketService;
 		$this->countryRepository = $countryRepository;
 		$this->deliveryRepository = $deliveryRepository;
@@ -54,6 +58,7 @@ final class FinishPurchasePresenter extends BasePresenter
 		$this->purchaseRepository = $purchaseRepository;
 		$this->purchaseItemRepository = $purchaseItemRepository;
 		$this->deliveryCountryPaymentPricesRepository = $deliveryCountryPaymentPricesRepository;
+		$this->productRepository = $productRepository;
 	}
 
 	public function renderDefault(): void
@@ -197,13 +202,11 @@ final class FinishPurchasePresenter extends BasePresenter
 			$this->redirect('FinishPurchase:purchaseRecap');
 		}
 		if($howDidSavingPurchaseGo['rowCount'] !== 1 || $purchaseItemsRowCount !== count($this->basketService->getAllBasketItems())){
-				//sniž množství na skladě
-				//zresetuj košík
-				//$this->redirect('Poděkování');
-				$this->flashMessage('Při zpracování objednávky došlo k chybě. Zkuste to prosím později.');
-				$this->redirect('FinishPurchase:purchaseRecap');
-			}
-			$this->flashMessage('Ď');
-			$this->redirect('Homepage:default');
+			$this->flashMessage('Při zpracování objednávky došlo k chybě. Zkuste to prosím později.');
+			$this->redirect('FinishPurchase:purchaseRecap');
+		}
+		$productsAdjusted = $this->productRepository->decreaseAvailableAmountsByBasketData($this->basketService->getAllBasketItems());
+		$this->flashMessage('Ď');
+		$this->redirect('Homepage:default');
 	}
 }
