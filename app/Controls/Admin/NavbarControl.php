@@ -14,14 +14,14 @@ final class NavbarControl extends Control
 		
 		$linksCssClasses = [
 			'Admin:Homepage' => '',
-			'Admin:Category' => '',
-			'Admin:Entity' => '',
 			'Admin:Product' => '',
+			'Admin:Category' => '',
 			'Admin:Country' => '',
-			'Admin:Payment' => '',
 			'Admin:Delivery' => '',
+			'Admin:Payment' => '',
 			'Admin:DeliveryCountryPaymentPrices' => '',
-			'Admin:PurchaseStatus' => ''
+			'Admin:PurchaseStatus' => '',
+			'Admin:Entity' => ''
 		];
 		
 		$linksCssClasses[$this->getPresenter()->getName()] = $activeLinkCssClass;

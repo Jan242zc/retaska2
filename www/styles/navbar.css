@@ -18,7 +18,11 @@ ul.navbar-fixed{
 ul.navbar > li { /*toto funguje skvěle*/
 	display: inline-block;
 	text-decoration: none;
-	padding: 0 1em;
+	padding: 0 .5em;
+}
+
+ul.navbar-admin > li{
+	font-size: .95em;
 }
 
 li > a { /*inherit tedy slouží k tomu, aby se přebil user ager stylesheet (v tomto případě u odkazů), ale abychom nemuseli znovu přepisovat to samé */
