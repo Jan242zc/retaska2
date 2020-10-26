@@ -14,6 +14,7 @@ final class NavbarControl extends Control
 		
 		$linksCssClasses = [
 			'Admin:Homepage' => '',
+			'Admin:Purchase' => '',
 			'Admin:Product' => '',
 			'Admin:Category' => '',
 			'Admin:Country' => '',

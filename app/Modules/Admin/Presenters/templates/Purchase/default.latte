@@ -1,0 +1,39 @@
+{block content}
+	<div class="container">
+		<div class="everything-wrapper">
+			<h1 class="middle">Objednávky</h1>
+			{if !$purchases}
+				<p class="nothing-found">V databázi nebyly nalezeny žádné objednávky.</p>
+			{else}
+				<table class="crud-table">
+					<thead>
+						<tr>
+							<td id="ids"> ID </td>
+							<td> Jméno zákazníka </td>
+							<td> Celková cena </td>
+							<td> Počet položek </td>
+							<td> Přijetí objednávky </td>
+							<td> Stav objednávky </td>
+							<td id="actions"> Možnosti </td>
+						</tr>
+					</thead>
+					<tbody>
+						{foreach $purchases as $purchase}
+							<tr>
+								<td> {$purchase->getId()} </td>
+								<td> {$purchase->getCustomerName()} </td>
+								<td> {$purchase->getTotalPrice()} </td>
+								<td> {count($purchase->getPurchaseItems())} </td>
+								<td> {$purchase->getCreatedAt()|date: 'd.m.Y H:i:s'} </td>
+								<td> {$purchase->getPurchaseStatus()->getName()} </td>
+								<td>
+									{*<a class="crud crud-edit" n:href="Payment:manage, $payment->getId() . ' ' . $payment->getName()">Upravit</a> 
+									<a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="Payment:delete, $payment->getId() . ' ' . $payment->getName()">Vymazat</a> *}
+								</td>
+							</tr>
+						{/foreach}
+					</tbody>
+				</table>
+			{/if}
+		</div>
+	</div>

@@ -9,6 +9,7 @@ use App\Services\Repository\RepositoryInterface\IPurchaseItemRepository;
 use App\Services\Repository\RepositoryInterface\ICreatableAndDeleteableEntityRepository;
 use App\Services\Repository\RepositoryInterface\IEntityRepository;
 use App\Services\Repository\BaseRepository;
+use App\Entity\Factory\PurchaseItemFactory;
 
 
 final class PurchaseItemRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, IPurchaseItemRepository
@@ -24,6 +25,18 @@ final class PurchaseItemRepository extends BaseRepository implements ICreatableA
 	
 	public function findAll(): Array
 	{}
+	
+	public function findByPurchaseId(int $purchaseId): Array
+	{
+		$queryResult = $this->database->query("
+			SELECT *
+			FROM purchaseItem
+			WHERE purchase_id = ?
+		", $purchaseId);
+		
+		return $arrayOfPurchaseItems = $this->queryResultToArrayOfObjects($queryResult);
+	}
+
 	public function findById(int $id)
 	{}
 	public function update($object)
@@ -73,5 +86,16 @@ final class PurchaseItemRepository extends BaseRepository implements ICreatableA
 			->fetchPairs();
 		
 		return $usedIds;
+	}
+	
+	private function queryResultToArrayOfObjects($queryResult): Array
+	{
+		$arrayOfObjects = [];
+		
+		while($row = $queryResult->fetch()){
+			$arrayOfObjects[] = PurchaseItemFactory::createFromObject($row);
+		}
+		
+		return $arrayOfObjects;
 	}
 }

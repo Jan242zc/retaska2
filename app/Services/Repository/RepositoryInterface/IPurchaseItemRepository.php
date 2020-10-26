@@ -8,4 +8,5 @@ namespace App\Services\Repository\RepositoryInterface;
 interface IPurchaseItemRepository
 {
 	public function insertMultiple(int $purchaseId, array $items): int;
+	public function findByPurchaseId(int $purchaseId): Array;
 }
