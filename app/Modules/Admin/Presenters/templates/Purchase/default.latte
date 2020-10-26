@@ -27,8 +27,8 @@
 								<td> {$purchase->getCreatedAt()|date: 'd.m.Y H:i:s'} </td>
 								<td> {$purchase->getPurchaseStatus()->getName()} </td>
 								<td>
-									{*<a class="crud crud-edit" n:href="Payment:manage, $payment->getId() . ' ' . $payment->getName()">Upravit</a> 
-									<a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="Payment:delete, $payment->getId() . ' ' . $payment->getName()">Vymazat</a> *}
+									<a class="crud crud-edit" n:href="Purchase:detail, $purchase->getId()">Zobrazit</a> 
+									{*<a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="Purchase:delete, $purchase->getId()">Vymazat</a> *}
 								</td>
 							</tr>
 						{/foreach}

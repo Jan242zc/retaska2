@@ -1,0 +1,26 @@
+table.purchase-detail-tables {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+table.purchase-detail-tables-two-columns td {
+	width: 50%;
+}
+
+table.purchase-detail-tables > thead {
+	font-weight: 600; 
+	line-height: 2.5em; 
+	text-align: center;
+}
+
+table.purchase-detail-tables-with-stripes tr {
+	border-top: 1px solid blue;
+}
+
+table.purchase-detail-tables td.align-center {
+	text-align: center;
+}
+
+table.purchase-detail-tables td.align-right {
+	text-align: right;
+}

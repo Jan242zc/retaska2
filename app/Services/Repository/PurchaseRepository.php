@@ -48,8 +48,18 @@ final class PurchaseRepository extends BaseRepository implements ICreatableAndDe
 		return $arrayOfPurchases;
 	}
 
-	public function findById(int $id)
-	{}
+	public function findById(int $id): Purchase
+	{
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM purchase
+				WHERE id = ?
+			", $id)
+			->fetch();
+
+		return $purchase = $this->queryResultRowToObject($queryResult);
+	}
 
 	public function insert($purchase)
 	{
@@ -94,13 +104,21 @@ final class PurchaseRepository extends BaseRepository implements ICreatableAndDe
 		$arrayOfPurchaseObjects = [];
 		
 		while($row = $queryResult->fetch()){
-			$row->customerCountry = $this->countryRepository->findById($row->customerCountry);
-			$row->deliveryCountry = $this->countryRepository->findById($row->deliveryCountry);
-			$row->purchaseStatus = $this->purchaseStatusRepository->findById($row->purchasestatus_id);
-			$row->purchaseItems = $this->purchaseItemRepository->findByPurchaseId($row->id);
-			$arrayOfPurchaseObjects[] = PurchaseFactory::createFromObject($row);
+			$arrayOfPurchaseObjects[] = $this->queryResultRowToObject($row);
 		}
 		
 		return $arrayOfPurchaseObjects;
+	}
+	
+	private function queryResultRowToObject($queryResultRow): Purchase
+	{
+		$queryResultRow->customerCountry = $this->countryRepository->findById($queryResultRow->customerCountry);
+		if(!is_null($queryResultRow->deliveryCountry)){
+			$queryResultRow->deliveryCountry = $this->countryRepository->findById($queryResultRow->deliveryCountry);			
+		}
+		$queryResultRow->purchaseStatus = $this->purchaseStatusRepository->findById($queryResultRow->purchasestatus_id);
+		$queryResultRow->purchaseItems = $this->purchaseItemRepository->findByPurchaseId($queryResultRow->id);
+		
+		return $purchase = PurchaseFactory::createFromObject($queryResultRow);
 	}
 }

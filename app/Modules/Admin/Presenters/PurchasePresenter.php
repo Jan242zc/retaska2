@@ -21,4 +21,17 @@ final class PurchasePresenter extends BasePresenter
 	{
 		$this->template->purchases = $this->purchaseRepository->findAll();
 	}
+	
+	public function renderDetail($id): void
+	{
+		try{
+			$purchase = $this->purchaseRepository->findById(intval($id));
+		} catch(\Exception $ex){
+			$this->flashMessage('Objednávka nenalezena.');
+			$this->redirect('Purchase:default');
+		}
+		
+		$this->template->purchase = $purchase;
+	}
+	
 }

@@ -1,0 +1,146 @@
+{block content}
+	<div class="container">
+		<div class="everything-wrapper">
+			<div class="row">
+				<div class="re50">
+					<h1>Interní údaje o objednávce</h1>
+					<table class="purchase-detail-tables purchase-detail-tables-two-columns">
+						<tbody>
+							<tr>
+								<td> ID v databázi: </td>
+								<td> {$purchase->getId()} </td>
+							</tr>
+						</tbody>
+					</table>
+					<h1>Fakturační a kontaktní údaje</h1>
+					<table class="purchase-detail-tables purchase-detail-tables-two-columns">
+						<tbody>
+							<tr>
+								<td> Jméno a příjmení: </td>
+								<td> {$purchase->getCustomerName()} </td>
+							</tr>
+							<tr>
+								<td> Ulice a č.p.: </td>
+								<td> {$purchase->getCustomerStreetAndNumber()} </td>
+							</tr>
+							<tr>
+								<td> Město: </td>
+								<td> {$purchase->getCustomerCity()} </td>
+							</tr>
+							<tr>
+								<td> PSČ: </td>
+								<td> {$purchase->getCustomerZip()} </td>
+							</tr>
+							<tr>
+								<td> Stát: </td>
+								<td> {$purchase->getCustomerCountry()->getName()} </td>
+							</tr>
+							<tr>
+								<td> Email: </td>
+								<td> {$purchase->getEmail()} </td>
+							</tr>
+							<tr>
+								<td> Telefon: </td>
+								<td> {$purchase->getPhone()} </td>
+							</tr>
+						</tbody>
+					</table>
+					<h1>Dodací podmínky</h1>
+					<table class="purchase-detail-tables purchase-detail-tables-two-columns">
+						<tbody>
+							<tr>
+								<td> Způsob doručení: </td>
+								<td> {$purchase->getDeliveryName()} </td>
+							</tr>
+							<tr>
+								<td> Cena doručení: </td>
+								<td> {$purchase->getDeliveryPrice()} Kč</td>
+							</tr>
+							<tr>
+								<td> Způsob platby: </td>
+								<td> {$purchase->getPaymentName()} </td>
+							</tr>
+							<tr>
+								<td> Poplatek na platbu: </td>
+								<td> {$purchase->getPaymentPrice()} Kč</td>
+							</tr>
+							<tr>
+								<td> Celková cena obj.: </td>
+								<td> {$purchase->getTotalPrice()} Kč</td>
+							</tr>
+							{if $purchase->getShipToOtherThanCustomerAdress()}
+								<tr>
+									<td> Doručit na jinou než fakturační adresu: </td>
+									<td> Ano</td>
+								</tr>
+								<tr>
+									<td> Ulice a č.p.: </td>
+									<td> {$purchase->getDeliveryStreetAndNumber()} </td>
+								</tr>
+								<tr>
+									<td> Město: </td>
+									<td> {$purchase->getDeliveryCity()} </td>
+								</tr>
+								<tr>
+									<td> PSČ: </td>
+									<td> {$purchase->getDeliveryZip()} </td>
+								</tr>
+								<tr>
+									<td> Stát: </td>
+									<td> {$purchase->getDeliveryCountry()->getName()} </td>
+								</tr>
+								</tr>
+									<td> Poznámka: </td>
+									<td> 
+										{if $purchase->getNote()}
+											{$purchase->getNote()}
+										{else}
+											(bez poznámky)
+										{/if}
+									</td>
+								</tr>
+							{else}
+								<tr>
+									<td> Doručit na jinou než fakturační adresu: </td>
+									<td> Ne </td>
+								</tr>
+							{/if}
+						</tbody>
+					</table>
+				</div>
+				<div class="re50">
+					<h1>Položky</h1>
+					<table class="purchase-detail-tables purchase-detail-tables-with-stripes">
+						<thead>
+							<tr>
+								<td> ID </td>
+								<td> ID zboží </td>
+								<td> Název zboží </td>
+								<td class="align-center"> Jedn. cena </td>
+								<td class="align-center"> Množství </td>
+								<td class="align-center"> Cena celkem </td>
+							</tr>
+						</thead>
+						<tbody>
+							{var $totalProdPrice = 0}
+							{foreach $purchase->getPurchaseItems() as $item}
+								<tr>
+									<td class="align-center"> {$item->getId()} </td>
+									<td class="align-center"> {$item->getProductId()} </td>
+									<td class="align-center"> {$item->getProductName()} </td>
+									<td class="align-right"> {$item->getProductPrice()} Kč</td>
+									<td class="align-right"> {$item->getQuantity()} </td>
+									<td class="align-right"> {$item->getPrice()} Kč</td>
+								</tr>
+								{var $totalProdPrice += $item->getPrice()}
+							{/foreach}
+							<tr>
+								<td colspan="6" class="align-right"> Celkem za zboží: {$totalProdPrice} Kč</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	

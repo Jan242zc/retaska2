@@ -201,7 +201,7 @@ final class Purchase
 		$this->deliveryPrice = $deliveryPrice;
 	}
 	
-	public function getPaymentName(): float
+	public function getPaymentName(): string
 	{
 		return $this->paymentName;
 	}
