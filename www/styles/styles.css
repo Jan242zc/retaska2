@@ -19,6 +19,7 @@ písmo: 2e97ff nebo #1b76ff nebo 0000ff
 @import 'form.css';
 @import 'flash.css';
 @import 'purchase-detail.css';
+@import 'form-purchaseStatus.css';
 
 body {
 	background-color: #ecfcff;

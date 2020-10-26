@@ -6,6 +6,8 @@ namespace App\Modules\Admin\Presenters;
 
 use App\Modules\Admin\Presenters\BaseAdminPresenter AS BasePresenter;
 use App\Services\Repository\RepositoryInterface\IPurchaseRepository;
+use App\Services\Repository\RepositoryInterface\IPurchaseStatusRepository;
+use Nette\Application\UI\Form;
 
 
 final class PurchasePresenter extends BasePresenter
@@ -13,8 +15,12 @@ final class PurchasePresenter extends BasePresenter
 	/** @var IPurchaseRepository */
 	private $purchaseRepository;
 	
-	public function __construct(IPurchaseRepository $purchaseRepository){
+	/** @var IPurchaseStatusRepository */
+	private $purchaseStatusRepository;
+	
+	public function __construct(IPurchaseRepository $purchaseRepository, IPurchaseStatusRepository $purchaseStatusRepository){
 		$this->purchaseRepository = $purchaseRepository;
+		$this->purchaseStatusRepository = $purchaseStatusRepository;
 	}
 	
 	public function renderDefault(): void
@@ -31,7 +37,35 @@ final class PurchasePresenter extends BasePresenter
 			$this->redirect('Purchase:default');
 		}
 		
+		$this['purchaseStatusForm']->setDefaults([
+			'id' => $purchase->getId()
+		]);
+		
 		$this->template->purchase = $purchase;
 	}
 	
+	protected function createComponentPurchaseStatusForm(): Form
+	{
+		$form = new Form();
+		$form->setHtmlAttribute('class', 'form');
+		$form->setHtmlAttribute('class', 'purchase-status');
+
+		$form->addHidden('id');
+
+		$form->addSelect('status', 'Stav:')
+			->setItems($this->purchaseStatusRepository->findAllForForm());
+
+		$form->addSubmit('save', 'Uložit')
+			->setHtmlAttribute('class', 'submit');
+
+		$form->onSuccess[] = [$this, 'purchaseStatusFormSucceeded'];
+
+		return $form;
+	}
+
+	public function purchaseStatusFormSucceeded(Form $form, Array $data): void
+	{
+		dump($data);
+		exit;
+	}
 }

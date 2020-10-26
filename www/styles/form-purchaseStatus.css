@@ -1,0 +1,12 @@
+form.purchase-status {
+	width: 100%;
+}
+
+form.purchase-status * {
+	display: inline-block;
+	margin: 0;
+}
+
+form.purchase-status select {
+	width: 100%;
+}
