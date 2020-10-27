@@ -58,6 +58,10 @@ final class PurchaseRepository extends BaseRepository implements ICreatableAndDe
 			", $id)
 			->fetch();
 
+		if(!$queryResult){
+			throw new \Exception('Purchase not found.');
+		}
+
 		return $purchase = $this->queryResultRowToObject($queryResult);
 	}
 
@@ -82,8 +86,21 @@ final class PurchaseRepository extends BaseRepository implements ICreatableAndDe
 			];
 	}
 	
-	public function update($object)
-	{}
+	public function update($purchase): int
+	{
+		$purchaseArray = $purchase->toArray();
+		$id = $purchaseArray['id'];
+		unset($purchaseArray['id']);
+
+		$howDidItGo = $this->database->query("
+			UPDATE purchase
+			SET ", $purchaseArray, "
+			WHERE id = ?", $id
+		);
+
+		return $howDidItGo->getRowCount();
+	}
+
 	public function delete(string $identification)
 	{}
 

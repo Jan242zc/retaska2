@@ -38,7 +38,8 @@ final class PurchasePresenter extends BasePresenter
 		}
 		
 		$this['purchaseStatusForm']->setDefaults([
-			'id' => $purchase->getId()
+			'id' => $purchase->getId(),
+			'status' => $purchase->getPurchaseStatus()->getId()
 		]);
 		
 		$this->template->purchase = $purchase;
@@ -65,7 +66,18 @@ final class PurchasePresenter extends BasePresenter
 
 	public function purchaseStatusFormSucceeded(Form $form, Array $data): void
 	{
-		dump($data);
-		exit;
+		$purchase = $this->purchaseRepository->findById(intval($data['id']));
+		$newPurchaseStatus = $this->purchaseStatusRepository->findById(intval($data['status']));
+
+		$purchase->setPurchaseStatus($newPurchaseStatus);
+		$purchaseId = $purchase->getId();
+		
+		if($this->purchaseRepository->update($purchase) === 1){
+			$this->flashMessage('Stav změněn.');
+			$this->redirect('this');
+		} else {
+			$this->flashMessage('Nebyla provedena změna nebo došlo k chybě.');
+			$this->redirect('this');
+		}
 	}
 }
