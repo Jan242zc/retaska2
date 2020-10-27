@@ -1,4 +1,5 @@
 {block content}
+	{var $purchaseCancelled = $purchase->getPurchaseStatus()->getMeansCancelled()}
 	<div class="container">
 		<div class="everything-wrapper">
 			<div class="left">
@@ -13,9 +14,18 @@
 								<td> ID v databázi: </td>
 								<td> {$purchase->getId()} </td>
 							</tr>
+							{if $purchaseCancelled}
+								<tr>
+									<td>Stav: </td>
+									<td>Zrušená </td>
+								</tr>
+							{/if}
 						</tbody>
 					</table>
-					{control purchaseStatusForm}
+					{if !$purchaseCancelled}
+						{control purchaseStatusForm}
+						Upozornění: případné zrušení objenávky nelze vrátit.
+					{/if}
 					<h1>Fakturační a kontaktní údaje</h1>
 					<table class="purchase-detail-tables purchase-detail-tables-two-columns">
 						<tbody>

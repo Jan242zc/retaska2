@@ -81,7 +81,7 @@ final class PurchasePresenter extends BasePresenter
 			if($this->productRepository->increaseAvailableAmountsByCancelledPurchaseData($purchase->getPurchaseItems()) !== count($purchase->getPurchaseItems())){
 				$this->flashMessage('Něco se pokazilo.');
 				$this->redirect('this');
-			}			
+			}
 		}
 
 		if($this->purchaseRepository->update($purchase) === 1){
