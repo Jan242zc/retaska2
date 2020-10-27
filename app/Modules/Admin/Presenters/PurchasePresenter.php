@@ -6,6 +6,7 @@ namespace App\Modules\Admin\Presenters;
 
 use App\Modules\Admin\Presenters\BaseAdminPresenter AS BasePresenter;
 use App\Services\Repository\RepositoryInterface\IPurchaseRepository;
+use App\Services\Repository\RepositoryInterface\IProductRepository;
 use App\Services\Repository\RepositoryInterface\IPurchaseStatusRepository;
 use Nette\Application\UI\Form;
 
@@ -18,9 +19,13 @@ final class PurchasePresenter extends BasePresenter
 	/** @var IPurchaseStatusRepository */
 	private $purchaseStatusRepository;
 	
-	public function __construct(IPurchaseRepository $purchaseRepository, IPurchaseStatusRepository $purchaseStatusRepository){
+	/** @var IProductRepository */
+	private $productRepository;
+	
+	public function __construct(IPurchaseRepository $purchaseRepository, IPurchaseStatusRepository $purchaseStatusRepository, IProductRepository $productRepository){
 		$this->purchaseRepository = $purchaseRepository;
 		$this->purchaseStatusRepository = $purchaseStatusRepository;
+		$this->productRepository = $productRepository;
 	}
 	
 	public function renderDefault(): void
@@ -67,11 +72,18 @@ final class PurchasePresenter extends BasePresenter
 	public function purchaseStatusFormSucceeded(Form $form, Array $data): void
 	{
 		$purchase = $this->purchaseRepository->findById(intval($data['id']));
-		$newPurchaseStatus = $this->purchaseStatusRepository->findById(intval($data['status']));
-
-		$purchase->setPurchaseStatus($newPurchaseStatus);
 		$purchaseId = $purchase->getId();
-		
+
+		$newPurchaseStatus = $this->purchaseStatusRepository->findById(intval($data['status']));
+		$purchase->setPurchaseStatus($newPurchaseStatus);
+
+		if($newPurchaseStatus->getMeansCancelled()){
+			if($this->productRepository->increaseAvailableAmountsByCancelledPurchaseData($purchase->getPurchaseItems()) !== count($purchase->getPurchaseItems())){
+				$this->flashMessage('Něco se pokazilo.');
+				$this->redirect('this');
+			}			
+		}
+
 		if($this->purchaseRepository->update($purchase) === 1){
 			$this->flashMessage('Stav změněn.');
 			$this->redirect('this');

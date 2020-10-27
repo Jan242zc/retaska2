@@ -14,6 +14,7 @@ use App\Services\Repository\RepositoryInterface\ICategoryRepository;
 use App\Services\Repository\RepositoryInterface\INameableEntityRepository;
 use App\Entity\Product;
 use App\Entity\BasketItem;
+use App\Entity\PurchaseItem;
 use App\Entity\Factory\ProductFactory;
 use App\Entity\Factory\CategoryFactory;
 
@@ -267,6 +268,27 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 			WHERE id = ?
 		", $basketItem->getQuantity(), $basketItem->getProduct()->getId());
 		
+		return $howDidItGo->getRowCount();
+	}
+
+	public function increaseAvailableAmountsByCancelledPurchaseData(Array $purchaseItems): int
+	{
+		$rows = 0;
+		foreach($purchaseItems as $purchaseItem){
+			$rows += $this->increaseAvailableAmountByCancelledPurchaseItem($purchaseItem);
+		}
+
+		return $rows;
+	}
+
+	private function increaseAvailableAmountByCancelledPurchaseItem(PurchaseItem $purchaseItem): int
+	{
+		$howDidItGo = $this->database->query("
+			UPDATE product
+			SET amountAvailable = amountAvailable + ?
+			WHERE id = ?
+		", $purchaseItem->getQuantity(), $purchaseItem->getProductId());
+
 		return $howDidItGo->getRowCount();
 	}
 
