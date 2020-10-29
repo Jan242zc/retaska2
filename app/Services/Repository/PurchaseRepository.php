@@ -130,11 +130,25 @@ final class PurchaseRepository extends BaseRepository implements ICreatableAndDe
 
 	public function delete($identification)
 	{
+		$purchase = $this->findById(intval($identification));
+
+		$this->database->beginTransaction();
+
 		$howDidItGo = $this->database->query("
 			DELETE FROM
 			purchase
 			WHERE id = ?
 		", $identification);
+
+		if(!$purchase->getPurchaseStatus()->getMeansCancelled()){
+			$rowAffectedByIncreasingAmounts = $this->productRepository->increaseAvailableAmountsByCancelledPurchaseData($purchase->getPurchaseItems());
+			if($rowAffectedByIncreasingAmounts !== count($purchase->getPurchaseItems())){
+				$this->database->rollback();
+				throw new \Exception('Unable to increase amounts of all products.');
+			}
+		}
+
+		$this->database->commit();
 
 		return $howDidItGo->getRowCount();
 	}

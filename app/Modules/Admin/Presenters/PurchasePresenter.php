@@ -95,11 +95,14 @@ final class PurchasePresenter extends BasePresenter
 
 	public function actionDelete($id): void
 	{
-		$purchase = $this->purchaseRepository->findById(intval($id));
-		$amountIncreaseSuccessful = $this->productRepository->increaseAvailableAmountsByCancelledPurchaseData($purchase->getPurchaseItems()) === count($purchase->getPurchaseItems());
-		$deleteSuccessful = $this->purchaseRepository->delete($id) === 1;
-		
-		if($deleteSuccessful && $amountIncreaseSuccessful){
+		try{
+			$deleteSuccessful = $this->purchaseRepository->delete($id) === 1;			
+		} catch (\Exception $ex) {
+			$this->flashMessage('Došlo k chybě.');
+			$this->redirect('Purchase:default');
+		}	
+
+		if($deleteSuccessful){
 			$this->flashMessage('Objednávky úspěšně smazána.');
 		} else {
 			$this->flashMessage('Něco se pokazilo.');			
