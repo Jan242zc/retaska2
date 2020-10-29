@@ -91,14 +91,30 @@ final class PurchaseRepository extends BaseRepository implements ICreatableAndDe
 		$purchase->setPurchaseStatus($this->purchaseStatusRepository->findDefaultStatusForNewPurchases());
 		$purchase->setCreatedAt(new \DateTime('now'));
 
+		$this->database->beginTransaction();
+
 		$howDidItGo = $this->database->query("
 			INSERT INTO purchase
 			", $purchase->toArray());
 
-		return [
-			'id' => $purchase->getId(),
-			'rowCount' => $howDidItGo->getRowCount()
-			];
+		$numberOfItems = count($purchase->getPurchaseItems());
+
+		try{
+			if($this->purchaseItemRepository->insertMultiple($purchase->getId(), $purchase->getPurchaseItems()) !== $numberOfItems){
+				$this->database->rollback();
+				throw new \Exception('Could not insert all items.');
+			}
+			if($this->productRepository->decreaseAvailableAmountsByProductQuantityArrays($purchase->itemsToProductIdQuantityArray()) !== $numberOfItems){
+				$this->database->rollback();
+				throw new \Exception('Could decrease all products amounts.');
+			}
+			$this->database->commit();
+		} catch(\Exception $ex){
+			$this->database->rollback();
+			throw $ex;
+		}
+
+		return $howDidItGo->getRowCount();
 	}
 	
 	public function update($purchase): int

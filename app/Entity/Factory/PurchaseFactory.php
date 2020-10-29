@@ -71,7 +71,7 @@ final class PurchaseFactory
 		return $object;
 	}
 	
-	public static function createFromCustomerData(CustomerData $customerData, float $totalPrice): Purchase
+	public static function createFromCustomerData(CustomerData $customerData, float $totalPrice, array $purchaseItems): Purchase
 	{
 		return new Purchase(
 			null,
@@ -90,7 +90,7 @@ final class PurchaseFactory
 			$customerData->getDifferentAdress(),
 			null,
 			null,
-			null,
+			$purchaseItems,
 			$customerData->getDeliveryStreetAndNumber(),
 			$customerData->getDeliveryCity(),
 			$customerData->getDeliveryZip(),

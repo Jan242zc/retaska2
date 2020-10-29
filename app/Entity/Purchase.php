@@ -368,4 +368,18 @@ final class Purchase
 		
 		return $array;
 	}
+
+	public function itemsToProductIdQuantityArray(): Array
+	{
+		$array = [];
+
+		foreach($this->purchaseItems as $item){
+			$array[] = [
+				'product_id' => $item->getProductId(),
+				'quantity' => $item->getQuantity()
+			];
+		}
+
+		return $array;
+	}	
 }

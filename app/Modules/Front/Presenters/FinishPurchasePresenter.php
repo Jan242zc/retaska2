@@ -197,20 +197,16 @@ final class FinishPurchasePresenter extends BasePresenter
 		$paymentPrice = $this->basketService->getCustomerData()->getDeliveryService()->getPaymentPrice();
 		$totalPurchasePrice = PriceCalculator::calculateTotalPurchasePrice($totalProductPrice, $deliveryPrice, $paymentPrice);
 		
-		$purchase = PurchaseFactory::createFromCustomerData($this->basketService->getCustomerData(), $totalPurchasePrice);
 		$purchaseItems = PurchaseItemFactory::createFromBasketData($this->basketService->getAllBasketItems());
+		$purchase = PurchaseFactory::createFromCustomerData($this->basketService->getCustomerData(), $totalPurchasePrice, $purchaseItems);
+
 		try{
-			$howDidSavingPurchaseGo = $this->purchaseRepository->insert($purchase);
-			$purchaseItemsRowCount = $this->purchaseItemRepository->insertMultiple($howDidSavingPurchaseGo['id'], $purchaseItems);
+			$insertedRows = $this->purchaseRepository->insert($purchase);
 		} catch(\Exception $ex){
-			$this->flashMessage('Při zpracování objednávky došlo k chybě. Zkuste to prosím později.');
+			$this->flashMessage('Při zpracovávání objednávky došlo k chybě. Zkuste to prosím později.');
 			$this->redirect('FinishPurchase:purchaseRecap');
 		}
-		if($howDidSavingPurchaseGo['rowCount'] !== 1 || $purchaseItemsRowCount !== count($this->basketService->getAllBasketItems())){
-			$this->flashMessage('Při zpracování objednávky došlo k chybě. Zkuste to prosím později.');
-			$this->redirect('FinishPurchase:purchaseRecap');
-		}
-		$productsAdjusted = $this->productRepository->decreaseAvailableAmountsByBasketData($this->basketService->getAllBasketItems());
+
 		$this->flashMessage('Ď');
 		$this->redirect('Homepage:default');
 	}
