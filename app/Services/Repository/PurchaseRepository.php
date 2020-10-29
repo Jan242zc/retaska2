@@ -116,14 +116,15 @@ final class PurchaseRepository extends BaseRepository implements ICreatableAndDe
 		);
 
 		if($purchase->getPurchaseStatus()->getMeansCancelled()){
-			$rowAffectedByIncreasingAmounts = $this->productRepository->increaseAvailableAmountsByCancelledPurchaseData($purchase->getPurchaseItems());
-			if($rowAffectedByIncreasingAmounts !== count($purchase->getPurchaseItems())){
+			try{
+				$this->increaseAvailableAmounts($purchase);
+			} catch (\Exception $ex){
 				$this->database->rollback();
-				throw new \Exception('Unable to increase amounts of all products.');
-			} else {
-				$this->database->commit();
+				throw $ex;
 			}
 		}
+
+		$this->database->commit();
 
 		return $howDidItGo->getRowCount();
 	}
@@ -141,10 +142,11 @@ final class PurchaseRepository extends BaseRepository implements ICreatableAndDe
 		", $identification);
 
 		if(!$purchase->getPurchaseStatus()->getMeansCancelled()){
-			$rowAffectedByIncreasingAmounts = $this->productRepository->increaseAvailableAmountsByCancelledPurchaseData($purchase->getPurchaseItems());
-			if($rowAffectedByIncreasingAmounts !== count($purchase->getPurchaseItems())){
+			try{
+				$this->increaseAvailableAmounts($purchase);
+			} catch (\Exception $ex){
 				$this->database->rollback();
-				throw new \Exception('Unable to increase amounts of all products.');
+				throw $ex;
 			}
 		}
 
@@ -186,5 +188,13 @@ final class PurchaseRepository extends BaseRepository implements ICreatableAndDe
 		$queryResultRow->purchaseItems = $this->purchaseItemRepository->findByPurchaseId($queryResultRow->id);
 		
 		return $purchase = PurchaseFactory::createFromObject($queryResultRow);
+	}
+
+	private function increaseAvailableAmounts($purchase): void
+	{
+		$rowAffectedByIncreasingAmounts = $this->productRepository->increaseAvailableAmountsByCancelledPurchaseData($purchase->getPurchaseItems());
+		if($rowAffectedByIncreasingAmounts !== count($purchase->getPurchaseItems())){
+			throw new \Exception('Unable to increase amounts of all products.');
+		}
 	}
 }

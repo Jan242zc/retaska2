@@ -103,7 +103,7 @@ final class PurchasePresenter extends BasePresenter
 		}	
 
 		if($deleteSuccessful){
-			$this->flashMessage('Objednávky úspěšně smazána.');
+			$this->flashMessage('Objednávka úspěšně smazána.');
 		} else {
 			$this->flashMessage('Něco se pokazilo.');			
 		}
