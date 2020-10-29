@@ -126,10 +126,23 @@ final class BasketService implements IBasketService
 		return $this->basketSessionSection->getTotalPrice();
 	}
 	
+	public function updateAvailableAmountsOfItems(): void
+	{
+		foreach($this->getBasketItemsIds() as $id){
+			$this->updateAvailableAmountOfItem($id);
+		}
+	}
+
+	private function updateAvailableAmountOfItem($id): void
+	{
+		$currentProductInDatabase = $this->productRepository->findById($id);
+		$this->basketSessionSection->getItemById($id)->getProduct()->setAmountAvailable($currentProductInDatabase->getAmountAvailable());
+	}
+
 	public function checkAvailibility(): bool
 	{
 		//update available amount of the products in basket
-		$this->basketSessionSection->setItems($this->productRepository->updateAvailableQuantitiesOfBasketItems($this->basketSessionSection->getItems()));
+		$this->updateAvailableAmountsOfItems();
 		$anyProductInBasketUnavailable = false;
 
 		foreach($this->getBasketItemsIds() as $id){
