@@ -187,7 +187,7 @@ final class FinishPurchasePresenter extends BasePresenter
 	
 	public function actionSavePurchase(): void
 	{
-		if($this->basketService->checkAvailibility()){
+		if($this->basketService->anyItemUnavailable()){
 			$this->flashMessage('Je nám moc líto, ale na poslední chvíli někdo vám někdo nějaké tašky vyfoukl před nosem.');
 			$this->redirect('FinishPurchase:purchaseRecap');
 		}

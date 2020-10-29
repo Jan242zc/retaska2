@@ -139,21 +139,29 @@ final class BasketService implements IBasketService
 		$this->basketSessionSection->getItemById($id)->getProduct()->setAmountAvailable($currentProductInDatabase->getAmountAvailable());
 	}
 
-	public function checkAvailibility(): bool
+	public function anyItemUnavailable(): bool
+	{
+		foreach($this->getBasketItemsIds() as $id){
+			$this->updateAvailableAmountOfItem($id);
+			$item = $this->basketSessionSection->getItemById($id);
+			if($item->getProduct()->getAmountAvailable() < $item->getQuantity()){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public function checkAvailibility(): void
 	{
 		//update available amount of the products in basket
 		$this->updateAvailableAmountsOfItems();
-		$anyProductInBasketUnavailable = false;
 
 		foreach($this->getBasketItemsIds() as $id){
 			$item = $this->basketSessionSection->getItemById($id);
 			if($item->getProduct()->getAmountAvailable() < $item->getQuantity()){
 				$item->setRequstedQuantityNotAvailable(true);
-				$anyProductInBasketUnavailable = true;
 			}
 		}
-		
-		return $anyProductInBasketUnavailable;
 	}
 	
 	public function deleteZeros(): void
