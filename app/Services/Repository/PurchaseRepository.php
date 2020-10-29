@@ -101,8 +101,16 @@ final class PurchaseRepository extends BaseRepository implements ICreatableAndDe
 		return $howDidItGo->getRowCount();
 	}
 
-	public function delete(string $identification)
-	{}
+	public function delete($identification)
+	{
+		$howDidItGo = $this->database->query("
+			DELETE FROM
+			purchase
+			WHERE id = ?
+		", $identification);
+
+		return $howDidItGo->getRowCount();
+	}
 
 	private function getUsedIds(): array
 	{

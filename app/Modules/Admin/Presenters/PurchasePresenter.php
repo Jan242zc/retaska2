@@ -92,4 +92,18 @@ final class PurchasePresenter extends BasePresenter
 			$this->redirect('this');
 		}
 	}
+
+	public function actionDelete($id): void
+	{
+		$purchase = $this->purchaseRepository->findById(intval($id));
+		$amountIncreaseSuccessful = $this->productRepository->increaseAvailableAmountsByCancelledPurchaseData($purchase->getPurchaseItems()) === count($purchase->getPurchaseItems());
+		$deleteSuccessful = $this->purchaseRepository->delete($id) === 1;
+		
+		if($deleteSuccessful && $amountIncreaseSuccessful){
+			$this->flashMessage('Objednávky úspěšně smazána.');
+		} else {
+			$this->flashMessage('Něco se pokazilo.');			
+		}
+		$this->redirect('Purchase:default');
+	}
 }

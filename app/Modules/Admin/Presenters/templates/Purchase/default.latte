@@ -28,7 +28,7 @@
 								<td> {$purchase->getPurchaseStatus()->getName()} </td>
 								<td>
 									<a class="crud crud-edit" n:href="Purchase:detail, $purchase->getId()">Zobrazit</a> 
-									{*<a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="Purchase:delete, $purchase->getId()">Vymazat</a> *}
+									<a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="Purchase:delete, $purchase->getId()">Vymazat</a>
 								</td>
 							</tr>
 						{/foreach}
