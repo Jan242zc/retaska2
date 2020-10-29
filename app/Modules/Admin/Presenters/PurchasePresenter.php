@@ -77,14 +77,14 @@ final class PurchasePresenter extends BasePresenter
 		$newPurchaseStatus = $this->purchaseStatusRepository->findById(intval($data['status']));
 		$purchase->setPurchaseStatus($newPurchaseStatus);
 
-		if($newPurchaseStatus->getMeansCancelled()){
-			if($this->productRepository->increaseAvailableAmountsByCancelledPurchaseData($purchase->getPurchaseItems()) !== count($purchase->getPurchaseItems())){
-				$this->flashMessage('Něco se pokazilo.');
-				$this->redirect('this');
-			}
+		try {
+			$purchaseTableRowsAffected = $this->purchaseRepository->update($purchase);
+		} catch (\Exception $ex) {
+			$this->flashMessage('Nebyla provedena změna nebo došlo k chybě.');
+			$this->redirect('this');
 		}
 
-		if($this->purchaseRepository->update($purchase) === 1){
+		if($purchaseTableRowsAffected === 1){
 			$this->flashMessage('Stav změněn.');
 			$this->redirect('this');
 		} else {

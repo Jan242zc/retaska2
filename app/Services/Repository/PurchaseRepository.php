@@ -107,11 +107,23 @@ final class PurchaseRepository extends BaseRepository implements ICreatableAndDe
 		$id = $purchaseArray['id'];
 		unset($purchaseArray['id']);
 
+		$this->database->beginTransaction();
+
 		$howDidItGo = $this->database->query("
 			UPDATE purchase
 			SET ", $purchaseArray, "
 			WHERE id = ?", $id
 		);
+
+		if($purchase->getPurchaseStatus()->getMeansCancelled()){
+			$rowAffectedByIncreasingAmounts = $this->productRepository->increaseAvailableAmountsByCancelledPurchaseData($purchase->getPurchaseItems());
+			if($rowAffectedByIncreasingAmounts !== count($purchase->getPurchaseItems())){
+				$this->database->rollback();
+				throw new \Exception('Unable to increase amounts of all products.');
+			} else {
+				$this->database->commit();
+			}
+		}
 
 		return $howDidItGo->getRowCount();
 	}
