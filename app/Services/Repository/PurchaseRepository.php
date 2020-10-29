@@ -12,6 +12,7 @@ use App\Services\Repository\RepositoryInterface\ICountryRepository;
 use App\Services\Repository\RepositoryInterface\IPurchaseItemRepository;
 use App\Services\Repository\RepositoryInterface\IPurchaseStatusRepository;
 use App\Services\Repository\RepositoryInterface\IEntityRepository;
+use App\Services\Repository\RepositoryInterface\IProductRepository;
 use App\Services\Repository\RepositoryInterface\ICreatableAndDeleteableEntityRepository;
 use App\Entity\Purchase;
 use App\Entity\Factory\PurchaseFactory;
@@ -21,18 +22,32 @@ use App\Entity\Factory\PurchaseItemFactory;
 final class PurchaseRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, IPurchaseRepository
 {
 	private const ENTITY_IDENTIFICATION = '8 purchase';
+	
+	/** @var IEntityRepository */
 	private $entityRepository;
+	
+	/** @var Nette\Database\Context */
 	private $database;
+	
+	/** @var IPurchaseRepository */
 	private $purchaseItemRepository;
+	
+	/** @var IPurchaseStatusRepository */
 	private $purchaseStatusRepository;
+	
+	/** @var ICountryRepository */
 	private $countryRepository;
 	
-	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database, IPurchaseItemRepository $purchaseItemRepository, IPurchaseStatusRepository $purchaseStatusRepository, ICountryRepository $countryRepository){
+	/** @var IProductRepository */
+	private $productRepository;
+	
+	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database, IPurchaseItemRepository $purchaseItemRepository, IPurchaseStatusRepository $purchaseStatusRepository, ICountryRepository $countryRepository, IProductRepository $productRepository){
 		$this->entityRepository = $entityRepository;
 		$this->database = $database;
 		$this->purchaseItemRepository = $purchaseItemRepository;
 		$this->purchaseStatusRepository = $purchaseStatusRepository;
 		$this->countryRepository = $countryRepository;
+		$this->productRepository = $productRepository;
 	}
 	
 	public function findAll(): Array
