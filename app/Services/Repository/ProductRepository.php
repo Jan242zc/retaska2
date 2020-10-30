@@ -253,23 +253,24 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 		return $howDidItGo->getRowCount();
 	}
 
-	public function increaseAvailableAmountsByCancelledPurchaseData(Array $purchaseItems): int
+	public function increaseAvailableAmountsByProductQuantityArrays(Array $productQuantityArrays): int
 	{
 		$rows = 0;
-		foreach($purchaseItems as $purchaseItem){
-			$rows += $this->increaseAvailableAmountByCancelledPurchaseItem($purchaseItem);
+
+		foreach($productQuantityArrays as $productQuantityArray){
+			$rows += $this->increaseAvailableAmountByProductQuantityArray($productQuantityArray);
 		}
 
 		return $rows;
 	}
 
-	private function increaseAvailableAmountByCancelledPurchaseItem(PurchaseItem $purchaseItem): int
+	private function increaseAvailableAmountByProductQuantityArray(Array $productQuantityArray): int
 	{
 		$howDidItGo = $this->database->query("
 			UPDATE product
 			SET amountAvailable = amountAvailable + ?
 			WHERE id = ?
-		", $purchaseItem->getQuantity(), $purchaseItem->getProductId());
+		", $productQuantityArray['quantity'], $productQuantityArray['product_id']);
 
 		return $howDidItGo->getRowCount();
 	}

@@ -12,4 +12,5 @@ interface IProductRepository
 	public function getProductsCountByCategory($category): int;
 	public function findTopProducts($limit): Array;
 	public function decreaseAvailableAmountsByProductQuantityArrays(Array $productQuantityArrays): int;
+	public function increaseAvailableAmountsByProductQuantityArrays(Array $productQuantityArrays): int;
 }

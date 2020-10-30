@@ -208,7 +208,7 @@ final class PurchaseRepository extends BaseRepository implements ICreatableAndDe
 
 	private function increaseAvailableAmounts($purchase): void
 	{
-		$rowAffectedByIncreasingAmounts = $this->productRepository->increaseAvailableAmountsByCancelledPurchaseData($purchase->getPurchaseItems());
+		$rowAffectedByIncreasingAmounts = $this->productRepository->increaseAvailableAmountsByProductQuantityArrays($purchase->itemsToProductIdQuantityArray());
 		if($rowAffectedByIncreasingAmounts !== count($purchase->getPurchaseItems())){
 			throw new \Exception('Unable to increase amounts of all products.');
 		}
