@@ -68,7 +68,14 @@
 							</tr>
 							<tr>
 								<td> Cena doručení: </td>
-								<td> {$purchase->getDeliveryPrice()} Kč</td>
+								<td> 
+									{if fmod($purchase->getDeliveryPrice(), 1) != 0}
+										{$purchase->getDeliveryPrice()|number:2:',':' '}
+									{else}
+										{$purchase->getDeliveryPrice()}
+									{/if}
+									Kč
+								</td>
 							</tr>
 							<tr>
 								<td> Způsob platby: </td>
@@ -76,11 +83,25 @@
 							</tr>
 							<tr>
 								<td> Poplatek na platbu: </td>
-								<td> {$purchase->getPaymentPrice()} Kč</td>
+								<td> 
+									{if fmod($purchase->getPaymentPrice(), 1) != 0}
+										{$purchase->getPaymentPrice()|number:2:',':' '}
+									{else}
+										{$purchase->getPaymentPrice()}
+									{/if}
+									Kč
+								</td>
 							</tr>
 							<tr>
 								<td> Celková cena obj.: </td>
-								<td> {$purchase->getTotalPrice()} Kč</td>
+								<td>
+									{if fmod($purchase->getTotalPrice(), 1) != 0}
+										{$purchase->getTotalPrice()|number:2:',':' '}
+									{else}
+										{$purchase->getTotalPrice()}
+									{/if}
+									Kč
+								</td>
 							</tr>
 							{if $purchase->getShipToOtherThanCustomerAdress()}
 								<tr>
@@ -145,14 +166,36 @@
 									<td class="align-center"> {$item->getId()} </td>
 									<td class="align-center"> {$item->getProductId()} </td>
 									<td class="align-center"> {$item->getProductName()} </td>
-									<td class="align-right"> {$item->getProductPrice()} Kč</td>
+									<td class="align-right">
+										{if fmod($item->getProductPrice(), 1) != 0}
+											{$item->getProductPrice()|number:2:',':' '}
+										{else}
+											{$item->getProductPrice()}
+										{/if}
+										Kč
+									</td>
 									<td class="align-right"> {$item->getQuantity()} </td>
-									<td class="align-right"> {$item->getPrice()} Kč</td>
+									<td class="align-right"> 
+										{if fmod($item->getPrice(), 1) != 0}
+											{$item->getPrice()|number:2:',':' '}
+										{else}
+											{$item->getPrice()}
+										{/if}
+										Kč
+									</td>
 								</tr>
 								{var $totalProdPrice += $item->getPrice()}
 							{/foreach}
 							<tr>
-								<td colspan="6" class="align-right"> Celkem za zboží: {$totalProdPrice} Kč</td>
+								<td colspan="6" class="align-right"> 
+									Celkem za zboží: 
+									{if fmod($totalProdPrice, 1) != 0}
+										{$totalProdPrice|number:2:',':' '}
+									{else}
+										{$totalProdPrice}
+									{/if}
+									Kč
+								</td>
 							</tr>
 						</tbody>
 					</table>

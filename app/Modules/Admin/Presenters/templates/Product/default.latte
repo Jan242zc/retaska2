@@ -20,7 +20,13 @@
 						<tr>
 							<td> {$product->getId()} </td>
 							<td> {$product->getName()} </td>
-							<td> {$product->getPrice()} </td>
+							<td>
+								{if fmod($product->getPrice(), 1) != 0}
+									{$product->getPrice()|number:2:',':' '}
+								{else}
+									{$product->getPrice()}
+								{/if}
+							</td>
 							<td> {$product->getCategory()->getName()} </td>
 							<td> {$product->getMaterial()} </td>
 							<td> {$product->getAmountAvailable()} </td>

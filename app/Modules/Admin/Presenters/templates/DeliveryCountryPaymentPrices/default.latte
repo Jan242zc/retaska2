@@ -24,8 +24,20 @@
 								<td> {$deliveryService->getId()} </td>
 								<td> {$deliveryService->getDelivery()->getName()} </td>
 								<td> {$deliveryService->getPayment()->getName()} </td>
-								<td> {$deliveryService->getDeliveryPrice()} </td>
-								<td> {$deliveryService->getPaymentPrice()} </td>
+								<td>
+									{if fmod($deliveryService->getDeliveryPrice(), 1) != 0}
+										{$deliveryService->getDeliveryPrice()|number:2:',':' '}
+									{else}
+										{$deliveryService->getDeliveryPrice()}
+									{/if}
+								</td>
+								<td>
+									{if fmod($deliveryService->getPaymentPrice(), 1) != 0}
+										{$deliveryService->getPaymentPrice()|number:2:',':' '}
+									{else}
+										{$deliveryService->getPaymentPrice()}
+									{/if}
+								</td>
 								<td> 
 									{if $deliveryService->getCountry()}
 										{$deliveryService->getCountry()->getName()}

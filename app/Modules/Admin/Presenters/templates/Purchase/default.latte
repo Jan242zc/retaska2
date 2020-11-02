@@ -22,7 +22,13 @@
 							<tr>
 								<td> {$purchase->getId()} </td>
 								<td> {$purchase->getCustomerName()} </td>
-								<td> {$purchase->getTotalPrice()} </td>
+								<td>
+									{if fmod($purchase->getTotalPrice(), 1) != 0}
+										{$purchase->getTotalPrice()|number:2:',':' '}
+									{else}
+										{$purchase->getTotalPrice()}
+									{/if}
+								</td>
 								<td> {count($purchase->getPurchaseItems())} </td>
 								<td> {$purchase->getCreatedAt()|date: 'd.m.Y H:i:s'} </td>
 								<td> {$purchase->getPurchaseStatus()->getName()} </td>
