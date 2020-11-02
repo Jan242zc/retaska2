@@ -23,11 +23,13 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 {
 	private const ENTITY_IDENTIFICATION = '2 product';
 	private $database;
+	private $productFactory;
 	
-	public function __construct(Nette\Database\Context $database, IEntityRepository $entityRepository, ICategoryRepository $categoryRepository){
+	public function __construct(Nette\Database\Context $database, IEntityRepository $entityRepository, ICategoryRepository $categoryRepository, ProductFactory $productFactory){
 		$this->database = $database;
 		$this->entityRepository = $entityRepository;
 		$this->categoryRepository = $categoryRepository;
+		$this->productFactory = $productFactory;
 	}
 	
 	public function findAll(int $limit = null, int $offset = 0): Array
@@ -89,12 +91,11 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 		}
 		
 		try{
-			$queryResult->category = $this->categoryRepository->findById($queryResult->category);			
+		return $product = $this->productFactory->createFromObject($queryResult);
 		} catch (\Exception $ex){
 			throw $ex;
 		}
 		
-		return $product = ProductFactory::createFromObject($queryResult);
 	}
 	
 	public function findById(int $id): Product
@@ -113,12 +114,10 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 		}
 		
 		try{
-			$queryResult->category = $this->categoryRepository->findById($queryResult->category);			
+			return $product = $this->productFactory->createFromObject($row);	
 		} catch (\Exception $ex){
 			throw $ex;
 		}
-		
-		return $product = ProductFactory::createFromObject($queryResult);
 	}
 	
 	public function insert($product): int
@@ -281,12 +280,10 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 		while($row = $queryResult->fetch()){
 			//I chose this over JOIN as no extension of the category entity will require no subsequent changes of this method
 			try{
-				$row->category = $this->categoryRepository->findById($row->category); 				
+				$arrayOfProducts[] = $this->productFactory->createFromObject($row);
 			} catch (\Exception $ex){
 				throw $ex;
 			}
-			
-			$arrayOfProducts[] = ProductFactory::createFromObject($row);
 		}
 		
 		return $arrayOfProducts;

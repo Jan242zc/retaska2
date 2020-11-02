@@ -18,10 +18,12 @@ final class ProductPresenter extends BasePresenter
 	private $productRepository;
 	private $categoryRepository;
 	private $entityRepository;
+	private $productFactory;
 	
-	public function __construct(IProductRepository $productRepository, ICategoryRepository $categoryRepository){
+	public function __construct(IProductRepository $productRepository, ICategoryRepository $categoryRepository, ProductFactory $productFactory){
 		$this->productRepository = $productRepository;
 		$this->categoryRepository = $categoryRepository;
+		$this->productFactory = $productFactory;
 	}
 	
 	public function renderDefault(): void
@@ -95,8 +97,7 @@ final class ProductPresenter extends BasePresenter
 	
 	public function manageProductFormSucceeded(Form $form, Array $data): void
 	{
-		$data['category'] = $this->categoryRepository->findById($data['category']);
-		$product = ProductFactory::createFromArray($data);
+		$product = $this->productFactory->createFromArray($data);
 		
 		if(!$product->getId()){
 			try{
