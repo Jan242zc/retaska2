@@ -179,6 +179,7 @@ final class FinishPurchasePresenter extends BasePresenter
 		$this->template->productTotalPrice = $this->basketService->getTotalProductPrice();
 		$this->template->basketItems = $this->basketService->getAllBasketItems();
 		$this->template->purchaseInfoRecap = $this->basketService->getCustomerData();
+		$this->template->totalPurchasePrice = $this->basketService->getTotalPurchasePrice();
 	}
 	
 	public function actionSavePurchase(): void

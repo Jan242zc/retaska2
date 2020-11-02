@@ -17,13 +17,17 @@ final class Basket
 	
 	/** @var float */
 	private $totalPrice;
-	
+
+	/** @var float */
+	private $totalPurchasePrice;
+
 	/** @var CustomerData */
 	private $customerData;
 
 	public function __construct(Array $items){
 		$this->items = $items;
 		$this->totalPrice = 0;
+		$this->totalPurchasePrice = 0;
 	}
 	
 	public function getItems(): Array
@@ -49,6 +53,16 @@ final class Basket
 	public function setTotalPrice(float $totalPrice): void
 	{
 		$this->totalPrice = $totalPrice;
+	}
+	
+	public function getTotalPurchasePrice(): float
+	{
+		return $this->totalPurchasePrice ?? 0;
+	}
+	
+	public function setTotalPurchasePrice(float $totalPurchasePrice): void
+	{
+		$this->totalPurchasePrice = $totalPurchasePrice;
 	}
 	
 	public function addItem(Product $product, int $quantity, float $price): void

@@ -104,6 +104,14 @@ final class BasketService implements IBasketService
 		$this->basketSessionSection->setTotalPrice(PriceCalculator::calculateAllProductsTotalPrice($this->basketSessionSection->getItems()));
 	}
 	
+	private function updateTotalPurchasePrice(): void
+	{
+		$productsPrice = $this->basketSessionSection->getTotalPrice();
+		$deliveryPrice = $this->basketSessionSection->getCustomerData()->getDeliveryService()->getDeliveryPrice();
+		$paymentPrice = $this->basketSessionSection->getCustomerData()->getDeliveryService()->getPaymentPrice();
+		$this->basketSessionSection->setTotalPurchasePrice(PriceCalculator::calculateTotalPurchasePrice($productsPrice, $deliveryPrice, $paymentPrice));
+	}
+	
 	//currently not used anywhere
 	public function verifyThatThisItemInBasket($id): bool
 	{
@@ -124,6 +132,11 @@ final class BasketService implements IBasketService
 	public function getTotalProductPrice(): float
 	{
 		return $this->basketSessionSection->getTotalPrice();
+	}
+	
+	public function getTotalPurchasePrice(): float
+	{
+		return $this->basketSessionSection->getTotalPurchasePrice();
 	}
 	
 	public function updateAvailableAmountsOfItems(): void
@@ -182,5 +195,6 @@ final class BasketService implements IBasketService
 	public function setCustomerData(CustomerData $customerData): void
 	{
 		$this->basketSessionSection->setCustomerData($customerData);
+		$this->updateTotalPurchasePrice();
 	}
 }
