@@ -24,6 +24,6 @@ final class PriceCalculator
 	
 	public static function calculateTotalPurchasePrice(float $totalProductsPrice, float $deliveryPrice, float $paymentPrice): float
 	{
-		return $totalProductsPrice + $deliveryPrice + $paymentPrice;		
+		return intval($totalProductsPrice + $deliveryPrice + $paymentPrice); //rounding down
 	}
 }
