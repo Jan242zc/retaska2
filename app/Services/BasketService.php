@@ -197,4 +197,15 @@ final class BasketService implements IBasketService
 		$this->basketSessionSection->setCustomerData($customerData);
 		$this->updateTotalPurchasePrice();
 	}
+	
+	public function getPricesPerProductOfBasketItems(): Array
+	{
+		$prices = [];
+
+		foreach($this->getAllBasketItems() as $item){
+			$prices[$item->getProduct()->getId()] = $item->getProduct()->getPrice();
+		}
+
+		return $prices;
+	}
 }

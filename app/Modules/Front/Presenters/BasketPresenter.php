@@ -21,6 +21,7 @@ final class BasketPresenter extends BasePresenter
 
 	public function renderDefault(): void
 	{
+		$this->template->productsPrices = $this->basketService->getPricesPerProductOfBasketItems();
 		$this->template->basketItems = $this->basketService->getAllBasketItems();
 	}
 	

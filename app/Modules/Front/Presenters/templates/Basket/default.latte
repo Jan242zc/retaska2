@@ -99,7 +99,8 @@
 		</div>
 	</div>
 	<script>
-		//const numberFormatter = new Intl.NumberFormat('cs-CZ', { maximumSignificantDigits: 3 });
+		const numberFormatter = new Intl.NumberFormat( { maximumSignificantDigits: 3 });
+		const productsPrices = JSON.parse({json_encode($productsPrices)});
 
 		//sets all neccessary event listeners
 		document.addEventListener("DOMContentLoaded", function() { //přidat nastavení "ke smazání" v případě návratu do košíku tlačítkem zpět
@@ -221,7 +222,7 @@
 			if(isNaN(quantity) || quantity < 0){
 				quantity = 0;
 			}
-			productTotalPriceField.innerHTML = Math.ceil(quantity * parseFloat(getProductPrice(element).innerHTML));
+			productTotalPriceField.innerHTML = numberFormatter.format(quantity * productsPrices[getIdField(element).value]);
 			updatePurchaseTotalPrice();
 		}
 		
@@ -230,7 +231,8 @@
 			var prices = [];
 			for(var i = 0; i < formRows.length; i++){
 				var spanWithPerProductPriceInnerHTML = formRows[i].getElementsByClassName('per-product-price')[0].innerHTML;
-				var perProductPrice = parseFloat(spanWithPerProductPriceInnerHTML);
+				var parseablePriceString = spanWithPerProductPriceInnerHTML.replace(/,/, '.');
+				var perProductPrice = parseFloat(parseablePriceString);
 				prices.push(perProductPrice);
 			}
 			var purchaseTotalPrice = 0;
@@ -238,7 +240,7 @@
 				purchaseTotalPrice += prices[i];
 			}
 			var totalPurchasePriceElement = document.getElementById('totalPurchasePrice');
-			totalPurchasePriceElement.innerHTML = purchaseTotalPrice;
+			totalPurchasePriceElement.innerHTML = numberFormatter.format(purchaseTotalPrice);
 		}
 		
 		/* FUNCTION THAT FIND VARIOUS ELEMENTS IN THE SAME ROW AS WHERE THE CALLING ELEMENT IS SITUATED */
@@ -248,6 +250,10 @@
 		
 		function getParentRow(element){
 			return element.parentElement.parentElement;
+		}
+		
+		function getIdField(element){
+			return element.parentElement.parentElement.getElementsByTagName('input')[0];
 		}
 		
 		function getQuantityField(element){
