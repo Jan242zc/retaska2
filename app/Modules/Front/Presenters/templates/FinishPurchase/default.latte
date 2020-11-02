@@ -172,28 +172,50 @@
 					<div class="order-recap">
 						<div class="row">
 							<div class="order-recap-price-label"> Cena nakupovaného zboží: </div> 
-							<div  class="order-recap-price-of-smth"> <span id="goods-price">{$messageFormatter->format([$productTotalPrice])}</span> Kč</div>
+							<div  class="order-recap-price-of-smth"> 
+								<span id="goods-price">
+									{if fmod($productTotalPrice, 1) != 0}
+										{$productTotalPrice|number:2:',':' '}
+									{else}
+										{$productTotalPrice}
+									{/if}
+								</span> Kč
+							</div>
 						</div>
 						<div class="row">
 							<div class="order-recap-price-label"> Cena dopravy: </div> 
-							<div class="order-recap-price-of-smth"> <span id="delivery-price">0</span> Kč</div>
+							<div class="order-recap-price-of-smth"> <span id="delivery-price"></span> Kč</div>
 						</div>
 						<div class="row">
 							<div class="order-recap-price-label"> Cena platby: </div> 
-							<div class="order-recap-price-of-smth"> <span id="payment-price">0</span> Kč</div>
+							<div class="order-recap-price-of-smth"> <span id="payment-price"></span> Kč</div>
 						</div>
 						<div class="row">
 							<div class="order-recap-price-label"> Celková cena objednávky: </div> 
-							<div class="order-recap-price-of-smth"> <span id="total-price">{$messageFormatter->format([$productTotalPrice])}</span> Kč</div>
+							<div class="order-recap-price-of-smth"> <span id="total-price"></span> Kč</div>
 						</div>
 					</div>
 					<div class="order-recap-products">
 						{foreach $basketItems as $item}
 							<div class="row order-recap-basket-item">
 								<div class="re25"><b>{$item->getProduct()->getName()}</b></div>
-								<div class="re25">{$messageFormatter->format([$item->getProduct()->getPrice()])} Kč / ks </div>
+								<div class="re25">
+									{if fmod($item->getProduct()->getPrice(), 1) != 0}
+										{$item->getProduct()->getPrice()|number:2:',':' '}
+									{else}
+										{$item->getProduct()->getPrice()}
+									{/if}
+									Kč / ks 
+								</div>
 								<div class="re25">{$item->getQuantity()} kusů </div>
-								<div class="re25">{$messageFormatter->format([$item->getPrice()])} Kč </div>
+								<div class="re25">
+									{if fmod($item->getPrice(), 1) != 0}
+										{$item->getPrice()|number:2:',':' '}
+									{else}
+										{$item->getPrice()}
+									{/if}
+									Kč 
+								</div>
 								{if $item->getQuantity() === 0}
 									<div class="unavailibility-warning">Bude automaticky odstraněno.</div>
 								{/if}
@@ -206,6 +228,7 @@
 	</div> <!--container-->
 	
 	<script>
+		const numberFormatter = new Intl.NumberFormat({ maximumSignificantDigits: 3 });
 		const deliveryServicesGroupedByDelivery = JSON.parse({json_encode($deliveryServicesGroupedByDelivery)}); //a delivery service is defined by country, delivery and payment
 		const deliveryServicesGroupedByCountry = JSON.parse({json_encode($deliveryServicesGroupedByCountry)});
 		const countryIndependentDeliveryServicesGroupedByDelivery = JSON.parse({json_encode($countryIndependentDeliveryServicesGroupedByDelivery)});
@@ -282,7 +305,7 @@
 			}
 
 			//update the price in the recap
-			document.getElementById('delivery-price').innerHTML = deliveryPrice;
+			document.getElementById('delivery-price').innerHTML = numberFormatter.format(deliveryPrice);
 
 			//get the payment price from one of the delivery services objects
 			if(typeof deliveryServicesGroupedByDelivery[deliveryId][countryId] == 'undefined'){
@@ -292,10 +315,10 @@
 			}
 
 			//update the price in the recap
-			document.getElementById('payment-price').innerHTML = paymentPrice;
+			document.getElementById('payment-price').innerHTML = numberFormatter.format(paymentPrice);
 
 			var totalPrice = parseFloat(document.getElementById('goods-price').innerHTML) + deliveryPrice + paymentPrice;
-			document.getElementById('total-price').innerHTML = totalPrice;
+			document.getElementById('total-price').innerHTML = numberFormatter.format(totalPrice);
 		}
 
 		//update options in the delivery field based on the currently selected country
@@ -331,7 +354,7 @@
 				for(var i = 0; i < countryIndependentKeys.length; i++){
 					var option = document.createElement('option');
 					option.value = countryIndependentKeys[i];
-					option.text = deliveryNames[option.value] + ' (+' + countryIndependentDeliveryServicesGroupedByDelivery[countryIndependentKeys[i]].price + ' Kč)';
+					option.text = deliveryNames[option.value] + ' (+' + numberFormatter.format(countryIndependentDeliveryServicesGroupedByDelivery[countryIndependentKeys[i]].price) + ' Kč)';
 					options.push(option);
 				}
 			}
@@ -341,7 +364,7 @@
 				for(var i = 0; i < relevantDeliveryKeys.length; i++){
 					var option = document.createElement('option');
 					option.value = relevantDeliveryKeys[i];
-					option.text = deliveryNames[option.value] + ' (+' + deliveryServicesGroupedByCountry[countryId][relevantDeliveryKeys[i]].price + ' Kč)';
+					option.text = deliveryNames[option.value] + ' (+' + numberFormatter.format(deliveryServicesGroupedByCountry[countryId][relevantDeliveryKeys[i]].price) + ' Kč)';
 					options.push(option);
 				}
 			}
@@ -372,7 +395,7 @@
 			for(var i = 0; i < relevantPaymentObjectKeys.length; i++){
 				var option = document.createElement('option');
 				option.value = relevantPaymentObjectKeys[i];
-				option.text = paymentNames[option.value] + ' (+' + relevantPaymentObject[option.value] + ' Kč)';
+				option.text = paymentNames[option.value] + ' (+' + numberFormatter.format(relevantPaymentObject[option.value]) + ' Kč)';
 				options.push(option);
 			}
 			return options;

@@ -36,7 +36,17 @@
 					<div class="re33">
 						{*<img class="product-detail-pic" src="taska.png" alt="unavailable.png" >*}
 						{form addToBasketForm}
-							<span style="display: block; margin-bottom: 0.3em;"><span class="price"><span id="price">{$messageFormatter->format([$product->getPrice()])}</span> Kč</span> / ks</span>
+							<span style="display: block; margin-bottom: 0.3em;">
+								<span class="price">
+									<span id="price">
+										{if fmod($product->getPrice(), 1) != 0}
+											{$product->getPrice()|number:2:',':' '}
+										{else}
+											{$product->getPrice()}
+										{/if}
+									</span> Kč
+								</span> / ks
+							</span>
 							{label quantity /}
 							{input quantity}
 							<button id="button-minus" class="button-basket button-basket-minus">-</button>
@@ -51,6 +61,9 @@
 			</div>
 	</div>
 	<script>
+		const numberFormatter = new Intl.NumberFormat({ maximumSignificantDigits: 3 });
+		const productPrice = JSON.parse({json_encode($product->getPrice())});
+
 		document.addEventListener("DOMContentLoaded", function() {
 			const alreadyInBasket = JSON.parse({json_encode($alreadyInBasket)});
 			if(alreadyInBasket){
@@ -101,7 +114,7 @@
 		
 		function updateTotalPrice(quantity){
 			if(!quantity == 0){
-				document.getElementById('total-price-value').innerHTML = Math.ceil(quantity * parseFloat(document.getElementById('price').innerHTML));
+				document.getElementById('total-price-value').innerHTML = numberFormatter.format(quantity * productPrice);
 				document.getElementById('total-price-row').style.display = "block";
 			} else {
 				document.getElementById('total-price-row').style.display = "none";

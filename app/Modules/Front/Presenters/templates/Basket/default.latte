@@ -43,10 +43,22 @@
 										{$item->getProduct()->getName()}			
 									</td>
 									<td>
-										<span class="product-price">{$messageFormatter->format([$item->getProduct()->getPrice()])}</span> Kč / ks
+										<span class="product-price">
+											{if fmod($item->getProduct()->getPrice(), 1) != 0}
+												{$item->getProduct()->getPrice()|number:2:',':' '}
+											{else}
+												{$item->getProduct()->getPrice()}
+											{/if}
+										</span> Kč / ks
 									</td>
 									<td>
-										<span class="per-product-price">{$messageFormatter->format([$item->getPrice()])}</span> Kč
+										<span class="per-product-price">
+											{if fmod($item->getPrice(), 1) != 0}
+												{$item->getPrice()|number:2:',':' '}
+											{else}
+												{$item->getPrice()}
+											{/if}
+										</span> Kč
 									</td>
 									<td hidden>
 										<input type=text name="id[]" value={$item->getProduct()->getId()} hidden />
@@ -87,6 +99,8 @@
 		</div>
 	</div>
 	<script>
+		//const numberFormatter = new Intl.NumberFormat('cs-CZ', { maximumSignificantDigits: 3 });
+
 		//sets all neccessary event listeners
 		document.addEventListener("DOMContentLoaded", function() { //přidat nastavení "ke smazání" v případě návratu do košíku tlačítkem zpět
 			setDeleteButtonsEventListener();

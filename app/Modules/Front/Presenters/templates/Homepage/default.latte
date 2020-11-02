@@ -20,8 +20,12 @@
 						<div class="product-preview">
 							<p class="product-heading">{$product->getName()}</p>
 							<p class="product-price">
-								{$product->getPrice()} Kč / ks
-								<br>							
+								{if fmod($product->getPrice(), 1) != 0}
+									{$product->getPrice()|number:2:',':' '}
+								{else}
+									{$product->getPrice()}
+								{/if} 
+								Kč / ks <br>							
 								<a class="button-detail" n:href="Product:detail, $product->getId() . ' ' . $product->getName()">Detail produktu</a>
 							</p>
 						</div>
