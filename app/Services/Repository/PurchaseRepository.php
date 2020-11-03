@@ -41,13 +41,17 @@ final class PurchaseRepository extends BaseRepository implements ICreatableAndDe
 	/** @var IProductRepository */
 	private $productRepository;
 	
-	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database, IPurchaseItemRepository $purchaseItemRepository, IPurchaseStatusRepository $purchaseStatusRepository, ICountryRepository $countryRepository, IProductRepository $productRepository){
+	/** @var PurchaseFactory */
+	private $purchaseFactory;
+	
+	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database, IPurchaseItemRepository $purchaseItemRepository, IPurchaseStatusRepository $purchaseStatusRepository, ICountryRepository $countryRepository, IProductRepository $productRepository, PurchaseFactory $purchaseFactory){
 		$this->entityRepository = $entityRepository;
 		$this->database = $database;
 		$this->purchaseItemRepository = $purchaseItemRepository;
 		$this->purchaseStatusRepository = $purchaseStatusRepository;
 		$this->countryRepository = $countryRepository;
 		$this->productRepository = $productRepository;
+		$this->purchaseFactory = $purchaseFactory;
 	}
 	
 	public function findAll(): Array
@@ -57,9 +61,13 @@ final class PurchaseRepository extends BaseRepository implements ICreatableAndDe
 			FROM purchase
 			ORDER BY created_at DESC
 		");
-		
-		$arrayOfPurchases = $this->queryResultToArrayOfObjects($queryResult);
-		
+
+		try {
+			$arrayOfPurchases = $this->queryResultToArrayOfObjects($queryResult);
+		} catch(\Exception $ex){
+			throw $ex;
+		}
+
 		return $arrayOfPurchases;
 	}
 
@@ -77,7 +85,11 @@ final class PurchaseRepository extends BaseRepository implements ICreatableAndDe
 			throw new \Exception('Purchase not found.');
 		}
 
-		return $purchase = $this->queryResultRowToObject($queryResult);
+		try{
+			return $purchase = $this->queryResultRowToObject($queryResult);
+		} catch (\Exception $ex){
+			throw $ex;
+		}
 	}
 
 	public function insert($purchase)
@@ -188,7 +200,11 @@ final class PurchaseRepository extends BaseRepository implements ICreatableAndDe
 		$arrayOfPurchaseObjects = [];
 		
 		while($row = $queryResult->fetch()){
-			$arrayOfPurchaseObjects[] = $this->queryResultRowToObject($row);
+			try{
+				$arrayOfPurchaseObjects[] = $this->queryResultRowToObject($row);
+			} catch (\Exception $ex){
+				throw $ex;
+			}
 		}
 		
 		return $arrayOfPurchaseObjects;
@@ -196,14 +212,11 @@ final class PurchaseRepository extends BaseRepository implements ICreatableAndDe
 	
 	private function queryResultRowToObject($queryResultRow): Purchase
 	{
-		$queryResultRow->customerCountry = $this->countryRepository->findById($queryResultRow->customerCountry);
-		if(!is_null($queryResultRow->deliveryCountry)){
-			$queryResultRow->deliveryCountry = $this->countryRepository->findById($queryResultRow->deliveryCountry);			
+		try{
+			return $purchase = $this->purchaseFactory->createFromObject($queryResultRow);			
+		} catch (\Exception $ex){
+			throw $ex;
 		}
-		$queryResultRow->purchaseStatus = $this->purchaseStatusRepository->findById($queryResultRow->purchasestatus_id);
-		$queryResultRow->purchaseItems = $this->purchaseItemRepository->findByPurchaseId($queryResultRow->id);
-		
-		return $purchase = PurchaseFactory::createFromObject($queryResultRow);
 	}
 
 	private function increaseAvailableAmounts($purchase): void

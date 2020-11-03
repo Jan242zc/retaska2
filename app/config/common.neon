@@ -38,3 +38,5 @@ services:
 	purchaseRepository: App\Services\Repository\PurchaseRepository
 	purchaseItemRepository: App\Services\Repository\PurchaseItemRepository
 	productFactory: App\Entity\Factory\ProductFactory
+	purchaseFactory: App\Entity\Factory\PurchaseFactory
+	purchaseItemFactory: App\Entity\Factory\PurchaseItemFactory

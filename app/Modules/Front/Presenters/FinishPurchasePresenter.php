@@ -48,8 +48,11 @@ final class FinishPurchasePresenter extends BasePresenter
 	
 	/** @var IProductRepository */
 	private $productRepository;
+	
+	/** @var PurchaseFactory */
+	private $purchaseFactory;
 
-	public function __construct(IBasketService $basketService, ICountryRepository $countryRepository, IDeliveryRepository $deliveryRepository, IPaymentRepository $paymentRepository, DeliveryCountryPaymentPricesArrayGenerator $deliveryCountryPaymentPricesArrayGenerator, IPurchaseRepository $purchaseRepository, IPurchaseItemRepository $purchaseItemRepository, IDeliveryCountryPaymentPricesRepository $deliveryCountryPaymentPricesRepository, IProductRepository $productRepository){
+	public function __construct(IBasketService $basketService, ICountryRepository $countryRepository, IDeliveryRepository $deliveryRepository, IPaymentRepository $paymentRepository, DeliveryCountryPaymentPricesArrayGenerator $deliveryCountryPaymentPricesArrayGenerator, IPurchaseRepository $purchaseRepository, IPurchaseItemRepository $purchaseItemRepository, IDeliveryCountryPaymentPricesRepository $deliveryCountryPaymentPricesRepository, IProductRepository $productRepository, PurchaseFactory $purchaseFactory){
 		$this->basketService = $basketService;
 		$this->countryRepository = $countryRepository;
 		$this->deliveryRepository = $deliveryRepository;
@@ -59,6 +62,7 @@ final class FinishPurchasePresenter extends BasePresenter
 		$this->purchaseItemRepository = $purchaseItemRepository;
 		$this->deliveryCountryPaymentPricesRepository = $deliveryCountryPaymentPricesRepository;
 		$this->productRepository = $productRepository;
+		$this->purchaseFactory = $purchaseFactory;
 	}
 
 	public function renderDefault(): void
@@ -188,14 +192,13 @@ final class FinishPurchasePresenter extends BasePresenter
 			$this->flashMessage('Je nám moc líto, ale na poslední chvíli někdo vám někdo nějaké tašky vyfoukl před nosem.');
 			$this->redirect('FinishPurchase:purchaseRecap');
 		}
-		
+
 		$totalProductPrice = $this->basketService->getTotalProductPrice();
 		$deliveryPrice = $this->basketService->getCustomerData()->getDeliveryService()->getDeliveryPrice();
 		$paymentPrice = $this->basketService->getCustomerData()->getDeliveryService()->getPaymentPrice();
 		$totalPurchasePrice = PriceCalculator::calculateTotalPurchasePrice($totalProductPrice, $deliveryPrice, $paymentPrice);
-		
-		$purchaseItems = PurchaseItemFactory::createFromBasketData($this->basketService->getAllBasketItems());
-		$purchase = PurchaseFactory::createFromCustomerData($this->basketService->getCustomerData(), $totalPurchasePrice, $purchaseItems);
+
+		$purchase = $this->purchaseFactory->createFromCustomerData($this->basketService->getCustomerData(), $totalPurchasePrice, $this->basketService->getAllBasketItems());
 
 		try{
 			$insertedRows = $this->purchaseRepository->insert($purchase);

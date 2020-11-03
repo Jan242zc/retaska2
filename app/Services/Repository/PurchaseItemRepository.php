@@ -17,10 +17,12 @@ final class PurchaseItemRepository extends BaseRepository implements ICreatableA
 	private const ENTITY_IDENTIFICATION = '9 purchaseitem';
 	private $entityRepository;
 	private $database;
+	private $purchaseItemFactory;
 	
-	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database){
+	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database, PurchaseItemFactory $purchaseItemFactory){
 		$this->entityRepository = $entityRepository;
 		$this->database = $database;
+		$this->purchaseItemFactory = $purchaseItemFactory;
 	}
 	
 	public function findAll(): Array
@@ -93,7 +95,7 @@ final class PurchaseItemRepository extends BaseRepository implements ICreatableA
 		$arrayOfObjects = [];
 		
 		while($row = $queryResult->fetch()){
-			$arrayOfObjects[] = PurchaseItemFactory::createFromObject($row);
+			$arrayOfObjects[] = $this->purchaseItemFactory->createFromObject($row);
 		}
 		
 		return $arrayOfObjects;

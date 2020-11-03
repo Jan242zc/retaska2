@@ -10,7 +10,7 @@ use App\Entity\BasketItem;
 
 final class PurchaseItemFactory
 {
-	public static function createFromArray(array $data): PurchaseItem
+	public function createFromArray(array $data): PurchaseItem
 	{
 		if($data['id']){
 			$id = $data['id'];
@@ -21,7 +21,7 @@ final class PurchaseItemFactory
 		return new PurchaseItem($id, $data['purchase_id'], $data['product_id'], $data['product_name'], $data['product_price'], $data['quantity'], $data['price']);
 	}
 	
-	public static function createFromObject($object): PurchaseItem
+	public function createFromObject($object): PurchaseItem
 	{
 		if($object->id){
 			$id = $object->id;
@@ -32,18 +32,18 @@ final class PurchaseItemFactory
 		return new PurchaseItem($id, $object->purchase_id, $object->product_id, $object->product_name, $object->product_price, $object->quantity, $object->price);
 	}
 	
-	public static function createFromBasketData(Array $basketItems): Array
+	public function createFromBasketData(Array $basketItems): Array
 	{
 		$result = [];
 		
 		foreach($basketItems as $item){
-			$result[] = self::createFromBasketItemData($item);
+			$result[] = $this->createFromBasketItemData($item);
 		}
 		
 		return $result;
 	}
 	
-	public static function createFromBasketItemData(BasketItem $basketItem): PurchaseItem
+	public function createFromBasketItemData(BasketItem $basketItem): PurchaseItem
 	{
 		return new PurchaseItem(null, null, $basketItem->getProduct()->getId(), $basketItem->getProduct()->getName(), $basketItem->getProduct()->getPrice(), $basketItem->getQuantity(), $basketItem->getPrice());
 	}

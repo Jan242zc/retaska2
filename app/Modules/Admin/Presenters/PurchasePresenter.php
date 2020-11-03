@@ -30,7 +30,11 @@ final class PurchasePresenter extends BasePresenter
 	
 	public function renderDefault(): void
 	{
-		$this->template->purchases = $this->purchaseRepository->findAll();
+		try{
+			$this->template->purchases = $this->purchaseRepository->findAll();
+		} catch (\Exception $ex){
+			throw $ex;
+		}
 	}
 	
 	public function renderDetail($id): void
