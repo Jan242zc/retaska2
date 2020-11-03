@@ -20,10 +20,12 @@ final class CountryRepository extends BaseRepository implements ICreatableAndDel
 	private const ENTITY_IDENTIFICATION = '3 country';
 	private $entityRepository;
 	private $database;
+	private $countryFactory;
 
-	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database){
+	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database, CountryFactory $countryFactory){
 		$this->entityRepository = $entityRepository;
 		$this->database = $database;
+		$this->countryFactory = $countryFactory;
 	}
 	
 	public function findAll(): Array
@@ -36,7 +38,7 @@ final class CountryRepository extends BaseRepository implements ICreatableAndDel
 		
 		$arrayOfCountries = [];		
 		while($row = $queryResult->fetch()){
-			$arrayOfCountries[] = CountryFactory::createFromObject($row);
+			$arrayOfCountries[] = $this->countryFactory->createFromObject($row);
 		}
 		
 		return $arrayOfCountries;
@@ -59,7 +61,7 @@ final class CountryRepository extends BaseRepository implements ICreatableAndDel
 			throw new \Exception('No country found.');
 		}
 		
-		return $country = CountryFactory::createFromObject($queryResult);
+		return $country = $this->countryFactory->createFromObject($queryResult);
 	}
 	
 	public function findById(int $id)
@@ -73,7 +75,7 @@ final class CountryRepository extends BaseRepository implements ICreatableAndDel
 			->fetch();
 
 		if(!is_null($queryResult)){
-			return $country = CountryFactory::createFromObject($queryResult);
+			return $country = $this->countryFactory->createFromObject($queryResult);
 		}
 		
 		return $queryResult;

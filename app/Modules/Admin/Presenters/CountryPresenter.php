@@ -16,8 +16,12 @@ final class CountryPresenter extends BasePresenter
 	/** @var ICountryRepository */
 	private $countryRepository;
 	
-	public function __construct(ICountryRepository $countryRepository){
+	/** @var CountryFactory */
+	private $countryFactory;
+	
+	public function __construct(ICountryRepository $countryRepository, CountryFactory $countryFactory){
 		$this->countryRepository = $countryRepository;
+		$this->countryFactory = $countryFactory;
 	}
 	
 	public function renderDefault(): void
@@ -66,7 +70,7 @@ final class CountryPresenter extends BasePresenter
 	
 	public function manageCountryFormSucceeded(Form $form, Array $data): void
 	{
-		$country = CountryFactory::createFromArray($data);
+		$country = $this->countryFactory->createFromArray($data);
 		
 		if(!$nameIsOriginal = $this->verifyNameOriginality($country)){
 			$this->flashMessage('Upozornění: stát s tímto názvem již existuje.');

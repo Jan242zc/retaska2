@@ -9,7 +9,11 @@ use App\Entity\Country;
 
 final class CountryFactory
 {
-	public static function createFromArray(Array $data): Country
+	public function __construct(){
+		
+	}
+	
+	public function createFromArray(Array $data): Country
 	{
 		if(!$id = $data['id']){
 			$id = null;
@@ -17,7 +21,7 @@ final class CountryFactory
 		return new Country($id, $data['name']);
 	}
 	
-	public static function createFromObject($object): Country
+	public function createFromObject($object): Country
 	{
 		if(!$id = $object->id){
 			$id = null;
