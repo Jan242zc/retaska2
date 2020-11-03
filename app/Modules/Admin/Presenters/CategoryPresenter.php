@@ -14,9 +14,11 @@ use App\Services\Repository\RepositoryInterface\ICategoryRepository;
 final class CategoryPresenter extends BasePresenter
 {
 	private $categoryRepository;
+	private $categoryFactory;
 	
-	public function __construct(ICategoryRepository $categoryRepository){
+	public function __construct(ICategoryRepository $categoryRepository, CategoryFactory $categoryFactory){
 		$this->categoryRepository = $categoryRepository;
+		$this->categoryFactory = $categoryFactory;
 	}
 	
 	public function renderDefault(): void
@@ -69,7 +71,7 @@ final class CategoryPresenter extends BasePresenter
 	
 	public function manageCategoryFormSucceeded(Form $form, Array $data): void
 	{
-		$category = CategoryFactory::createFromArray($data);
+		$category = $this->categoryFactory->createFromArray($data);
 		
 		//this verification must be done in the *Succeeded method as $form['id']->getValue() didn't work for me
 		if(!$nameIsOriginal = $this->verifyNameOriginality($category)){

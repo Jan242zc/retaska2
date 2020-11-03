@@ -41,3 +41,5 @@ services:
 	purchaseFactory: App\Entity\Factory\PurchaseFactory
 	purchaseItemFactory: App\Entity\Factory\PurchaseItemFactory
 	deliveryCountryPaymentPricesFactory: App\Entity\Factory\DeliveryCountryPaymentPricesFactory
+	categoryFactory: App\Entity\Factory\CategoryFactory
+	countryFactory: App\Entity\Factory\CountryFactory

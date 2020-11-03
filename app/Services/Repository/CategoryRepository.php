@@ -21,10 +21,12 @@ final class CategoryRepository extends BaseRepository implements ICreatableAndDe
 	private const ENTITY_IDENTIFICATION = '1 category';
 	private $entityRepository;
 	private $database;
+	private $categoryFactory;
 
-	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database){
+	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database, CategoryFactory $categoryFactory){
 		$this->entityRepository = $entityRepository;
 		$this->database = $database;
+		$this->categoryFactory = $categoryFactory;
 	}
 	
 	public function findAll(): Array
@@ -37,7 +39,7 @@ final class CategoryRepository extends BaseRepository implements ICreatableAndDe
 		
 		$arrayOfCategories = [];		
 		while($row = $queryResult->fetch()){
-			$arrayOfCategories[] = CategoryFactory::createFromObject($row);
+			$arrayOfCategories[] = $this->categoryFactory->createFromObject($row);
 		}
 
 		return $arrayOfCategories;
@@ -72,7 +74,7 @@ final class CategoryRepository extends BaseRepository implements ICreatableAndDe
 			throw new \Exception('Nothing found.');
 		}
 
-		return CategoryFactory::createFromObject($queryResult);
+		return $this->categoryFactory->createFromObject($queryResult);
 	}
 	
 	public function findById(int $id): Category
@@ -90,7 +92,7 @@ final class CategoryRepository extends BaseRepository implements ICreatableAndDe
 			throw new \Exception('Nothing found.');
 		}
 
-		return CategoryFactory::createFromObject($queryResult);
+		return $this->categoryFactory->createFromObject($queryResult);
 	}
 	
 	public function insert($category): int
