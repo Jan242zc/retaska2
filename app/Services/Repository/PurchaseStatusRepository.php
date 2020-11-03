@@ -21,10 +21,12 @@ final class PurchaseStatusRepository extends BaseRepository implements ICreatabl
 	
 	private $entityRepository;
 	private $database;
+	private $purchaseStatusFactory;
 
-	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database){
+	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database, PurchaseStatusFactory $purchaseStatusFactory){
 		$this->database = $database;
 		$this->entityRepository = $entityRepository;
+		$this->purchaseStatusFactory = $purchaseStatusFactory;
 	}
 
 	public function findAll(): Array
@@ -37,7 +39,7 @@ final class PurchaseStatusRepository extends BaseRepository implements ICreatabl
 		
 		$arrayOfCountries = [];		
 		while($row = $queryResult->fetch()){
-			$arrayOfPurchaseStatuses[] = PurchaseStatusFactory::createFromObject($row);
+			$arrayOfPurchaseStatuses[] = $this->purchaseStatusFactory->createFromObject($row);
 		}
 		
 		return $arrayOfPurchaseStatuses;
@@ -60,7 +62,7 @@ final class PurchaseStatusRepository extends BaseRepository implements ICreatabl
 			throw new \Exception('No purchase status found.');
 		}
 		
-		return $purchaseStatus = PurchaseStatusFactory::createFromObject($queryResult);
+		return $purchaseStatus = $this->purchaseStatusFactory->createFromObject($queryResult);
 	}
 
 	public function findById(int $id)
@@ -74,7 +76,7 @@ final class PurchaseStatusRepository extends BaseRepository implements ICreatabl
 			->fetch();
 
 		if(!is_null($queryResult)){
-			return $purchaseStatus = PurchaseStatusFactory::createFromObject($queryResult);
+			return $purchaseStatus = $this->purchaseStatusFactory->createFromObject($queryResult);
 		}
 		
 		return $queryResult;
@@ -197,7 +199,7 @@ final class PurchaseStatusRepository extends BaseRepository implements ICreatabl
 			")
 			->fetch();
 
-		return $purchaseStatus = PurchaseStatusFactory::createFromObject($queryResult);
+		return $purchaseStatus = $this->purchaseStatusFactory->createFromObject($queryResult);
 	}
 
 	private function getUsedIds(): array

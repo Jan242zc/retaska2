@@ -9,7 +9,11 @@ use App\Entity\PurchaseStatus;
 
 final class PurchaseStatusFactory
 {
-	public static function createFromArray(array $data): PurchaseStatus
+	public function __construct(){
+		
+	}
+	
+	public function createFromArray(array $data): PurchaseStatus
 	{
 		$defaultForNewPurchases = $data['default_for_new_purchases'] ? true : false;
 		$meansCancelled = $data['means_cancelled'] ? true : false;
@@ -20,7 +24,7 @@ final class PurchaseStatusFactory
 		}
 	}
 	
-	public static function createFromObject($object): PurchaseStatus
+	public function createFromObject($object): PurchaseStatus
 	{
 		$defaultForNewPurchases = $object->default_for_new_purchases ? true : false;
 		$meansCancelled = $object->means_cancelled ? true : false;

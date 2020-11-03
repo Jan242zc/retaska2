@@ -47,3 +47,4 @@ services:
 	deliveryFactory: App\Entity\Factory\DeliveryFactory
 	entityFactory: App\Entity\Factory\EntityFactory
 	paymentFactory: App\Entity\Factory\PaymentFactory
+	purchaseStatusFactory: App\Entity\Factory\PurchaseStatusFactory

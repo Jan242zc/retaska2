@@ -13,9 +13,11 @@ use App\Services\Repository\RepositoryInterface\IPurchaseStatusRepository;
 final class PurchaseStatusPresenter extends BasePresenter
 {
 	private $purchaseStatusRepository;
+	private $purchaseStatusFactory;
 
-	public function __construct(IPurchaseStatusRepository $purchaseStatusRepository){
+	public function __construct(IPurchaseStatusRepository $purchaseStatusRepository, PurchaseStatusFactory $purchaseStatusFactory){
 		$this->purchaseStatusRepository = $purchaseStatusRepository;
+		$this->purchaseStatusFactory = $purchaseStatusFactory;
 	}
 	
 	public function renderDefault(): void
@@ -73,7 +75,7 @@ final class PurchaseStatusPresenter extends BasePresenter
 	
 	public function managePurchaseStatusEntityFormSucceeded(Form $form, Array $data): void
 	{
-		$purchaseStatus = PurchaseStatusFactory::createFromArray($data);
+		$purchaseStatus =  $this->purchaseStatusFactory->createFromArray($data);
 		
 		if(!$nameIsOriginal = $this->verifyNameOriginality($purchaseStatus)){
 			$this->flashMessage('Druh stavu objednávky s tímto názvem již existuje. Zvolte jiný.');
