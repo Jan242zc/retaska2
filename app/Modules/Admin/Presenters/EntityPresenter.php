@@ -15,9 +15,11 @@ use App\Entity\Factory\EntityFactory;
 final class EntityPresenter extends BasePresenter
 {
 	private $entityRepository;
+	private $entityFactory;
 	
-	public function __construct(IEntityRepository $entityRepository){
+	public function __construct(IEntityRepository $entityRepository, EntityFactory $entityFactory){
 		$this->entityRepository = $entityRepository;
+		$this->entityFactory = $entityFactory;
 	}
 	
 	public function renderDefault(): void
@@ -68,7 +70,7 @@ final class EntityPresenter extends BasePresenter
 	
 	public function manageEntityFormSucceeded(Form $form, Array $data): void
 	{
-		$entity = EntityFactory::createFromArray($data);
+		$entity = $this->entityFactory->createFromArray($data);
 
 		if($this->entityRepository->update($entity) === 1){
 			$this->flashMessage('Změny uloženy.');

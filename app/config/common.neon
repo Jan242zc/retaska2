@@ -45,3 +45,4 @@ services:
 	countryFactory: App\Entity\Factory\CountryFactory
 	customerDataFactory: App\Entity\Factory\CustomerDataFactory
 	deliveryFactory: App\Entity\Factory\DeliveryFactory
+	entityFactory: App\Entity\Factory\EntityFactory

@@ -15,9 +15,11 @@ use App\Services\Repository\RepositoryInterface\IEntityRepository;
 final class EntityRepository extends BaseRepository implements IEntityRepository
 {
 	private $database;
+	private $entityFactory;
 
-	public function __construct(Nette\Database\Context $database){
+	public function __construct(Nette\Database\Context $database, EntityFactory $entityFactory){
 		$this->database = $database;
+		$this->entityFactory = $entityFactory;
 	}
 	
 	public function findAll(): Array
@@ -29,7 +31,7 @@ final class EntityRepository extends BaseRepository implements IEntityRepository
 		
 		$arrayOfEntities = [];
 		while($row = $queryResult->fetch()){
-			$arrayOfEntities[] = EntityFactory::createFromObject($row);
+			$arrayOfEntities[] = $this->entityFactory->createFromObject($row);
 		}
 		
 		return $arrayOfEntities;
@@ -51,7 +53,7 @@ final class EntityRepository extends BaseRepository implements IEntityRepository
 			throw new \Exception('Entity not found');
 		}
 		
-		return EntityFactory::createFromObject($queryResult);
+		return $this->entityFactory->createFromObject($queryResult);
 	}
 	
 	public function findById(int $id)
@@ -68,7 +70,7 @@ final class EntityRepository extends BaseRepository implements IEntityRepository
 			throw new \Exception('Entity not found');
 		}
 		
-		return EntityFactory::createFromObject($queryResult);
+		return $this->entityFactory->createFromObject($queryResult);
 	}
 
 	public function update($entity)
