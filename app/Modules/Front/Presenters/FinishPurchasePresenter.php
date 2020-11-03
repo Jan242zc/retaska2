@@ -51,8 +51,11 @@ final class FinishPurchasePresenter extends BasePresenter
 	
 	/** @var PurchaseFactory */
 	private $purchaseFactory;
+	
+	/** @var CustomerDataFactory */
+	private $customerDataFactory;
 
-	public function __construct(IBasketService $basketService, ICountryRepository $countryRepository, IDeliveryRepository $deliveryRepository, IPaymentRepository $paymentRepository, DeliveryCountryPaymentPricesArrayGenerator $deliveryCountryPaymentPricesArrayGenerator, IPurchaseRepository $purchaseRepository, IPurchaseItemRepository $purchaseItemRepository, IDeliveryCountryPaymentPricesRepository $deliveryCountryPaymentPricesRepository, IProductRepository $productRepository, PurchaseFactory $purchaseFactory){
+	public function __construct(IBasketService $basketService, ICountryRepository $countryRepository, IDeliveryRepository $deliveryRepository, IPaymentRepository $paymentRepository, DeliveryCountryPaymentPricesArrayGenerator $deliveryCountryPaymentPricesArrayGenerator, IPurchaseRepository $purchaseRepository, IPurchaseItemRepository $purchaseItemRepository, IDeliveryCountryPaymentPricesRepository $deliveryCountryPaymentPricesRepository, IProductRepository $productRepository, PurchaseFactory $purchaseFactory, CustomerDataFactory $customerDataFactory){
 		$this->basketService = $basketService;
 		$this->countryRepository = $countryRepository;
 		$this->deliveryRepository = $deliveryRepository;
@@ -63,6 +66,7 @@ final class FinishPurchasePresenter extends BasePresenter
 		$this->deliveryCountryPaymentPricesRepository = $deliveryCountryPaymentPricesRepository;
 		$this->productRepository = $productRepository;
 		$this->purchaseFactory = $purchaseFactory;
+		$this->customerDataFactory = $customerDataFactory;
 	}
 
 	public function renderDefault(): void
@@ -170,7 +174,7 @@ final class FinishPurchasePresenter extends BasePresenter
 		$data['personalData']['country'] = $this->countryRepository->findById($data['personalData']['country']);
 		$data['deliveryAdress']['country'] = $this->countryRepository->findById($data['deliveryAdress']['country']);
 		
-		$customerData = CustomerDataFactory::createFromArray($data, $deliveryService);
+		$customerData = $this->customerDataFactory->createFromArray($data, $deliveryService);
 		$this->basketService->setCustomerData($customerData);
 		$this->redirect('FinishPurchase:purchaseRecap');
 	}

@@ -43,3 +43,4 @@ services:
 	deliveryCountryPaymentPricesFactory: App\Entity\Factory\DeliveryCountryPaymentPricesFactory
 	categoryFactory: App\Entity\Factory\CategoryFactory
 	countryFactory: App\Entity\Factory\CountryFactory
+	customerDataFactory: App\Entity\Factory\CustomerDataFactory
