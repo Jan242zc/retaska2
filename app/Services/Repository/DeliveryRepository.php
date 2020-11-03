@@ -21,10 +21,12 @@ final class DeliveryRepository extends BaseRepository implements ICreatableAndDe
 	private const ENTITY_IDENTIFICATION = '5 delivery';
 	private $entityRepository;
 	private $database;
+	private $deliveryFactory;
 
-	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database){
+	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database, DeliveryFactory $deliveryFactory){
 		$this->entityRepository = $entityRepository;
 		$this->database = $database;
+		$this->deliveryFactory = $deliveryFactory;
 	}
 	
 	public function findAll(): Array
@@ -37,7 +39,7 @@ final class DeliveryRepository extends BaseRepository implements ICreatableAndDe
 		
 		$arrayOfCountries = [];		
 		while($row = $queryResult->fetch()){
-			$arrayOfCountries[] = DeliveryFactory::createFromObject($row);
+			$arrayOfCountries[] = $this->deliveryFactory->createFromObject($row);
 		}
 		
 		return $arrayOfCountries;
@@ -60,7 +62,7 @@ final class DeliveryRepository extends BaseRepository implements ICreatableAndDe
 			throw new \Exception('No delivery found.');
 		}
 		
-		return $delivery = DeliveryFactory::createFromObject($queryResult);
+		return $delivery = $this->deliveryFactory->createFromObject($queryResult);
 	}
 	
 	public function findById(int $id)
@@ -74,7 +76,7 @@ final class DeliveryRepository extends BaseRepository implements ICreatableAndDe
 			->fetch();
 
 		if(!is_null($queryResult)){
-			return $delivery = DeliveryFactory::createFromObject($queryResult);
+			return $delivery = $this->deliveryFactory->createFromObject($queryResult);
 		}
 		
 		return $queryResult;

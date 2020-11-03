@@ -16,8 +16,12 @@ final class DeliveryPresenter extends BasePresenter
 	/** @var IDeliveryRepository */
 	private $deliveryRepository;
 	
-	public function __construct(IDeliveryRepository $deliveryRepository){
+	/** @var DeliveryFactory */
+	private $deliveryFactory;
+	
+	public function __construct(IDeliveryRepository $deliveryRepository, DeliveryFactory $deliveryFactory){
 		$this->deliveryRepository = $deliveryRepository;
+		$this->deliveryFactory = $deliveryFactory;
 	}
 	
 	public function renderDefault(): void
@@ -66,7 +70,7 @@ final class DeliveryPresenter extends BasePresenter
 	
 	public function manageDeliveryFormSucceeded(Form $form, Array $data): void
 	{
-		$delivery = DeliveryFactory::createFromArray($data);
+		$delivery = $this->deliveryFactory->createFromArray($data);
 		
 		if(!$nameIsOriginal = $this->verifyNameOriginality($delivery)){
 			$this->flashMessage('Možnost dopravy s tímto názvem již existuje. Zvolte jiný.');

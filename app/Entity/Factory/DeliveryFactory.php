@@ -9,7 +9,11 @@ use App\Entity\Delivery;
 
 final class DeliveryFactory
 {
-	public static function createFromArray(Array $data): Delivery
+	public function __construct(){
+		
+	}
+
+	public function createFromArray(Array $data): Delivery
 	{
 		if(!$id = $data['id']){
 			$id = null;
@@ -17,7 +21,7 @@ final class DeliveryFactory
 		return new Delivery($id, $data['name']);
 	}
 	
-	public static function createFromObject($object): Delivery
+	public function createFromObject($object): Delivery
 	{
 		if(!$id = $object->id){
 			$id = null;
