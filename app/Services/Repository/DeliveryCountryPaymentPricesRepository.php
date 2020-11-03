@@ -29,13 +29,15 @@ final class DeliveryCountryPaymentPricesRepository extends BaseRepository implem
 	private $countryRepository;
 	private $paymentRepository;
 	private $deliveryCountryPaymentPricesRepository;
+	private $deliveryCountryPaymentPricesFactory;
 
-	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database, IDeliveryRepository $deliveryRepository, ICountryRepository $countryRepository, IPaymentRepository $paymentRepository){
+	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database, IDeliveryRepository $deliveryRepository, ICountryRepository $countryRepository, IPaymentRepository $paymentRepository, DeliveryCountryPaymentPricesFactory $deliveryCountryPaymentPricesFactory){
 		$this->entityRepository = $entityRepository;
 		$this->database = $database;
 		$this->deliveryRepository = $deliveryRepository;
 		$this->countryRepository = $countryRepository;
 		$this->paymentRepository = $paymentRepository;
+		$this->deliveryCountryPaymentPricesFactory = $deliveryCountryPaymentPricesFactory;
 	}
 	
 	public function findAll(): Array
@@ -76,16 +78,10 @@ final class DeliveryCountryPaymentPricesRepository extends BaseRepository implem
 		}
 		
 		try{
-			$queryResult->delivery = $this->deliveryRepository->findById($queryResult->delivery);
-			$queryResult->payment = $this->paymentRepository->findById($queryResult->payment);
-			if(isset($queryResult->country)){
-				$queryResult->country = $this->countryRepository->findById($queryResult->country);
-			}
+			return $this->deliveryCountryPaymentPricesFactory->createFromObject($queryResult);			
 		} catch (\Exception $ex) {
 			throw $ex;
 		}
-		
-		return DeliveryCountryPaymentPricesFactory::createFromObject($queryResult);
 	}
 	
 	public function findByDefiningStuff(int $deliveryId, int $paymentId, bool $countryIgnorable, int $countryId = null): DeliveryCountryPaymentPrices
@@ -113,15 +109,10 @@ final class DeliveryCountryPaymentPricesRepository extends BaseRepository implem
 		}
 
 		try{
-			$queryResult->delivery = $this->deliveryRepository->findById($queryResult->delivery);
-			$queryResult->payment = $this->paymentRepository->findById($queryResult->payment);
-			if(!is_null($queryResult->country)){
-				$queryResult->country = $this->countryRepository->findById($queryResult->country);			
-			}
+			return $deliveryCountryPaymentPrices = $this->deliveryCountryPaymentPricesFactory->createFromObject($queryResult);			
 		} catch(\Exception $ex){
 			throw $ex;
 		}
-		return $deliveryCountryPaymentPrices = DeliveryCountryPaymentPricesFactory::createFromObject($queryResult);
 	}
 	
 	public function insert($deliverycountrypaymentprices)
@@ -181,18 +172,12 @@ final class DeliveryCountryPaymentPricesRepository extends BaseRepository implem
 		while($row = $queryResult->fetch()){
 			//I chose this over JOIN as no extension of the category entity will require no subsequent changes of this method
 			try{
-				$row->delivery = $this->deliveryRepository->findById($row->delivery); 
-				$row->payment = $this->paymentRepository->findById($row->payment);
-				if(!is_null($row->country)){
-					$row->country = $this->countryRepository->findById($row->country);					
-				}
+				$arrayOfProducts[] = $this->deliveryCountryPaymentPricesFactory->createFromObject($row);				
 			} catch (\Exception $ex){
 				throw $ex;
 			}
-			
-			$arrayOfProducts[] = DeliveryCountryPaymentPricesFactory::createFromObject($row);
 		}
-		
+
 		return $arrayOfProducts;
 	}
 }

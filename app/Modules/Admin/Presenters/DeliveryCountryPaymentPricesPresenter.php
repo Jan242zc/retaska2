@@ -27,17 +27,26 @@ final class DeliveryCountryPaymentPricesPresenter extends BasePresenter
 
 	/** @var IPaymentRepository */
 	private $paymentRepository;
+	
+	/** @var DeliveryCountryPaymentPricesFactory */
+	private $deliveryCountryPaymentPricesFactory;
 
-	public function __construct(IDeliveryCountryPaymentPricesRepository $deliveryCountryPaymentPricesRepository, IDeliveryRepository $deliveryRepository, ICountryRepository $countryRepository, IPaymentRepository $paymentRepository){
+	public function __construct(IDeliveryCountryPaymentPricesRepository $deliveryCountryPaymentPricesRepository, IDeliveryRepository $deliveryRepository, ICountryRepository $countryRepository, IPaymentRepository $paymentRepository, DeliveryCountryPaymentPricesFactory $deliveryCountryPaymentPricesFactory){
 		$this->deliveryCountryPaymentPricesRepository = $deliveryCountryPaymentPricesRepository;
 		$this->deliveryRepository = $deliveryRepository;
 		$this->countryRepository = $countryRepository;
 		$this->paymentRepository = $paymentRepository;
+		$this->deliveryCountryPaymentPricesFactory = $deliveryCountryPaymentPricesFactory;
 	}
 
 	public function renderDefault(): void
 	{
-		$this->template->deliveryCountryPaymentPrices = $this->deliveryCountryPaymentPricesRepository->findAll();
+		try{
+			$this->template->deliveryCountryPaymentPrices = $this->deliveryCountryPaymentPricesRepository->findAll();
+		} catch(\Exception $ex){
+			$this->flashMessage('Došlo k chybě.');
+			$this->template->deliveryCountryPaymentPrices = null;
+		}
 	}
 
 	public function actionManage($id = null): void
@@ -106,13 +115,7 @@ final class DeliveryCountryPaymentPricesPresenter extends BasePresenter
 	
 	public function manageDdeliveryCountryPaymentPricesFormSucceeded(Form $form, Array $data): void
 	{
-		$data['delivery'] = $this->deliveryRepository->findById($data['delivery']);
-		$data['payment'] = $this->paymentRepository->findById($data['payment']);
-		if(!is_null($data['country'])){
-			$data['country'] = $this->countryRepository->findById($data['country']);			
-		}
-
-		$deliveryCountryPaymentPrices = DeliveryCountryPaymentPricesFactory::createFromArray($data);
+		$deliveryCountryPaymentPrices = $this->deliveryCountryPaymentPricesFactory->createFromArray($data);
 
 		if(!$deliveryCountryPaymentPrices->getId()){
 			try{
