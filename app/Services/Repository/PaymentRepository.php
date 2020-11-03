@@ -21,10 +21,12 @@ final class PaymentRepository extends BaseRepository implements ICreatableAndDel
 	private const ENTITY_IDENTIFICATION = '4 payment';
 	private $entityRepository;
 	private $database;
+	private $paymentFactory;
 
-	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database){
+	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database, PaymentFactory $paymentFactory){
 		$this->entityRepository = $entityRepository;
 		$this->database = $database;
+		$this->paymentFactory = $paymentFactory;
 	}
 	
 	public function findAll(): Array
@@ -37,7 +39,7 @@ final class PaymentRepository extends BaseRepository implements ICreatableAndDel
 		
 		$arrayOfCountries = [];		
 		while($row = $queryResult->fetch()){
-			$arrayOfCountries[] = PaymentFactory::createFromObject($row);
+			$arrayOfCountries[] = $this->paymentFactory->createFromObject($row);
 		}
 		
 		return $arrayOfCountries;
@@ -60,7 +62,7 @@ final class PaymentRepository extends BaseRepository implements ICreatableAndDel
 			throw new \Exception('No payment found.');
 		}
 		
-		return $payment = PaymentFactory::createFromObject($queryResult);
+		return $payment = $this->paymentFactory->createFromObject($queryResult);
 	}
 	
 	public function findById(int $id)
@@ -74,7 +76,7 @@ final class PaymentRepository extends BaseRepository implements ICreatableAndDel
 			->fetch();
 
 		if(!is_null($queryResult)){
-			return $payment = PaymentFactory::createFromObject($queryResult);
+			return $payment = $this->paymentFactory->createFromObject($queryResult);
 		}
 		
 		return $queryResult;
@@ -170,4 +172,3 @@ final class PaymentRepository extends BaseRepository implements ICreatableAndDel
 		return $queryResult;
 	}
 }
-

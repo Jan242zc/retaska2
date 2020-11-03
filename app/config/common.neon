@@ -46,3 +46,4 @@ services:
 	customerDataFactory: App\Entity\Factory\CustomerDataFactory
 	deliveryFactory: App\Entity\Factory\DeliveryFactory
 	entityFactory: App\Entity\Factory\EntityFactory
+	paymentFactory: App\Entity\Factory\PaymentFactory

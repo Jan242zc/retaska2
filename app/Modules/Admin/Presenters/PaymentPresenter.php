@@ -16,8 +16,12 @@ final class PaymentPresenter extends BasePresenter
 	/** @var IPaymentRepository */
 	private $paymentRepository;
 	
-	public function __construct(IPaymentRepository $paymentRepository){
+	/** @var PaymentFactory */
+	private $paymentFactory;
+	
+	public function __construct(IPaymentRepository $paymentRepository, PaymentFactory $paymentFactory){
 		$this->paymentRepository = $paymentRepository;
+		$this->paymentFactory = $paymentFactory;
 	}
 	
 	public function renderDefault(): void
@@ -66,7 +70,7 @@ final class PaymentPresenter extends BasePresenter
 	
 	public function managePaymentFormSucceeded(Form $form, Array $data): void
 	{
-		$payment = PaymentFactory::createFromArray($data);
+		$payment = $this->paymentFactory->createFromArray($data);
 		
 		if(!$nameIsOriginal = $this->verifyNameOriginality($payment)){
 			$this->flashMessage('Druh platby s tímto názvem již existuje. Zvolte jiný.');

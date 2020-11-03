@@ -9,7 +9,11 @@ use App\Entity\Payment;
 
 final class PaymentFactory
 {
-	public static function createFromArray(Array $data): Payment
+	public function __construct(){
+		
+	}
+	
+	public function createFromArray(Array $data): Payment
 	{
 		if(!$id = $data['id']){
 			$id = null;
@@ -17,7 +21,7 @@ final class PaymentFactory
 		return new Payment($id, $data['name']);
 	}
 	
-	public static function createFromObject($object): Payment
+	public function createFromObject($object): Payment
 	{
 		if(!$id = $object->id){
 			$id = null;
