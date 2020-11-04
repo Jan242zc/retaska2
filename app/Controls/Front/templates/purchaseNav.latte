@@ -1,36 +1,36 @@
 {block content}
 	<div class="row">
 		<div class="re33">
-			<a class="step-link">
-				<div class="step-link-wrapper step-link-wrapper-current">
-					<span class="step-link-number step-link-number-current">
-						1
-					</span>
-					<span class="step-link-text">
-						Košík
-					</span>
-				</div>
-			</a>
+			<a class="step-link" {if $hrefs['basket']} href="{plink Basket:default}" {/if}>
+					<div class="step-link-wrapper {$basketLinkClasses['wrapper']}">
+						<span class="step-link-number {$basketLinkClasses['number']}">
+							1
+						</span>
+						<span class="step-link-text {$basketLinkClasses['text']}">
+							Košík
+						</span>
+					</div>
+				</a>
 		</div>
 		<div class="re33">
-			<a class="step-link" href="#">
-				<div class="step-link-wrapper">
-					<span class="step-link-number">
+			<a class="step-link" {if $hrefs['customerData']} href="{plink FinishPurchase:default}" {/if}>
+				<div class="step-link-wrapper {$customerDataLinkClasses['wrapper']}">
+					<span class="step-link-number {$customerDataLinkClasses['number']}">
 						2
 					</span>
-					<span class="step-link-text">
+					<span class="step-link-text {$customerDataLinkClasses['text']}">
 						Osobní a doručovací údaje
 					</span>
 				</div>
 			</a>
 		</div>
 		<div class="re33">
-			<a class="step-link" href="##">
-				<div class="step-link-wrapper step-link-wrapper-not-clickable">
-					<span class="step-link-number step-link-number-not-clickable">
+			<a class="step-link" {if $hrefs['purchaseRecap']} href="{plink FinishPurchase:purchaseRecap}" {/if}>
+				<div class="step-link-wrapper {$purchaseRecapClasses['wrapper']}">
+					<span class="step-link-number {$purchaseRecapClasses['number']}">
 						3
 					</span>
-					<span class="step-link-text step-link-text-not-clickable">
+					<span class="step-link-text {$purchaseRecapClasses['text']}">
 						Rekapitulace objednávky
 					</span>
 				</div>

@@ -12,6 +12,10 @@
 	background-color: #ecfcff;
 }
 
+.step-link-wrapper-current{
+	background-color: white;
+}
+
 .step-link-wrapper-current:hover{
 	background-color: white;
 }

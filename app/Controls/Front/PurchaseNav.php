@@ -10,6 +10,28 @@ use Nette\Application\UI\Control;
 
 final class PurchaseNav extends Control
 {
+	const LINK_NOT_CLICKABLE_CLASSES = [
+		'aHref' => '#',
+		'wrapper' => ' step-link-wrapper-not-clickable',
+		'number' => ' step-link-number-not-clickable',
+		'text' => ' step-link-text-not-clickable'
+	];
+
+	const CURRENT_PAGE_CLASSES = [
+		'aHref' => '#',
+		'wrapper' => ' step-link-wrapper-current',
+		'number' => ' step-link-number-current',
+		'text' => ''
+	];
+	
+	const DEFAULT_HREFS = [
+		'basket' => true,
+		'customerData' => true,
+		'purchaseRecap' => true
+	];
+	
+	const NOT_CLICKABLE_HREF = false;
+
 	/** @var bool */
 	private $basketNotEmpty;
 	
@@ -43,14 +65,52 @@ final class PurchaseNav extends Control
 	
 	public function render(): void
 	{
+		$this->setLinkClassesAndHrefs();
 		$this->template->render(__DIR__ . '/templates/purchaseNav.latte');
 	}
 	
-	private function setLinkClasses(): void
+	private function setLinkClassesAndHrefs(): void
 	{
-		// $this->getPresenter()->getName();
-		// $this->template->basketLinkClasses = 
-		// $this->template->customerDataLinkClasses = 
-		// $this->template->purchaseRecapClass = 
+		$basketLinkClasses = $customerDataLinkClasses = $purchaseRecapClasses = [
+			'wrapper' => '',
+			'number' => '',
+			'text' => ''
+		];
+
+		$hrefs = self::DEFAULT_HREFS;
+
+		if(!$this->basketNotEmpty){
+			$customerDataLinkClasses = $purchaseRecapClasses = self::LINK_NOT_CLICKABLE_CLASSES;
+			$hrefs['customerData'] = $hrefs['purchaseRecap'] = self::NOT_CLICKABLE_HREF;
+		}
+
+		if($this->basketNotEmpty && !$this->customerDataSaved){
+			$purchaseRecapClasses = self::LINK_NOT_CLICKABLE_CLASSES;
+			$hrefs['purchaseRecap'] = self::NOT_CLICKABLE_HREF;
+		}
+
+		switch($this->getPresenter()->getName()){
+			case 'Front:Basket':
+				$basketLinkClasses = self::CURRENT_PAGE_CLASSES;
+				$hrefs['basket'] = self::NOT_CLICKABLE_HREF;
+				break;
+			case 'Front:FinishPurchase':
+				switch($this->getPresenter()->getAction()){
+					case 'default':
+						$customerDataLinkClasses = self::CURRENT_PAGE_CLASSES;
+						$hrefs['customerData'] = self::NOT_CLICKABLE_HREF;
+						break;
+					case 'purchaseRecap':
+						$purchaseRecapClasses = self::CURRENT_PAGE_CLASSES;
+						$hrefs['purchaseRecap'] = self::NOT_CLICKABLE_HREF;
+						break;
+				}
+				break;
+		}
+
+		$this->template->basketLinkClasses = $basketLinkClasses;
+		$this->template->customerDataLinkClasses = $customerDataLinkClasses;
+		$this->template->purchaseRecapClasses = $purchaseRecapClasses;
+		$this->template->hrefs = $hrefs;
 	}
 }
