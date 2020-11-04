@@ -19,6 +19,7 @@ use App\Services\DeliveryCountryPaymentPricesArrayGenerator;
 use App\Entity\Factory\CustomerDataFactory;
 use App\Entity\Factory\PurchaseFactory;
 use App\Entity\Factory\PurchaseItemFactory;
+use App\Controls\Front\PurchaseNav;
 
 
 final class FinishPurchasePresenter extends BasePresenter
@@ -213,5 +214,12 @@ final class FinishPurchasePresenter extends BasePresenter
 
 		$this->flashMessage('Ď');
 		$this->redirect('Homepage:default');
+	}
+
+	protected function createComponentPurchaseNav(): PurchaseNav
+	{
+		$purchaseNav = new PurchaseNav(true, true);
+		$this->onStartup = [$purchaseNav, 'render'];
+		return $purchaseNav;
 	}
 }
