@@ -88,7 +88,9 @@ final class BasketPresenter extends BasePresenter
 	
 	protected function createComponentPurchaseNav(): PurchaseNav
 	{
-		$purchaseNav = new PurchaseNav(true, true);
+		$basketNotEmpty = $this->basketService->getAllBasketItems() ? true : false;
+		$customerDataSaved = $this->basketService->getCustomerData() ? true : false;
+		$purchaseNav = new PurchaseNav($basketNotEmpty, $customerDataSaved);
 		$this->onStartup = [$purchaseNav, 'render'];
 		return $purchaseNav;
 	}

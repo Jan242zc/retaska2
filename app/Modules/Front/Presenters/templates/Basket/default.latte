@@ -6,7 +6,7 @@
 	{/if}
 	<div class="container">
 		<div class="everything-wrapper">
-			<h1 class="middle">Nákupní košík</h1>
+			{control purchaseNav}
 			<div class="row">
 				<div class="left">
 					<a class="link-with-arrow" n:href="Product:default">< Zpět k nakupování</a>
@@ -18,7 +18,6 @@
 				{/if}
 			</div>
 			{if $basketNotEmpty}
-				{control purchaseNav}
 				{form editBasketForm}
 					<table>
 						<thead>
