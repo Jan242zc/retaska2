@@ -4,6 +4,22 @@
 	width: 90%;
 }
 
+.step-link-wrapper-not-clickable{
+	border: 2px solid #ddd;
+}
+
+.step-link-wrapper:hover{
+	background-color: #ecfcff;
+}
+
+.step-link-wrapper-current:hover{
+	background-color: white;
+}
+
+.step-link-wrapper-not-clickable:hover{
+	background-color: white;
+}
+
 .step-link-number{
 	background-color: #3e64ff;
 	color: white;
@@ -15,6 +31,23 @@
 	width: 35px;
 }
 
+.step-link-number-current{
+	background-color: #b2fcff;
+	color: #3e64ff;
+}
+
+.step-link-number-not-clickable{
+	background-color: #ddd;
+}
+
 .step-link-text{
 	padding-left: .5em;
+}
+
+.step-link-text-not-clickable{
+	color: #ddd;
+}
+
+a.step-link{
+	text-decoration: none;
 }
