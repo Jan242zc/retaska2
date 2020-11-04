@@ -1,0 +1,20 @@
+.step-link-wrapper{
+	border: 2px solid #b2fcff;
+	margin: 0 auto;
+	width: 90%;
+}
+
+.step-link-number{
+	background-color: #3e64ff;
+	color: white;
+	display: inline-block;
+	font-size: 1.2em;
+	margin: -.09em;
+	text-align: center;
+	padding: .3em .2em;
+	width: 35px;
+}
+
+.step-link-text{
+	padding-left: .5em;
+}

@@ -8,6 +8,7 @@ use Nette;
 use App\Modules\Front\Presenters\BaseFrontPresenter AS BasePresenter;
 use App\Services\GeneralServiceInterface\IBasketService;
 use Nette\Application\UI\Form;
+use App\Controls\Front\PurchaseNav;
 
 
 final class BasketPresenter extends BasePresenter
@@ -83,5 +84,12 @@ final class BasketPresenter extends BasePresenter
 			}
 		}
 		return true;
+	}
+	
+	protected function createComponentPurchaseNav(): PurchaseNav
+	{
+		$purchaseNav = new PurchaseNav(true, true);
+		$this->onStartup = [$purchaseNav, 'render'];
+		return $purchaseNav;
 	}
 }
