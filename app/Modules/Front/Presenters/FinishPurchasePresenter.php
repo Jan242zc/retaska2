@@ -212,6 +212,8 @@ final class FinishPurchasePresenter extends BasePresenter
 			$this->redirect('FinishPurchase:purchaseRecap');
 		}
 
+		$this->basketService->deleteAllData();
+
 		$this->flashMessage('Ď');
 		$this->redirect('Homepage:default');
 	}

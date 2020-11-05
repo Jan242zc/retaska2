@@ -34,6 +34,9 @@ final class BasketService implements IBasketService
 		if(!isset($sessionSection->basket)){
 			$sessionSection->basket = new Basket([]);
 		}
+		if(!$sessionSection->basket->itemsSet()){
+			$sessionSection->basket->setItems([]);
+		}
 		return $sessionSection->basket;
 	}
 	
@@ -207,5 +210,10 @@ final class BasketService implements IBasketService
 		}
 
 		return $prices;
+	}
+	
+	public function deleteAllData(): void
+	{
+		$this->basketSessionSection->deleteCustomerDataAndBasketItems();
 	}
 }

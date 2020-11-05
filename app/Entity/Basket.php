@@ -25,7 +25,6 @@ final class Basket
 	private $customerData;
 
 	public function __construct(Array $items){
-		$this->items = $items;
 		$this->totalPrice = 0;
 		$this->totalPurchasePrice = 0;
 	}
@@ -33,6 +32,11 @@ final class Basket
 	public function getItems(): Array
 	{
 		return $this->items;
+	}
+	
+	public function itemsSet(): bool
+	{
+		return !is_null($this->items);
 	}
 	
 	public function getItemById($id): BasketItem
@@ -97,5 +101,13 @@ final class Basket
 	public function setCustomerData(CustomerData $customerData): void
 	{
 		$this->customerData = $customerData;
+	}
+	
+	public function deleteCustomerDataAndBasketItems(): void
+	{
+		unset($this->items);
+		unset($this->customerData);
+		unset($this->totalPrice);
+		unset($this->totalPurchasePrice);
 	}
 }
