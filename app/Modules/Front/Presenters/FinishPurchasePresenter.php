@@ -214,8 +214,12 @@ final class FinishPurchasePresenter extends BasePresenter
 
 		$this->basketService->deleteAllData();
 
-		$this->flashMessage('Ď');
-		$this->redirect('Homepage:default');
+		$this->setView('thanks');;
+	}
+
+	public function renderThanks(): void
+	{
+		
 	}
 
 	protected function createComponentPurchaseNav(): PurchaseNav
