@@ -47,6 +47,27 @@ div.unavailibility-warning > a:visited{
 	color: red;
 }
 
+a.save-order{
+	background-color: #00be12;
+	border: 0;
+	border-radius: 5px;
+	/* box-sizing: content-box; */
+	color: white;
+	cursor: pointer;
+	display: block;
+	font-size: 1em;
+	font-weight: 500;
+	margin: 2em auto;
+	padding: 0.45em 1em 0.35em;
+	text-align: center;
+	text-decoration: none;
+	width: 90%;
+}
+
+a.save-order:hover{
+	background-color: #57ee3f;
+}
+
 @media(max-width: 1320px){
 	.order-recap-price-label{
 		width: 100%;
