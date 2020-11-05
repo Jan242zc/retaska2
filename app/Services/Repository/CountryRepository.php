@@ -34,6 +34,7 @@ final class CountryRepository extends BaseRepository implements ICreatableAndDel
 			->query("
 				SELECT *
 				FROM country
+				ORDER BY name ASC
 			");
 		
 		$arrayOfCountries = [];		

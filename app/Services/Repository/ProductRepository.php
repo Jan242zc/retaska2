@@ -39,6 +39,7 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 		$queryResult = $this->database->query("
 			SELECT *
 			FROM product
+			ORDER BY name ASC
 			LIMIT ?
 			OFFSET ?
 		", $limit, $offset);

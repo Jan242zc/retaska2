@@ -34,7 +34,8 @@ final class CategoryRepository extends BaseRepository implements ICreatableAndDe
 		$queryResult = $this->database
 			->query("
 				SELECT *
-				FROM category		
+				FROM category
+				ORDER BY name ASC
 			");
 		
 		$arrayOfCategories = [];		

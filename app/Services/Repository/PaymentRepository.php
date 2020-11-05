@@ -35,6 +35,7 @@ final class PaymentRepository extends BaseRepository implements ICreatableAndDel
 			->query("
 				SELECT *
 				FROM payment
+				ORDER BY name ASC
 			");
 		
 		$arrayOfCountries = [];		

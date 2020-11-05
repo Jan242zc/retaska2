@@ -42,10 +42,14 @@ final class DeliveryCountryPaymentPricesRepository extends BaseRepository implem
 	
 	public function findAll(): Array
 	{
+		//JOIN just to order results by delivery name
 		$queryResult = $this->database
 			->query("
-				SELECT *
-				FROM deliverycountrypaymentprices
+				SELECT dcpp.*
+				FROM deliverycountrypaymentprices dcpp
+				INNER JOIN delivery d
+					ON dcpp.delivery = d.id
+				ORDER BY d.name
 			");
 		
 		try{

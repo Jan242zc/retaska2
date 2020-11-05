@@ -27,6 +27,7 @@ final class EntityRepository extends BaseRepository implements IEntityRepository
 		$queryResult = $this->database->query("
 			SELECT *
 			FROM entity
+			ORDER BY name ASC
 		");
 		
 		$arrayOfEntities = [];

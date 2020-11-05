@@ -35,6 +35,7 @@ final class PurchaseStatusRepository extends BaseRepository implements ICreatabl
 			->query("
 				SELECT *
 				FROM purchasestatus
+				ORDER BY name ASC
 			");
 		
 		$arrayOfCountries = [];		

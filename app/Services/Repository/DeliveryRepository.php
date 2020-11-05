@@ -35,6 +35,7 @@ final class DeliveryRepository extends BaseRepository implements ICreatableAndDe
 			->query("
 				SELECT *
 				FROM delivery
+				ORDER BY name ASC
 			");
 		
 		$arrayOfCountries = [];		
