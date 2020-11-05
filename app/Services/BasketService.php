@@ -61,6 +61,7 @@ final class BasketService implements IBasketService
 		$price = PriceCalculator::calculateProductTotalPrice($quantity, $product->getPrice());
 		$this->basketSessionSection->addItem($product, $quantity, $price);
 		$this->updateAllProductsTotalPrice();
+		$this->updateTotalPurchasePrice();
 	}
 	
 	//currently used only by this class
@@ -83,6 +84,7 @@ final class BasketService implements IBasketService
 		$this->adjustProductsQuantities($idValuesArray, $quantitiesArray);
 		$this->removeTheseItemsFromBasket($toBeDeletedValuesArray);
 		$this->updateAllProductsTotalPrice();
+		$this->updateTotalPurchasePrice();
 	}
 	
 	private function removeTheseItemsFromBasket(Array $toBeDeletedIds): void
