@@ -1,0 +1,29 @@
+table.stats-table{
+	border: 1px solid #5edfff;
+	border-collapse: collapse;
+	margin: 1em;
+	overflow-x: scroll;
+	width: 100%;
+}
+
+table.stats-table > thead{
+	font-weight: 600;
+	text-align: center;
+}
+
+table.stats-table td{
+	border: 1px solid #5edfff;
+}
+
+table.stats-table > tbody td{
+	padding-left: .5em;
+}
+
+table.stats-table > tbody td:last-child{
+	text-align: center;
+	padding-left: 0;
+}
+
+table.stats-table > tbody > tr:hover{
+	background-color: #ecfcff;
+}

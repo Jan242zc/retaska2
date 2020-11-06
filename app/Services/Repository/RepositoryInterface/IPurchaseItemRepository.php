@@ -9,4 +9,5 @@ interface IPurchaseItemRepository
 {
 	public function insertMultiple(int $purchaseId, array $items): int;
 	public function findByPurchaseId(int $purchaseId): Array;
+	public function findXMostSoldInTheLastXDays(int $limit, int $days): Array;
 }

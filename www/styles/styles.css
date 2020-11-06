@@ -21,6 +21,7 @@ písmo: 2e97ff nebo #1b76ff nebo 0000ff
 @import 'purchase-detail.css';
 @import 'form-purchaseStatus.css';
 @import 'purchase-nav.css';
+@import 'stats-table.css';
 
 body {
 	background-color: #ecfcff;

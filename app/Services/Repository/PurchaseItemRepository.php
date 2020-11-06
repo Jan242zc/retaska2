@@ -78,6 +78,24 @@ final class PurchaseItemRepository extends BaseRepository implements ICreatableA
 	public function delete(string $identification)
 	{}
 	
+	public function findXMostSoldInTheLastXDays(int $limit, int $days): Array
+	{
+		$queryResult = $this->database
+			->query("
+				SELECT pi.product_id, pi.product_name, SUM(pi.quantity) AS quantity
+				FROM purchaseitem pi
+				JOIN purchase p
+					ON pi.purchase_id = p.id
+				WHERE created_at > DATE_SUB(CURRENT_DATE(), INTERVAL ? DAY)
+				GROUP BY pi.product_name
+				ORDER BY SUM(quantity) DESC
+				LIMIT ?
+			", $days, $limit)
+			->fetchAll();
+
+		return $queryResult;
+	}
+	
 	private function getUsedIds(): array
 	{
 		$usedIds = $this->database

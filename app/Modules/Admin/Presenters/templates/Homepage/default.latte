@@ -1,5 +1,45 @@
 {block content}
 	<div class="container">
-		admin module homepage
+		<div class="everything-wrapper">
+			<div class="row">
+				<div class="re33">
+					Nejprodávanější zboží během posledních 7 dní
+					<table class="stats-table">
+						<thead>
+							<tr>
+								<td></td>
+								<td>
+									Id
+								</td>
+								<td>
+									Název
+								</td>
+								<td>
+									Prodaných kusů
+								</td>
+							</tr>
+						</thead>
+						<tbody>
+							{foreach $top10LastWeek as $item}
+								<tr>
+									<td>
+										{$iterator->getCounter()}.
+									</td>
+									<td>
+										{$item['product_id']}
+									</td>
+									<td>
+										{$item['product_name']}
+									</td>
+									<td>
+										{$item['quantity']}
+									</td>
+								</tr>
+							{/foreach}
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
 	</div>
 	
