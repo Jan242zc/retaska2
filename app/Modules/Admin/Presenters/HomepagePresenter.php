@@ -21,5 +21,11 @@ final class HomepagePresenter extends BasePresenter
 	public function renderDefault(): void
 	{
 		$this->template->top10LastWeek = $this->purchaseItemRepository->findXMostSoldInTheLastXDays(10, 7);
+		$this->template->top10LastMonth = $this->purchaseItemRepository->findXMostSoldInTheLastXDays(10, 30);
+
+		$today = new \DateTime();
+		$beginning = new \DateTime('2020-09-02');
+		$daysSinceTheBeginning = $beginning->diff($today)->days;
+		$this->template->top10Ever = $this->purchaseItemRepository->findXMostSoldInTheLastXDays(10, $daysSinceTheBeginning);
 	}
 }
