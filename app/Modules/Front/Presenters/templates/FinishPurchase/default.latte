@@ -242,8 +242,8 @@
 			updateDeliveryServices();
 			document.getElementById('frm-purchaseForm-deliveryTerms-delivery').value = defaultDeliveryId;
 			var defaultPaymentId = document.getElementById('frm-purchaseForm-deliveryTerms-payment').value;
+			console.log(defaultPaymentId);
 			updatePayments();
-			document.getElementById('frm-purchaseForm-deliveryTerms-payment').value = defaultPaymentId;
 			updateRecapPrices();
 		});
 
