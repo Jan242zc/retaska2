@@ -112,8 +112,13 @@ final class BasketService implements IBasketService
 	private function updateTotalPurchasePrice(): void
 	{
 		$productsPrice = $this->basketSessionSection->getTotalPrice();
-		$deliveryPrice = $this->basketSessionSection->getCustomerData()->getDeliveryService()->getDeliveryPrice();
-		$paymentPrice = $this->basketSessionSection->getCustomerData()->getDeliveryService()->getPaymentPrice();
+		if(!is_null($this->basketSessionSection->getCustomerData())){
+			$deliveryPrice = $this->basketSessionSection->getCustomerData()->getDeliveryService()->getDeliveryPrice();
+			$paymentPrice = $this->basketSessionSection->getCustomerData()->getDeliveryService()->getPaymentPrice();			
+		} else {
+			$deliveryPrice = 0;
+			$paymentPrice = 0;
+		}
 		$this->basketSessionSection->setTotalPurchasePrice(PriceCalculator::calculateTotalPurchasePrice($productsPrice, $deliveryPrice, $paymentPrice));
 	}
 	
