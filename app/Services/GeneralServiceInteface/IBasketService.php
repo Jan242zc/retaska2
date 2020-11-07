@@ -20,6 +20,12 @@ interface IBasketService
 	public function verifyThatThisItemInBasket(int $id): bool;
 	public function verifyThatAllTheseItemsInBasket(array $ids): bool;
 	public function getTotalProductPrice(): float;
-	public function checkAvailibility(): void;
+	public function getTotalPurchasePrice(): float;
+	public function updateAvailableAmountsOfItems(): void;
 	public function anyItemUnavailable(): bool;
+	public function checkAvailibility(): void;
+	public function deleteZeros(): void;
+	public function getCustomerData();
+	public function getPricesPerProductOfBasketItems(): Array;
+	public function deleteAllData(): void;
 }
