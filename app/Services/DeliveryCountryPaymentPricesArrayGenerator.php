@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Services\Repository\RepositoryInterface\IDeliveryCountryPaymentPricesRepository;
+use App\Services\GeneralServiceInterface\IDeliveryCountryPaymentPricesArrayGenerator;
 
 
-final class DeliveryCountryPaymentPricesArrayGenerator
+//generates arrays for order form (delivery possibilities, payment methods and their respective prices)
+final class DeliveryCountryPaymentPricesArrayGenerator implements IDeliveryCountryPaymentPricesArrayGenerator
 {
 	/** @var IDeliveryCountryPaymentPricesRepository */
 	private $deliveryCountryPaymentPricesRepository;

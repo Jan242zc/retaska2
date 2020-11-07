@@ -6,6 +6,7 @@ namespace App\Modules\Front\Presenters;
 
 use App\Modules\Front\Presenters\BaseFrontPresenter AS BasePresenter;
 use App\Services\GeneralServiceInterface\IBasketService;
+use App\Services\GeneralServiceInterface\IDeliveryCountryPaymentPricesArrayGenerator;
 use Nette\Application\UI\Form;
 use App\Services\Repository\RepositoryInterface\ICountryRepository;
 use App\Services\Repository\RepositoryInterface\IDeliveryRepository;
@@ -36,6 +37,7 @@ final class FinishPurchasePresenter extends BasePresenter
 	/** @var IPaymentRepository */
 	private $paymentRepository;
 
+	/** @var IDeliveryCountryPaymentPricesArrayGenerator */
 	private $deliveryCountryPaymentPricesArrayGenerator;
 
 	/** @var IDeliveryCountryPaymentPricesRepository */
@@ -56,7 +58,7 @@ final class FinishPurchasePresenter extends BasePresenter
 	/** @var CustomerDataFactory */
 	private $customerDataFactory;
 
-	public function __construct(IBasketService $basketService, ICountryRepository $countryRepository, IDeliveryRepository $deliveryRepository, IPaymentRepository $paymentRepository, DeliveryCountryPaymentPricesArrayGenerator $deliveryCountryPaymentPricesArrayGenerator, IPurchaseRepository $purchaseRepository, IPurchaseItemRepository $purchaseItemRepository, IDeliveryCountryPaymentPricesRepository $deliveryCountryPaymentPricesRepository, IProductRepository $productRepository, PurchaseFactory $purchaseFactory, CustomerDataFactory $customerDataFactory){
+	public function __construct(IBasketService $basketService, ICountryRepository $countryRepository, IDeliveryRepository $deliveryRepository, IPaymentRepository $paymentRepository, IDeliveryCountryPaymentPricesArrayGenerator $deliveryCountryPaymentPricesArrayGenerator, IPurchaseRepository $purchaseRepository, IPurchaseItemRepository $purchaseItemRepository, IDeliveryCountryPaymentPricesRepository $deliveryCountryPaymentPricesRepository, IProductRepository $productRepository, PurchaseFactory $purchaseFactory, CustomerDataFactory $customerDataFactory){
 		$this->basketService = $basketService;
 		$this->countryRepository = $countryRepository;
 		$this->deliveryRepository = $deliveryRepository;
