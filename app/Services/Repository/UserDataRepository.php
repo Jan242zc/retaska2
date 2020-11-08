@@ -15,6 +15,8 @@ use App\Services\Repository\BaseRepository;
 
 final class UserDataRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, INameableEntityRepository, IUserDataRepository
 {
+	private const ENTITY_IDENTIFICATION = '11 userdata';
+	
 	/** @var Context */
 	private $database;
 	
@@ -57,7 +59,7 @@ final class UserDataRepository extends BaseRepository implements ICreatableAndDe
 			throw new \Exception('No userdata found.');
 		}
 		
-		return $role = $this->userDataFactory->createFromObject($queryResult);
+		return $userData = $this->userDataFactory->createFromObject($queryResult);
 	}
 	
 	public function findById(int $id): UserData
@@ -87,14 +89,14 @@ final class UserDataRepository extends BaseRepository implements ICreatableAndDe
 		
 		$howDidItGo = $this->database->query("
 			INSERT INTO	userdata
-			", $role->toArray());
+			", $userData->toArray());
 
 		return $howDidItGo->getRowCount();
 	}
 	
 	public function update($userData): int
 	{
-		$id = $role->getId();
+		$id = $userData->getId();
 		$userDataArray = $userData->toArray();
 		unset($roleArray['id']);
 		
@@ -167,6 +169,6 @@ final class UserDataRepository extends BaseRepository implements ICreatableAndDe
 	
 	private function queryResultToObject($queryResult): UserData
 	{
-		return $this->roleFactory->createFromObject($queryResult);
+		return $this->userDataFactory->createFromObject($queryResult);
 	}	
 }

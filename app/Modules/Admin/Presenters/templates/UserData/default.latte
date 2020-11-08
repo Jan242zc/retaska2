@@ -1,0 +1,32 @@
+{block content}
+	<div class="container">
+		<div class="everything-wrapper">
+			<h1 class="middle">Uživatelé</h1>
+			<a class="crud crud-new" n:href="UserData:manage">Přidat nového</a>
+			{if !$userData}
+				<p class="nothing-found">V databázi nebyly nalezeni žádní uživatelé.</p>
+			{else}
+				<table class="crud-table">
+					<thead>
+						<tr>
+							<td id="ids"> ID </td>
+							<td> Název </td>
+							<td id="actions"> Možnosti </td>
+						</tr>
+					</thead>
+					<tbody>
+						{foreach $userData as $data}
+							<tr>
+								<td> {$data->getId()} </td>
+								<td> {$data->getName()} </td>
+								<td>
+									{* <a class="crud crud-edit" n:href="User:manage, $data->getId() . ' ' . $data->getName()">Upravit</a> *}
+									{* <a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="User:delete, $data->getId() . ' ' . $data->getName()">Vymazat</a> *}
+								</td>
+							</tr>
+						{/foreach}
+					</tbody>
+				</table>
+			{/if}
+		</div>
+	</div>

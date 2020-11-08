@@ -23,6 +23,7 @@ final class NavbarControl extends Control
 			'Admin:DeliveryCountryPaymentPrices' => '',
 			'Admin:PurchaseStatus' => '',
 			'Admin:Role' => '',
+			'Admin:UserData' => '',
 			'Admin:Entity' => ''
 		];
 		

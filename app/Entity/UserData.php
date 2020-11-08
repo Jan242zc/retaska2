@@ -34,9 +34,9 @@ final class UserData
 		$this->id = $id;
 	}
 	
-	public function getName(): int
+	public function getName(): string
 	{
-		return $this->id;
+		return $this->name;
 	}
 	
 	public function setName(string $name): void

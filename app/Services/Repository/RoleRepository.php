@@ -112,7 +112,12 @@ final class RoleRepository extends BaseRepository implements ICreatableAndDelete
 	
 	public function findAllForForm(): Array
 	{
-		
+		return $this->database
+			->query("
+				SELECT id, name
+				FROM roles
+			")
+			->fetchPairs();
 	}
 	
 	public function getArrayOfUsedNames($currentRoleId = null): Array

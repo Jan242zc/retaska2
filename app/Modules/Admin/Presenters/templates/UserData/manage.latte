@@ -1,0 +1,34 @@
+{block content}
+	<div class="container">
+		<div class="everything-wrapper">
+			<h1>Přidat / upravit uživatele</h1>
+			{form userDataForm}
+				<table>
+					<tbody>
+						<tr>
+							<td class="labels">
+								{label name /}
+							</td>
+							<td class="inputs">
+								{input name}
+							</td>
+						</tr>
+						<tr>
+							<td>
+								{label role /}
+							</td>
+							<td>
+								{input role}
+							</td>
+						<tr>
+							<td></td>
+							<td>
+								{input submit}
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			{/form}
+			<a class="link-with-arrow" n:href="UserData:default"> Zpět na přehled</a>
+		</div>
+	</div>
