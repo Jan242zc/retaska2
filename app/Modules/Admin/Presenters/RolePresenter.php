@@ -30,7 +30,20 @@ final class RolePresenter extends BasePresenter
 	
 	public function actionManage($id = null): void
 	{
-		
+		if(!$id){
+			$formDefaults = [
+				'id' => null
+			];
+		} else {
+			try{
+				$role = $this->roleRepository->find($id);
+			} catch (\Exception $ex){
+				$this->flashMessage('Uživatelská role nenalezena.');
+				$this->redirect('Role:default');
+			}
+			$formDefaults = $role->toArray();
+		}
+		$this['manageRoleForm']->setDefaults($formDefaults);
 	}
 	
 	protected function createComponentManageRoleForm(): Form
@@ -73,7 +86,7 @@ final class RolePresenter extends BasePresenter
 				$this->flashMessage('Něco se pokazilo.');
 			}
 		} else {
-			if($this->deliveryRepository->update($role) === 1){
+			if($this->roleRepository->update($role) === 1){
 				$this->flashMessage('Změny uloženy.');
 			} else {
 				$this->flashMessage('Něco se pokazilo nebo nebyly provedeny žádné změny.');

@@ -44,9 +44,41 @@ final class RoleRepository extends BaseRepository implements ICreatableAndDelete
 		return $this->queryResultsToObjects($queryResult);
 	}
 	
+	public function find($identification): Role
+	{
+		$identification = $this->chopIdentification($identification);
+		
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM roles
+				WHERE id = ? AND name = ?
+				", $identification['id'], $identification['name']
+				)
+			->fetch();
+		
+		if(is_null($queryResult)){
+			throw new \Exception('No role found.');
+		}
+		
+		return $role = $this->roleFactory->createFromObject($queryResult);
+	}
+	
 	public function findById(int $id): Role
 	{
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM roles
+				WHERE id = ?
+				", $id)
+			->fetch();
+
+		if(!is_null($queryResult)){
+			return $role = $this->roleFactory->createFromObject($queryResult);
+		}
 		
+		return $queryResult;
 	}
 	
 	public function insert($role): int
@@ -66,15 +98,19 @@ final class RoleRepository extends BaseRepository implements ICreatableAndDelete
 	
 	public function update($role): int
 	{
+		$id = $role->getId();
+		$roleArray = $role->toArray();
+		unset($roleArray['id']);
 		
+		$howDidItGo = $this->database->query("
+			UPDATE roles
+			SET", $roleArray, "
+			WHERE id = ?", $id);
+		
+		return $howDidItGo->getRowCount();
 	}
 	
 	public function findAllForForm(): Array
-	{
-		
-	}
-	
-	public function find($identification): Role
 	{
 		
 	}
