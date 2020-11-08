@@ -104,6 +104,16 @@ final class UserDataPresenter extends BasePresenter
 		$this->redirect('UserData:default');
 	}
 
+	public function actionDelete($id): void
+	{
+		if($this->userDataRepository->delete($id) === 1){
+			$this->flashMessage('Uživatel smazán.');
+		} else {
+			$this->flashMessage('Uživatel nenalezen.');
+		}
+		$this->redirect('UserData:default');
+	}
+
 	private function verifyNameOriginality($userData): bool
 	{
 		if(is_null($userData->getId())){	
