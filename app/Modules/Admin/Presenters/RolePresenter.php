@@ -95,6 +95,16 @@ final class RolePresenter extends BasePresenter
 		$this->redirect('Role:default');
 	}
 
+	public function actionDelete($id): void
+	{
+		if($this->roleRepository->delete($id) === 1){
+			$this->flashMessage('Uživatelská role smazána.');
+		} else {
+			$this->flashMessage('Uživatelská role nenalezena.');
+		}
+		$this->redirect('Role:default');
+	}
+
 	private function verifyNameOriginality($role): bool
 	{
 		if(is_null($role->getId())){	

@@ -21,7 +21,7 @@
 								<td> {$role->getName()} </td>
 								<td>
 									<a class="crud crud-edit" n:href="Role:manage, $role->getId() . ' ' . $role->getName()">Upravit</a> 
-									{* <a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="Role:delete, $role->getId() . ' ' . $role->getName()">Vymazat</a> *}
+									<a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="Role:delete, $role->getId() . ' ' . $role->getName()">Vymazat</a>
 								</td>
 							</tr>
 						{/foreach}

@@ -142,7 +142,14 @@ final class RoleRepository extends BaseRepository implements ICreatableAndDelete
 	
 	public function delete($identification): int
 	{
+		$identification = $this->chopIdentification($identification);
 		
+		$howDidItGo = $this->database->query("
+			DELETE FROM roles
+			WHERE id = ? AND name = ?
+		", $identification['id'], $identification['name']);
+		
+		return $howDidItGo->getRowCount();
 	}
 
 	private function getUsedIds(): array
