@@ -50,3 +50,5 @@ services:
 	purchaseStatusFactory: App\Entity\Factory\PurchaseStatusFactory
 	roleFactory: App\Entity\Factory\RoleFactory
 	roleRepository: App\Services\Repository\RoleRepository
+	userDataFactory: App\Entity\Factory\UserDataFactory
+	userDataRepository: App\Services\Repository\UserDataRepository
