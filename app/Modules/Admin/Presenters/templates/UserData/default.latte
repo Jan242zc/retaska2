@@ -11,6 +11,7 @@
 						<tr>
 							<td id="ids"> ID </td>
 							<td> Název </td>
+							<td> Role </td>
 							<td id="actions"> Možnosti </td>
 						</tr>
 					</thead>
@@ -19,9 +20,10 @@
 							<tr>
 								<td> {$data->getId()} </td>
 								<td> {$data->getName()} </td>
+								<td> {$data->getRole()->getName()} </td>
 								<td>
-									{* <a class="crud crud-edit" n:href="User:manage, $data->getId() . ' ' . $data->getName()">Upravit</a> *}
-									{* <a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="User:delete, $data->getId() . ' ' . $data->getName()">Vymazat</a> *}
+									<a class="crud crud-edit" n:href="UserData:manage, $data->getId() . ' ' . $data->getName()">Upravit</a>
+									{* <a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="UserData:delete, $data->getId() . ' ' . $data->getName()">Vymazat</a> *}
 								</td>
 							</tr>
 						{/foreach}

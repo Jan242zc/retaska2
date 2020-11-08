@@ -49,7 +49,7 @@ final class UserDataRepository extends BaseRepository implements ICreatableAndDe
 		$queryResult = $this->database
 			->query("
 				SELECT *
-				FROM roles
+				FROM userdata
 				WHERE id = ? AND name = ?
 				", $identification['id'], $identification['name']
 				)
@@ -98,11 +98,11 @@ final class UserDataRepository extends BaseRepository implements ICreatableAndDe
 	{
 		$id = $userData->getId();
 		$userDataArray = $userData->toArray();
-		unset($roleArray['id']);
+		unset($userDataArray['id']);
 		
 		$howDidItGo = $this->database->query("
 			UPDATE userdata
-			SET", $roleArray, "
+			SET", $userDataArray, "
 			WHERE id = ?", $id);
 		
 		return $howDidItGo->getRowCount();

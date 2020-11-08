@@ -35,7 +35,20 @@ final class UserDataPresenter extends BasePresenter
 
 	public function actionManage($id): void
 	{
-		
+		if(!$id){
+			$formDefaults = [
+				'id' => null
+			];
+		} else {
+			try{
+				$userData = $this->userDataRepository->find($id);
+			} catch (\Exception $ex){
+				$this->flashMessage('Uživatel nenalezen.');
+				$this->redirect('UserData:default');
+			}
+			$formDefaults = $userData->toArray();
+		}
+		$this['userDataForm']->setDefaults($formDefaults);
 	}
 
 	protected function createComponentUserDataForm(): Form
