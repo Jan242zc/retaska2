@@ -48,3 +48,5 @@ services:
 	entityFactory: App\Entity\Factory\EntityFactory
 	paymentFactory: App\Entity\Factory\PaymentFactory
 	purchaseStatusFactory: App\Entity\Factory\PurchaseStatusFactory
+	roleFactory: App\Entity\Factory\RoleFactory
+	roleRepository: App\Services\Repository\RoleRepository

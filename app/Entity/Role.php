@@ -37,4 +37,12 @@ final class Role
 	{
 		$this->name = $name;
 	}
+	
+	public function toArray(): Array
+	{
+		return [
+			'id' => $this->id,
+			'name' => $this->name
+		];
+	}
 }
