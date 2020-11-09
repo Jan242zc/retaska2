@@ -31,6 +31,7 @@ final class MyAuthorizator
 		
 		$acl->deny('guest', 'generalAdmin', 'read');
 		$acl->allow('admin', 'generalAdmin', 'read');
+		$acl->allow('superadmin', 'rolesAdmin', 'read');
 		$acl->allow('superadmin', 'usersAdmin', 'read');
 		$acl->allow('superadmin', 'usersAdmin', 'create');
 		$acl->allow('superadmin', 'usersAdmin', 'update');

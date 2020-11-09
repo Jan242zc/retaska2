@@ -99,6 +99,12 @@ final class RoleRepository extends BaseRepository implements ICreatableAndDelete
 	public function update($role): int
 	{
 		$id = $role->getId();
+		$oldName = $this->findById(intval($id))->getName();
+		$newName = $role->getName();
+		if($oldName === 'superadmin' && $newName != $oldName){
+			throw new \Exception('Superadmin cannot be renamed.');
+		}
+		
 		$roleArray = $role->toArray();
 		unset($roleArray['id']);
 		

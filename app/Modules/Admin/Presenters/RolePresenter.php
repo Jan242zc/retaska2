@@ -90,7 +90,16 @@ final class RolePresenter extends BasePresenter
 				$this->flashMessage('Něco se pokazilo.');
 			}
 		} else {
-			if($this->roleRepository->update($role) === 1){
+			try{
+				$affectedRows = $this->roleRepository->update($role);
+			} catch(\Exception $ex){
+				$this->flashMessage('Došlo k chybě.');
+				if($ex->getMessage() === 'Superadmin cannot be renamed.'){
+					$this->flashMessage('Role superadmina nesmí být přejmenována.');
+				}
+				$this->redirect('Role:default');
+			}
+			if($affectedRows === 1){
 				$this->flashMessage('Změny uloženy.');
 			} else {
 				$this->flashMessage('Něco se pokazilo nebo nebyly provedeny žádné změny.');
@@ -102,7 +111,15 @@ final class RolePresenter extends BasePresenter
 	public function actionDelete($id): void
 	{
 		$this->allowOrRedirect(self::RESOURCE);
-		if($this->roleRepository->delete($id) === 1){
+		
+		try{
+			$affectedRows = $this->roleRepository->delete($id);
+		} catch(\Exception $ex){
+			$this->flashMessage('Došlo k chybě.');
+			$this->redirect('Role:default');
+		}
+		
+		if($affectedRows === 1){
 			$this->flashMessage('Uživatelská role smazána.');
 		} else {
 			$this->flashMessage('Uživatelská role nenalezena.');
