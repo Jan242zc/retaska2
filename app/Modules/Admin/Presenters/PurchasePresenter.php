@@ -13,6 +13,8 @@ use Nette\Application\UI\Form;
 
 final class PurchasePresenter extends BasePresenter
 {
+	private const RESOURCE = 'generalAdmin';
+
 	/** @var IPurchaseRepository */
 	private $purchaseRepository;
 	
@@ -30,6 +32,7 @@ final class PurchasePresenter extends BasePresenter
 	
 	public function renderDefault(): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		try{
 			$this->template->purchases = $this->purchaseRepository->findAll();
 		} catch (\Exception $ex){
@@ -39,6 +42,7 @@ final class PurchasePresenter extends BasePresenter
 	
 	public function renderDetail($id): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		try{
 			$purchase = $this->purchaseRepository->findById(intval($id));
 		} catch(\Exception $ex){
@@ -99,6 +103,7 @@ final class PurchasePresenter extends BasePresenter
 
 	public function actionDelete($id): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		try{
 			$deleteSuccessful = $this->purchaseRepository->delete($id) === 1;			
 		} catch (\Exception $ex) {

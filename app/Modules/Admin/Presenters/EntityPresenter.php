@@ -14,6 +14,8 @@ use App\Entity\Factory\EntityFactory;
 
 final class EntityPresenter extends BasePresenter
 {
+	private const RESOURCE = 'generalAdmin';
+
 	private $entityRepository;
 	private $entityFactory;
 	
@@ -24,11 +26,13 @@ final class EntityPresenter extends BasePresenter
 	
 	public function renderDefault(): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		$this->template->entities = $this->entityRepository->findAll();
 	}
 	
 	public function actionManage($id): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		try{
 			$entity = $this->entityRepository->find($id);
 		} catch (\Exception $ex) {

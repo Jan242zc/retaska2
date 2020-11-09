@@ -15,6 +15,8 @@ use App\Services\Repository\RepositoryInterface\ICategoryRepository;
 
 final class ProductPresenter extends BasePresenter
 {
+	private const RESOURCE = 'generalAdmin';
+
 	private $productRepository;
 	private $categoryRepository;
 	private $entityRepository;
@@ -28,11 +30,13 @@ final class ProductPresenter extends BasePresenter
 	
 	public function renderDefault(): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		$this->template->products = $this->productRepository->findAll();
 	}
 	
 	public function actionManage($id = null): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		if(!$id){
 			$formDefaults = [
 				'id' => null
@@ -126,6 +130,7 @@ final class ProductPresenter extends BasePresenter
 	
 	public function actionDelete($id): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		if($this->productRepository->delete($id) === 1){
 			$this->flashMessage('Zboží vymazáno.');
 		} else {

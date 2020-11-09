@@ -12,6 +12,8 @@ use App\Services\Repository\RepositoryInterface\IPurchaseStatusRepository;
 
 final class PurchaseStatusPresenter extends BasePresenter
 {
+	private const RESOURCE = 'generalAdmin';
+
 	private $purchaseStatusRepository;
 	private $purchaseStatusFactory;
 
@@ -22,11 +24,13 @@ final class PurchaseStatusPresenter extends BasePresenter
 	
 	public function renderDefault(): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		$this->template->purchaseStatuses = $this->purchaseStatusRepository->findAll();
 	}
 	
 	public function actionManage($id = null): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		if(!$id){
 			$formDefaults = [
 				'id' => null
@@ -137,6 +141,7 @@ final class PurchaseStatusPresenter extends BasePresenter
 
 	public function actionDelete($id): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		if($this->purchaseStatusRepository->delete($id) === 1){
 			$this->flashMessage('Stav objednávky smazán.');
 		} else {

@@ -13,6 +13,8 @@ use App\Entity\Factory\UserDataFactory;
 
 final class UserDataPresenter extends BasePresenter
 {
+	private const RESOURCE = 'usersAdmin';
+	
 	/** @var IUserDataRepository */
 	private $userDataRepository;
 	
@@ -30,11 +32,13 @@ final class UserDataPresenter extends BasePresenter
 
 	public function renderDefault(): void
 	{
+		$this->allowOrRedirect(self::RESOURCE, 'read');
 		$this->template->userData = $this->userDataRepository->findAll();
 	}
 
 	public function actionCreate(): void
 	{
+		$this->allowOrRedirect(self::RESOURCE, 'create');
 		$this['userDataForm']->setDefaults(['id' => null]);
 	}
 
@@ -92,6 +96,7 @@ final class UserDataPresenter extends BasePresenter
 
 	public function actionEdit($id): void
 	{
+		$this->allowOrRedirect(self::RESOURCE, 'update');
 		if(!$id){
 			$this->redirect('UserData:default');
 		} else {
@@ -141,6 +146,7 @@ final class UserDataPresenter extends BasePresenter
 
 	public function actionDelete($id): void
 	{
+		$this->allowOrRedirect(self::RESOURCE, 'delete');
 		if($this->userDataRepository->delete($id) === 1){
 			$this->flashMessage('Uživatel smazán.');
 		} else {

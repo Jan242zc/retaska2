@@ -13,6 +13,8 @@ use App\Entity\Factory\PaymentFactory;
 
 final class PaymentPresenter extends BasePresenter
 {
+	private const RESOURCE = 'generalAdmin';
+
 	/** @var IPaymentRepository */
 	private $paymentRepository;
 	
@@ -26,11 +28,13 @@ final class PaymentPresenter extends BasePresenter
 	
 	public function renderDefault(): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		$this->template->payments = $this->paymentRepository->findAll();
 	}
 	
 	public function actionManage($id = null): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		if(!$id){
 			$formDefaults = [
 				'id' => null
@@ -101,6 +105,7 @@ final class PaymentPresenter extends BasePresenter
 	
 	public function actionDelete($id): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		if($this->paymentRepository->delete($id) === 1){
 			$this->flashMessage('Druh platby smazán.');
 		} else {

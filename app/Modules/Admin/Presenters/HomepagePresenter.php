@@ -11,6 +11,8 @@ use App\Services\Repository\RepositoryInterface\IPurchaseItemRepository;
 
 final class HomepagePresenter extends BasePresenter
 {
+	private const RESOURCE = 'generalAdmin';
+
 	/** @var IPurchaseItemRepository */
 	private $purchaseItemRepository;
 	
@@ -20,6 +22,7 @@ final class HomepagePresenter extends BasePresenter
 	
 	public function renderDefault(): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		$this->template->top10LastWeek = $this->purchaseItemRepository->findXMostSoldInTheLastXDays(10, 7);
 		$this->template->top10LastMonth = $this->purchaseItemRepository->findXMostSoldInTheLastXDays(10, 30);
 

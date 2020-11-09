@@ -16,6 +16,8 @@ use App\Entity\Factory\DeliveryCountryPaymentPricesFactory;
 
 final class DeliveryCountryPaymentPricesPresenter extends BasePresenter
 {
+	private const RESOURCE = 'generalAdmin';
+	
 	/** @var IDeliveryCountryPaymentPricesRepository */
 	private $deliveryCountryPaymentPricesRepository;
 
@@ -41,6 +43,7 @@ final class DeliveryCountryPaymentPricesPresenter extends BasePresenter
 
 	public function renderDefault(): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		try{
 			$this->template->deliveryCountryPaymentPrices = $this->deliveryCountryPaymentPricesRepository->findAll();
 		} catch(\Exception $ex){
@@ -51,6 +54,7 @@ final class DeliveryCountryPaymentPricesPresenter extends BasePresenter
 
 	public function actionManage($id = null): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		if(!$id){
 			$formDefaults = [
 				'id' => null
@@ -141,6 +145,7 @@ final class DeliveryCountryPaymentPricesPresenter extends BasePresenter
 
 	public function actionDelete($id): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		if($this->deliveryCountryPaymentPricesRepository->delete($id) === 1){
 			$this->flashMessage('Služba doručení smazána.');
 		} else {

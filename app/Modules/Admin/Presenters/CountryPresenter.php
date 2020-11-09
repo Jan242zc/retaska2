@@ -13,6 +13,8 @@ use App\Entity\Factory\CountryFactory;
 
 final class CountryPresenter extends BasePresenter
 {
+	private const RESOURCE = 'generalAdmin';
+	
 	/** @var ICountryRepository */
 	private $countryRepository;
 	
@@ -26,11 +28,13 @@ final class CountryPresenter extends BasePresenter
 	
 	public function renderDefault(): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		$this->template->countries = $this->countryRepository->findAll();
 	}
 	
 	public function actionManage($id = null): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		if(!$id){
 			$formDefaults = [
 				'id' => null
@@ -101,6 +105,7 @@ final class CountryPresenter extends BasePresenter
 	
 	public function actionDelete($id): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		if($this->countryRepository->delete($id) === 1){
 			$this->flashMessage('Stát smazán.');
 		} else {

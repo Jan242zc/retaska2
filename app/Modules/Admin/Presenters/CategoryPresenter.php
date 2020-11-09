@@ -11,8 +11,11 @@ use App\Entity\Category;
 use App\Entity\Factory\CategoryFactory;
 use App\Services\Repository\RepositoryInterface\ICategoryRepository;
 
+
 final class CategoryPresenter extends BasePresenter
 {
+	private const RESOURCE = 'generalAdmin';
+	
 	private $categoryRepository;
 	private $categoryFactory;
 	
@@ -23,11 +26,13 @@ final class CategoryPresenter extends BasePresenter
 	
 	public function renderDefault(): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		$this->template->categories = $this->categoryRepository->findAll();
 	}
 	
 	public function actionManage($id = null): void
 	{
+		$this->allowOrRedirect(self::RESOURCE);
 		if(is_null($id)){
 			$formDefaults = [
 				'id' => null
@@ -102,6 +107,7 @@ final class CategoryPresenter extends BasePresenter
 	}
 	
 	public function actionDelete($id){
+		$this->allowOrRedirect(self::RESOURCE);
 		if($this->categoryRepository->delete($id) === 1){
 			$this->flashMessage('Kategorie smazána.');
 		} else {
