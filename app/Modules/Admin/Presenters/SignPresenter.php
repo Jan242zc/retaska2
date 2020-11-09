@@ -6,10 +6,19 @@ namespace App\Modules\Admin\Presenters;
 
 use App\Modules\Admin\Presenters\BaseAdminPresenter AS BasePresenter;
 use Nette\Application\UI\Form;
+use Nette\Security\IAuthenticator;
+use Nette\Security\AuthenticationException;
 
 
 final class SignPresenter extends BasePresenter
 {
+	/** @var IAuthenticator */
+	private $authenticator;
+	
+	public function __construct(IAuthenticator $authenticator){
+		$this->authenticator = $authenticator;
+	}
+	
 	public function renderDefault(): void
 	{
 		
@@ -34,9 +43,14 @@ final class SignPresenter extends BasePresenter
 		return $form;
 	}
 	
-	public function signInFormSucceeded(Form $form, \stdClass $values): void
+	public function signInFormSucceeded(Form $form, Array $data): void
 	{
-		dump($values);
-		exit;
+		try{
+			$this->getUser()->login($this->authenticator->authenticate($data));
+			$this->flashMessage('Byli jste úspěšně přihlášení.');
+			$this->redirect('Homepage:default');
+		} catch (AuthenticationException $ex){
+			$this->flashMessage('Přihlášení se nepodařilo. Zkontrolujte přihlašovací údaje.');
+		}
 	}
 }

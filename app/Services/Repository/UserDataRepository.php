@@ -85,6 +85,23 @@ final class UserDataRepository extends BaseRepository implements ICreatableAndDe
 		return $queryResult;
 	}
 	
+	public function findByName(string $name): UserData
+	{
+		$queryResult = $this->database
+			->query("
+				SELECT *
+				FROM userdata
+				WHERE name = ?
+			", $name)
+			->fetch();
+
+		if(is_null($queryResult)){
+			throw new \Exception('UserData not found.');
+		}
+
+		return $this->queryResultToObject($queryResult);
+	}
+	
 	public function insert($userData): int
 	{
 		try{
