@@ -52,3 +52,4 @@ services:
 	roleRepository: App\Services\Repository\RoleRepository
 	userDataFactory: App\Entity\Factory\UserDataFactory
 	userDataRepository: App\Services\Repository\UserDataRepository
+	security.passwords: Nette\Security\Passwords(::PASSWORD_BCRYPT, [cost: 12])

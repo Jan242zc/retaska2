@@ -65,6 +65,12 @@ final class UserDataPresenter extends BasePresenter
 			->setPrompt('Zvolte roli.')
 			->setItems($this->roleRepository->findAllForForm());
 
+		$form->addPassword('password', 'Heslo')
+			->addRule($form::MIN_LENGTH, 'Heslo musí mít nejměně %d znaků.', 4);
+
+		$form->addPassword('passwordVerif', 'Ověření hesla:')
+			->addRule($form::EQUAL, 'Hesla se neshodují.', $form['password']);
+
 		$form->addSubmit('submit', 'Uložit')
 			->setHtmlAttribute('class', 'submit');
 

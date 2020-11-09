@@ -12,6 +12,8 @@ use App\Services\Repository\RepositoryInterface\IEntityRepository;
 use App\Services\Repository\RepositoryInterface\ICreatableAndDeleteableEntityRepository;
 use App\Services\Repository\RepositoryInterface\INameableEntityRepository;
 use App\Services\Repository\BaseRepository;
+use Nette\Security\Passwords;
+
 
 final class UserDataRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, INameableEntityRepository, IUserDataRepository
 {
@@ -26,10 +28,14 @@ final class UserDataRepository extends BaseRepository implements ICreatableAndDe
 	/** @var IEntityRepository */
 	private $entityRepository;
 	
-	public function __construct(Context $database, UserDataFactory $userDataFactory, IEntityRepository $entityRepository){
+	/** @var Passwords */
+	private $passwords;
+	
+	public function __construct(Context $database, UserDataFactory $userDataFactory, IEntityRepository $entityRepository, Passwords $passwords){
 		$this->database = $database;
 		$this->userDataFactory = $userDataFactory;
 		$this->entityRepository = $entityRepository;
+		$this->passwords = $passwords;
 	}
 
 	public function findAll(): Array
@@ -86,7 +92,9 @@ final class UserDataRepository extends BaseRepository implements ICreatableAndDe
 		} catch(\Exception $ex){
 			throw $ex;
 		}
-		
+
+		$userData->setPassword($this->passwords->hash($userData->getPassword()));
+
 		$howDidItGo = $this->database->query("
 			INSERT INTO	userdata
 			", $userData->toArray());

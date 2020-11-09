@@ -30,7 +30,7 @@ final class UserDataFactory
 			throw $ex;
 		}
 		
-		return new UserData($data['id'], $data['name'], $role);
+		return new UserData($data['id'], $data['name'], $role, $data['password']);
 	}
 	
 	public function createFromObject($object): UserData
@@ -45,7 +45,7 @@ final class UserDataFactory
 			throw $ex;
 		}
 		
-		return new UserData($object->id, $object->name, $role);
+		return new UserData($object->id, $object->name, $role, $object->password);
 	}
 	
 	private function findRoleForUserData($id): Role

@@ -18,10 +18,14 @@ final class UserData
 	/** @var Role */
 	private $role;
 	
-	public function __construct($id, string $name, Role $role){
+	/** @var string */
+	private $password;
+	
+	public function __construct($id, string $name, Role $role, string $password){
 		$this->id = $id;
 		$this->name = $name;
 		$this->role = $role;
+		$this->password = $password;
 	}
 	
 	public function getId()
@@ -54,12 +58,23 @@ final class UserData
 		$this->role = $role;
 	}
 	
+	public function getPassword(): string
+	{
+		return $this->password;
+	}
+	
+	public function setPassword(string $password): void
+	{
+		$this->password = $password;
+	}
+	
 	public function toArray(): Array
 	{
 		return [
 			'id' => $this->id,
 			'name' => $this->name,
-			'role' => $this->role->getId()
+			'role' => $this->role->getId(),
+			'password' => $this->password
 		];
 	}
 }
