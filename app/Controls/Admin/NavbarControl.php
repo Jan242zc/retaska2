@@ -30,6 +30,7 @@ final class NavbarControl extends Control
 		$linksCssClasses[$this->getPresenter()->getName()] = $activeLinkCssClass;
 
 		$this->template->linksCssClasses = $linksCssClasses;
+		// $this->template->userName = $this->
 		$this->template->render(__DIR__ . '/templates/navbar.latte');
 	}
 }

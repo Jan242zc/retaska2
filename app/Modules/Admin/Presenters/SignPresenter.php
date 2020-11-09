@@ -47,10 +47,16 @@ final class SignPresenter extends BasePresenter
 	{
 		try{
 			$this->getUser()->login($this->authenticator->authenticate($data));
-			$this->flashMessage('Byli jste úspěšně přihlášení.');
+			$this->flashMessage('Byli jste úspěšně přihlášeni.');
 			$this->redirect('Homepage:default');
 		} catch (AuthenticationException $ex){
 			$this->flashMessage('Přihlášení se nepodařilo. Zkontrolujte přihlašovací údaje.');
 		}
 	}
+	
+	public function actionOut(): void
+	{
+		$this->getUser()->logout();
+		$this->redirect('Sign:default');
+	}	
 }
