@@ -33,25 +33,12 @@ final class UserDataPresenter extends BasePresenter
 		$this->template->userData = $this->userDataRepository->findAll();
 	}
 
-	public function actionManage($id): void
+	public function actionCreate(): void
 	{
-		if(!$id){
-			$formDefaults = [
-				'id' => null
-			];
-		} else {
-			try{
-				$userData = $this->userDataRepository->find($id);
-			} catch (\Exception $ex){
-				$this->flashMessage('Uživatel nenalezen.');
-				$this->redirect('UserData:default');
-			}
-			$formDefaults = $userData->toArray();
-		}
-		$this['userDataForm']->setDefaults($formDefaults);
+		$this['userDataForm']->setDefaults(['id' => null]);
 	}
 
-	protected function createComponentUserDataForm(): Form
+	protected function createComponentCreateUserDataForm(): Form
 	{
 		$form = new Form();
 		$form->setHtmlAttribute('class', 'form');
@@ -74,12 +61,12 @@ final class UserDataPresenter extends BasePresenter
 		$form->addSubmit('submit', 'Uložit')
 			->setHtmlAttribute('class', 'submit');
 
-		$form->onSuccess[] = [$this, 'userDataFormSucceeded'];
+		$form->onSuccess[] = [$this, 'createUserDataFormSucceeded'];
 
 		return $form;
 	}
 
-	public function userDataFormSucceeded(Form $form, Array $data): void
+	public function createUserDataFormSucceeded(Form $form, Array $data): void
 	{
 		$userData = $this->userDataFactory->createFromArray($data);
 
@@ -87,27 +74,69 @@ final class UserDataPresenter extends BasePresenter
 			$this->flashMessage('Uživatel s tímto jménem již existuje. Zvolte jiné.');
 			$this->redirect('this');
 		}
-		
-		if(!$userData->getId()){
-			try{
-				$rowsAffected = $this->userDataRepository->insert($userData);
-			} catch (\Exception $ex) {
-				$this->flashMessage('Počet možných ID je nižší než počet rolí, zvyšte jej.');
-				$this->redirect('Entity:default');
-			}
-			if($rowsAffected === 1){
-				$this->flashMessage('Uživatel uložen.');
-			} else {
-				$this->flashMessage('Něco se pokazilo.');
-			}
-		} else {
-			if($this->userDataRepository->update($userData) === 1){
-				$this->flashMessage('Změny uloženy.');
-			} else {
-				$this->flashMessage('Něco se pokazilo nebo nebyly provedeny žádné změny.');
-			}
+
+		try{
+			$rowsAffected = $this->userDataRepository->insert($userData);
+		} catch (\Exception $ex) {
+			$this->flashMessage('Počet možných ID je nižší než počet rolí, zvyšte jej.');
+			$this->redirect('Entity:default');
 		}
+		if($rowsAffected === 1){
+			$this->flashMessage('Uživatel uložen.');
+		} else {
+			$this->flashMessage('Něco se pokazilo.');
+		}
+
 		$this->redirect('UserData:default');
+	}
+
+	public function actionEdit($id): void
+	{
+		if(!$id){
+			$this->redirect('UserData:default');
+		} else {
+			try{
+				$userData = $this->userDataRepository->find($id);
+			} catch (\Exception $ex){
+				$this->flashMessage('Uživatel nenalezen.');
+				$this->redirect('UserData:default');
+			}
+			$formDefaults = $userData->toArray();
+		}
+		$this['editUserDataForm']->setDefaults($formDefaults);
+	}
+	
+	protected function createComponentEditUserDataForm(): Form
+	{
+		$form = new Form();
+		$form->setHtmlAttribute('class', 'form');
+		
+		$form->addHidden('id');
+		
+		$form->addText('name', 'Název:')
+			->setRequired('Uživatel musí mít jméno.');
+
+		$form->addSelect('role', 'Role:')
+			->setPrompt('Zvolte roli.')
+			->setItems($this->roleRepository->findAllForForm());
+
+		$form->addSubmit('submit', 'Uložit')
+			->setHtmlAttribute('class', 'submit');
+
+		$form->onSuccess[] = [$this, 'editUserDataFormSucceeded'];
+
+		return $form;
+	}
+	
+	public function editUserDataFormSucceeded(Form $form, Array $data): void
+	{
+		$userData = $this->userDataFactory->createFromArray($data);
+		
+		if($this->userDataRepository->update($userData) === 1){
+			$this->flashMessage('Změny uloženy.');
+		} else {
+			$this->flashMessage('Něco se pokazilo nebo nebyly provedeny žádné změny.');
+		}
 	}
 
 	public function actionDelete($id): void

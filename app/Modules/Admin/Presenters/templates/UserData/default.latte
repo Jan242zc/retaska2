@@ -2,7 +2,7 @@
 	<div class="container">
 		<div class="everything-wrapper">
 			<h1 class="middle">Uživatelé</h1>
-			<a class="crud crud-new" n:href="UserData:manage">Přidat nového</a>
+			<a class="crud crud-new" n:href="UserData:create">Přidat nového</a>
 			{if !$userData}
 				<p class="nothing-found">V databázi nebyly nalezeni žádní uživatelé.</p>
 			{else}
@@ -22,7 +22,7 @@
 								<td> {$data->getName()} </td>
 								<td> {$data->getRole()->getName()} </td>
 								<td>
-									<a class="crud crud-edit" n:href="UserData:manage, $data->getId() . ' ' . $data->getName()">Upravit</a>
+									<a class="crud crud-edit" n:href="UserData:edit, $data->getId() . ' ' . $data->getName()">Upravit</a>
 									<a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="UserData:delete, $data->getId() . ' ' . $data->getName()">Vymazat</a>
 								</td>
 							</tr>

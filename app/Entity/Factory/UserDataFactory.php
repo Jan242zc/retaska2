@@ -24,6 +24,10 @@ final class UserDataFactory
 			$data['id'] = null;
 		}
 		
+		if(!isset($data['password']) || !$data['password']){
+			$data['password'] = null;
+		}
+		
 		try{
 			$role = $this->findRoleForUserData($data['role']);			
 		} catch(\Exception $ex){
@@ -37,6 +41,10 @@ final class UserDataFactory
 	{
 		if(!$object->id){
 			$object->id = null;
+		}
+		
+		if(!$object->password){
+			$object->password = null;
 		}
 		
 		try{
