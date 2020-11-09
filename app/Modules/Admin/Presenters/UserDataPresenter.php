@@ -39,7 +39,7 @@ final class UserDataPresenter extends BasePresenter
 	public function actionCreate(): void
 	{
 		$this->allowOrRedirect(self::RESOURCE, 'create');
-		$this['userDataForm']->setDefaults(['id' => null]);
+		$this['createUserDataForm']->setDefaults(['id' => null]);
 	}
 
 	protected function createComponentCreateUserDataForm(): Form
