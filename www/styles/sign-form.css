@@ -1,0 +1,10 @@
+form.sign-form{
+	display: inline-block;
+	margin: 0 auto;
+	/* width: 100%; */
+}
+
+div.sign-in-form-wrapper{
+	display: block;
+	text-align: center;
+}

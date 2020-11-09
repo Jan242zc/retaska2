@@ -6,7 +6,7 @@ h5.form-subheading{
 
 form.form{
 	font-size: 1.1em;
-	width: 900px;
+	/* width: 900px; */
 }
 
 form.form input, select, textarea{
@@ -16,7 +16,7 @@ form.form input, select, textarea{
 	padding-left: .5em;
 }
 
-form.form [type="text"], [type="number"], [type="email"], select{ /* jen input typu "text" a type="email", aby se neaplikovalo na radio*/
+form.form [type="text"], [type="number"], [type="email"], [type="password"], select{ /* jen input typu "text" a type="email", aby se neaplikovalo na radio*/
 	height: 1.5em;
 	width: 70%;
 }
