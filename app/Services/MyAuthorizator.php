@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace App\Services;
 
 use Nette\Security\Permission;
-use App\Services\Repository\RepositoryInterface\IUserDataRepository;
 use App\Services\Repository\RepositoryInterface\IRoleRepository;
 use Nette\Security\IAuthorizator;
 
 
 final class MyAuthorizator
 {
-	public static function create(IUserDataRepository $userDataRepository, IRoleRepository $roleRepository): Permission
+	public static function create(IRoleRepository $roleRepository): Permission
 	{
 		$acl = new Permission();
 		
