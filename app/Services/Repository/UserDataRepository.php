@@ -122,6 +122,12 @@ final class UserDataRepository extends BaseRepository implements ICreatableAndDe
 	public function update($userData): int
 	{
 		$id = $userData->getId();
+		$newRole = $userData->getRole()->getName();
+		$oldRole = $this->findById(intval($id))->getRole()->getName();
+		if($oldRole === 'superadmin' && $oldRole != $newRole && $this->findNumberOfOtherSuperAdmins() === 0){
+			throw new \Exception('At least one superadmin must exist.');
+		}
+		
 		$userDataArray = $userData->toArray();
 		unset($userDataArray['id']);
 		
@@ -162,6 +168,12 @@ final class UserDataRepository extends BaseRepository implements ICreatableAndDe
 	{
 		$identification = $this->chopIdentification($identification);
 		
+		$usersRole = $this->findById(intval($identification['id']))->getRole()->getName();
+		
+		if($usersRole === 'superadmin' && $this->findNumberOfOtherSuperAdmins() === 0){
+			throw new \Exception('At least one superadmin must exist.');
+		}
+		
 		$howDidItGo = $this->database->query("
 			DELETE FROM userdata
 			WHERE id = ? AND name = ?
@@ -195,5 +207,19 @@ final class UserDataRepository extends BaseRepository implements ICreatableAndDe
 	private function queryResultToObject($queryResult): UserData
 	{
 		return $this->userDataFactory->createFromObject($queryResult);
-	}	
+	}
+	
+	private function findNumberOfOtherSuperAdmins(): int
+	{
+		return $this->database
+			->query("
+				SELECT COUNT(*)
+				FROM userdata u
+				JOIN roles r
+					ON u.role = r.id
+				WHERE r.name = 'superadmin'
+				GROUP BY r.id
+			")
+			->fetchField() - 1;
+	}
 }

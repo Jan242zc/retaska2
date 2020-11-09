@@ -137,7 +137,17 @@ final class UserDataPresenter extends BasePresenter
 	{
 		$userData = $this->userDataFactory->createFromArray($data);
 		
-		if($this->userDataRepository->update($userData) === 1){
+		try{
+			$affectedRows = $this->userDataRepository->update($userData);			
+		} catch(\Exception $ex){
+			$this->flashMessage('Došlo k chybě.');
+			if($ex->getMessage() === 'At least one superadmin must exist.'){
+				$this->flashMessage('Musí zůstat alespoň jeden superadmin.');
+			}
+			$this->redirect('UserData:default');
+		}
+		
+		if($affectedRows === 1){
 			$this->flashMessage('Změny uloženy.');
 		} else {
 			$this->flashMessage('Něco se pokazilo nebo nebyly provedeny žádné změny.');
@@ -147,7 +157,18 @@ final class UserDataPresenter extends BasePresenter
 	public function actionDelete($id): void
 	{
 		$this->allowOrRedirect(self::RESOURCE, 'delete');
-		if($this->userDataRepository->delete($id) === 1){
+		
+		try{
+			$affectedRows = $this->userDataRepository->delete($id);			
+		} catch(\Exception $ex){
+			$this->flashMessage('Došlo k chybě.');
+			if($ex->getMessage() === 'At least one superadmin must exist.'){
+				$this->flashMessage('Musí zůstat alespoň jeden superadmin.');
+			}
+			$this->redirect('UserData:default');
+		}
+		
+		if($affectedRows === 1){
 			$this->flashMessage('Uživatel smazán.');
 		} else {
 			$this->flashMessage('Uživatel nenalezen.');
