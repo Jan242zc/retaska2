@@ -129,6 +129,8 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 			throw $ex;
 		}
 		
+		$product->setAmountAvailable(0);
+		
 		$howDidItGo = $this->database->query("
 			INSERT INTO product
 			", $product->toArray());

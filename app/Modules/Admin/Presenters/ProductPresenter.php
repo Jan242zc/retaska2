@@ -81,12 +81,12 @@ final class ProductPresenter extends BasePresenter
 		$form->addText('material', 'Materiál:')
 			->setRequired('Zboží musí mít určený materiál.');
 			
-		$form->addText('amountAvailable', 'Množství na skladě:')
-			->setRequired('Zboží musí mít uvedené množství na skladě.')
-			->addRule($form::NUMERIC, 'Množství zboží musí být celé kladné číslo.')
-			->addFilter(function($value){
-				return intval($value);
-			});
+		// $form->addText('amountAvailable', 'Množství na skladě:')
+			// ->setRequired('Zboží musí mít uvedené množství na skladě.')
+			// ->addRule($form::NUMERIC, 'Množství zboží musí být celé kladné číslo.')
+			// ->addFilter(function($value){
+				// return intval($value);
+			// });
 			
 		$form->addTextArea('description', 'Popis:')
 			->setRequired('Zboží musí mít popis.');

@@ -30,14 +30,14 @@ final class Product
 	/** @var string */
 	private $description;
 	
-	public function __construct($id = null, string $name, float $price, Category $category, string $material, int $amountAvailable, string $description){
+	public function __construct($id = null, string $name, float $price, Category $category, string $material, string $description, int $amountAvailable = null){
 		$this->id = $id;
 		$this->name = $name;
 		$this->price = $price;
 		$this->category = $category;
 		$this->material = $material;
-		$this->amountAvailable = $amountAvailable;
 		$this->description = $description;
+		$this->amountAvailable = $amountAvailable;
 	}
 	
 	public function getId()
@@ -90,16 +90,6 @@ final class Product
 		$this->material = $material;
 	}
 	
-	public function getAmountAvailable(): int
-	{
-		return $this->amountAvailable;
-	}
-	
-	public function setAmountAvailable(int $amountAvailable): void
-	{
-		$this->amountAvailable = $amountAvailable;
-	}
-	
 	public function getDescription(): string
 	{
 		return $this->description;
@@ -110,16 +100,31 @@ final class Product
 		$this->description = $description;
 	}
 	
+	public function getAmountAvailable()
+	{
+		return $this->amountAvailable;
+	}
+	
+	public function setAmountAvailable(int $amountAvailable): void
+	{
+		$this->amountAvailable = $amountAvailable;
+	}
+	
 	public function toArray(): Array
 	{
-		return [
+		$array = [
 			'id' => $this->id,
 			'name' => $this->name,
 			'price' => $this->price,
 			'category' => $this->category->getId(),
 			'material' => $this->material,
-			'amountAvailable' => $this->amountAvailable,
 			'description' => $this->description
 		];
+
+		if(!is_null($this->amountAvailable)){
+			$array['amountAvailable'] = $this->amountAvailable;			
+		}
+
+		return $array;
 	}
 }
