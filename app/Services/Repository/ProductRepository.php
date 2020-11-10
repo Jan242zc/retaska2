@@ -92,11 +92,10 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 		}
 		
 		try{
-		return $product = $this->productFactory->createFromObject($queryResult);
+			return $product = $this->productFactory->createFromObject($queryResult);
 		} catch (\Exception $ex){
 			throw $ex;
 		}
-		
 	}
 	
 	public function findById(int $id): Product

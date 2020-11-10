@@ -75,10 +75,10 @@ final class RoleRepository extends BaseRepository implements ICreatableAndDelete
 			->fetch();
 
 		if(!is_null($queryResult)){
-			return $role = $this->roleFactory->createFromObject($queryResult);
+			throw new \Exception('No role found.');
 		}
 		
-		return $queryResult;
+		return $role = $this->roleFactory->createFromObject($queryResult);
 	}
 	
 	public function insert($role): int

@@ -76,11 +76,11 @@ final class DeliveryRepository extends BaseRepository implements ICreatableAndDe
 				", $id)
 			->fetch();
 
-		if(!is_null($queryResult)){
-			return $delivery = $this->deliveryFactory->createFromObject($queryResult);
+		if(is_null($queryResult)){
+			throw new \Exception('No delivery found.');
 		}
 		
-		return $queryResult;
+		return $delivery = $this->deliveryFactory->createFromObject($queryResult);
 	}
 	
 	public function insert($delivery)

@@ -76,11 +76,11 @@ final class PaymentRepository extends BaseRepository implements ICreatableAndDel
 				", $id)
 			->fetch();
 
-		if(!is_null($queryResult)){
-			return $payment = $this->paymentFactory->createFromObject($queryResult);
+		if(is_null($queryResult)){
+			throw new \Exception('No payment found.');
 		}
 		
-		return $queryResult;
+		return $payment = $this->paymentFactory->createFromObject($queryResult);
 	}
 	
 	public function insert($payment)

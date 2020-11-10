@@ -75,11 +75,11 @@ final class CountryRepository extends BaseRepository implements ICreatableAndDel
 				", $id)
 			->fetch();
 
-		if(!is_null($queryResult)){
-			return $country = $this->countryFactory->createFromObject($queryResult);
+		if(is_null($queryResult)){
+			throw new \Exception('No country found.');
 		}
 		
-		return $queryResult;
+		return $country = $this->countryFactory->createFromObject($queryResult);
 	}
 	
 	public function insert($country)

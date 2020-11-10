@@ -76,11 +76,11 @@ final class PurchaseStatusRepository extends BaseRepository implements ICreatabl
 				", $id)
 			->fetch();
 
-		if(!is_null($queryResult)){
-			return $purchaseStatus = $this->purchaseStatusFactory->createFromObject($queryResult);
+		if(is_null($queryResult)){
+			throw new \Exception('No purchase status found.');
 		}
 		
-		return $queryResult;
+		return $purchaseStatus = $this->purchaseStatusFactory->createFromObject($queryResult);
 	}
 
 	public function insert($purchaseStatus)
