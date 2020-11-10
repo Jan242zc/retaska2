@@ -128,6 +128,54 @@ final class ProductPresenter extends BasePresenter
 		$this->redirect('Product:default');
 	}
 	
+	public function actionChangeAmountAvailable($id): void
+	{
+		if(!isset($id)){
+			$this->redirect('Product:default');
+		}
+		
+		try{
+			$this->template->product = $this->productRepository->find($id);
+		} catch (\Exception $ex){
+			$this->flashMessage('Zboží nenalezeno.');
+			$this->redirect('Product:default');
+		}
+
+		$this['changeAmountAvailableForm']->setDefaults(['increaseOrDecrease' => 'i', 'amount' => 0]);
+	}
+	
+	protected function createComponentChangeAmountAvailableForm(): Form
+	{
+		$form = new Form();
+		$form->setHtmlAttribute('class', 'form');
+		
+		$form->addRadioList('increaseOrDecrease', 'Množství:')
+			->setItems([
+				'i' => 'zvýšit',
+				'd' => 'snížit'
+			]);
+
+		$form->addText('amount', 'o:')
+			->setRequired('Zboží musí mít uvedené množství na skladě.')
+			->addRule($form::NUMERIC, 'Množství zboží musí být celé kladné číslo.')
+			->addFilter(function($value){
+				return intval($value);
+			});
+
+		$form->addSubmit('save', 'Uložit')
+			->setHtmlAttribute('class', 'submit');
+
+		$form->onSuccess[] = [$this, 'changeAmouAvailableFormSucceeded'];
+
+		return $form;
+	}
+	
+	public function changeAmouAvailableFormSucceeded(Form $form, Array $data): void
+	{
+		dump($data);
+		exit;
+	}
+	
 	public function actionDelete($id): void
 	{
 		$this->allowOrRedirect(self::RESOURCE);

@@ -12,7 +12,7 @@
 						<td> Kategorie </td>
 						<td> Materiál </td>
 						<td> Množství </td>
-						<td id="actions"> Možnosti </td>
+						<td style="width: 40%;"> Možnosti </td>
 					</tr>
 				</thead>
 				<tbody>
@@ -32,6 +32,7 @@
 							<td> {$product->getAmountAvailable()} </td>
 							<td>
 								<a class="crud crud-edit" n:href="Product:manage, $product->getId() . ' ' . $product->getName()">Upravit</a> 
+								<a class="crud crud-edit" n:href="Product:changeAmountAvailable, $product->getId() . ' ' . $product->getName()">Upravit dostupné množství</a> 
 								<a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="Product:delete, $product->getId() . ' ' . $product->getName()">Vymazat</a> 
 							</td>
 						</tr>

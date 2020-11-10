@@ -1,0 +1,28 @@
+{block content}
+	<div class="container">
+		<div class="everything-wrapper">
+			<a n:href="Product:default" class="link-with-arrow"> < Zpět na přehled </a>
+			{form changeAmountAvailableForm}
+				<table>
+					<tr>
+						<td> Množství na skladě (<span id="AAnow">{$product->getAmountAvailable()}</span>): </td>
+						<td> 
+							{input increaseOrDecrease:i} {label increaseOrDecrease:i /} {input increaseOrDecrease:d} {label increaseOrDecrease:d /} 
+						</td>
+					</tr>
+					<tr>
+						<td> {label amount /} </td>
+						<td> {input amount} </td>
+					</tr>
+					<tr>
+						<td> Množství po úpravě: </td>
+						<td> <span id="AAafter"> {$product->getAmountAvailable()} </span> </td>
+					</tr>
+					<tr>
+						<td colspan="2"> {input save} </td>
+					</tr>
+				</table>
+			{/form}
+		</div>	
+	</div>
+	
