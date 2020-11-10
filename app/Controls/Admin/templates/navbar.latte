@@ -2,6 +2,7 @@
 	<div n:if="$user->loggedIn" class="navbar navbar-admin navbar-fixed">
 		<ul class="user-info">
 			<li>Přihlášený uživatel: {$user->identity->username}</li>
+			<li><a href="{plink MyAccount:default}">Správa mého účtu</a></li>
 			<li class="right"><a href="{plink Sign:out}">Odhlásit se</a></li>
 		</ul>
 		<ul class="navigation">
