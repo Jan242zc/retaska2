@@ -55,6 +55,9 @@ final class ProductPresenter extends BasePresenter
 	
 	public function renderDetail($id): void
 	{
+		if(!isset($id)){
+			$this->redirect('Product:default');
+		}
 		$product = $this->productRepository->find($id);
 		$this->template->product = $product;
 		$formDefaults = [
