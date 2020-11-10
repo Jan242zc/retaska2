@@ -25,4 +25,35 @@
 			{/form}
 		</div>	
 	</div>
+	<script>
+		const amountNow = JSON.parse({json_encode($product->getAmountAvailable())});
+		const amountChangeField = document.getElementById('frm-changeAmountAvailableForm-amount');
+		const increaseButton = document.getElementById('frm-changeAmountAvailableForm-increaseOrDecrease-i');
+		const decreaseButton = document.getElementById('frm-changeAmountAvailableForm-increaseOrDecrease-d');
+		
+		amountChangeField.addEventListener("keyup", function(e){
+			updateAmountAfter();
+		});
+
+		increaseButton.addEventListener("click", function(){
+			updateAmountAfter();
+		});
+		
+		decreaseButton.addEventListener("click", function(){
+			updateAmountAfter();
+		});
+
+		function updateAmountAfter(){
+			newValue = parseInt(amountChangeField.value);
+			element = document.getElementById('AAafter');
+			if(increaseButton.checked == true){
+				element.innerHTML = amountNow + newValue;
+			} else if (decreaseButton.checked == true){
+				element.innerHTML = amountNow - newValue;
+			} else {
+				element.innerHTML = '???';
+			}
+		}
+		
+	</script>
 	
