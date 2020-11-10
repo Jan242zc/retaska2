@@ -172,6 +172,10 @@ final class ProductPresenter extends BasePresenter
 	
 	public function changeAmouAvailableFormSucceeded(Form $form, Array $data): void
 	{
+		if(is_null($data['increaseOrDecrease'])){
+			$this->flashMessage('Neplatná volba změny množství.');
+			$this->redirect('this');
+		}
 		dump($data);
 		exit;
 	}
