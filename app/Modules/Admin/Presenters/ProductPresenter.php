@@ -80,14 +80,7 @@ final class ProductPresenter extends BasePresenter
 		
 		$form->addText('material', 'Materiál:')
 			->setRequired('Zboží musí mít určený materiál.');
-			
-		// $form->addText('amountAvailable', 'Množství na skladě:')
-			// ->setRequired('Zboží musí mít uvedené množství na skladě.')
-			// ->addRule($form::NUMERIC, 'Množství zboží musí být celé kladné číslo.')
-			// ->addFilter(function($value){
-				// return intval($value);
-			// });
-			
+
 		$form->addTextArea('description', 'Popis:')
 			->setRequired('Zboží musí mít popis.');
 			
@@ -135,19 +128,26 @@ final class ProductPresenter extends BasePresenter
 		}
 		
 		try{
-			$this->template->product = $this->productRepository->find($id);
+			$product = $this->productRepository->find($id);
 		} catch (\Exception $ex){
 			$this->flashMessage('Zboží nenalezeno.');
 			$this->redirect('Product:default');
 		}
 
-		$this['changeAmountAvailableForm']->setDefaults(['increaseOrDecrease' => 'i', 'amount' => 0]);
+		$this->template->product = $product;
+		$this['changeAmountAvailableForm']->setDefaults([
+			'id' => $product->getId(),
+			'increaseOrDecrease' => 'i', 
+			'amount' => 0
+		]);
 	}
 	
 	protected function createComponentChangeAmountAvailableForm(): Form
 	{
 		$form = new Form();
 		$form->setHtmlAttribute('class', 'form');
+		
+		$form->addHidden('id');
 		
 		$form->addRadioList('increaseOrDecrease', 'Množství:')
 			->setItems([
@@ -176,8 +176,24 @@ final class ProductPresenter extends BasePresenter
 			$this->flashMessage('Neplatná volba změny množství.');
 			$this->redirect('this');
 		}
-		dump($data);
-		exit;
+
+		$array = [
+			'product_id' => $data['id'],
+			'quantity' => $data['amount']
+		];
+
+		if($data['increaseOrDecrease'] === 'i'){
+			$rowsAffected = $this->productRepository->increaseAvailableAmountsByProductQuantityArrays([$array]);
+		} else {
+			$rowsAffected = $this->productRepository->decreaseAvailableAmountsByProductQuantityArrays([$array]);
+		}
+		
+		if($rowsAffected === 1){
+			$this->flashMessage('Změny provedeny.');
+		} else {
+			$this->flashMessage('Došlo k chybě.');
+		}
+		$this->redirect('Product:default');
 	}
 	
 	public function actionDelete($id): void
