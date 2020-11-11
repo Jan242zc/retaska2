@@ -74,7 +74,7 @@ final class RoleRepository extends BaseRepository implements ICreatableAndDelete
 				", $id)
 			->fetch();
 
-		if(!is_null($queryResult)){
+		if(is_null($queryResult)){
 			throw new \Exception('No role found.');
 		}
 		
