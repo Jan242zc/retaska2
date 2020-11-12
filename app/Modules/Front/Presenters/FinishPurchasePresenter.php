@@ -97,6 +97,7 @@ final class FinishPurchasePresenter extends BasePresenter
 		$personalData = $form->addContainer('personalData');
 
 		$personalData->addText('name', 'Jméno a příjmení:')
+			->addRule($form::PATTERN, 'Zadejte jméno s platnými znaky.', '/^[a-z ,.\'-]+$/i') //I confess to copying this one from StackOverflow
 			->setRequired('Zadejte své jméno a příjmení.');
 
 		$personalData->addText('streetAndNumber', 'Ulice a číslo domu:')
