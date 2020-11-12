@@ -90,6 +90,7 @@ final class ProductPresenter extends BasePresenter
 			->setDefaultValue(1)
 			->setRequired('Je nutné zadat počet kusů.')
 			->addRule($form::NUMERIC, 'Množství zboží musí být celé kladné číslo.')
+			->addRule($form::MIN, 'Do košíku můžete přidat minimálně jeden kus.', 1)
 			->addFilter(function($value){
 				return intval($value);
 			});
