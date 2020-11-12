@@ -84,6 +84,7 @@ a.button-category{
 	text-decoration: none;
 	text-indent: 0.2em;
 	padding: 0.5em 0.9em;
+	width: 70%;
 }
 
 a.button-category:hover{
