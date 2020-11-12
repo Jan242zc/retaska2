@@ -234,9 +234,11 @@
 		const countryIndependentDeliveryServicesGroupedByDelivery = JSON.parse({json_encode($countryIndependentDeliveryServicesGroupedByDelivery)});
 		const paymentNames = JSON.parse({json_encode($paymentNames)});
 		const deliveryNames = JSON.parse({json_encode($deliveryNames)});
+		//const countryNames = '';
 		var differentAdressChecked = false;
 
 		document.addEventListener("DOMContentLoaded", function() {
+			console.log(deliveryServicesGroupedByCountry);
 			updateDifferentAdressContainer();
 			var defaultDeliveryId = document.getElementById('frm-purchaseForm-deliveryTerms-delivery').value;
 			updateDeliveryServices();
@@ -293,10 +295,27 @@
 
 		//update all the prices on the right hand site of the page
 		function updateRecapPrices(){
-			var countryId = document.getElementById('frm-purchaseForm-personalData-country').value;
+			if(differentAdressChecked){
+				var countryId = document.getElementById('frm-purchaseForm-deliveryAdress-country').value;
+			} else {
+				var countryId = document.getElementById('frm-purchaseForm-personalData-country').value;
+			}
 			var deliveryId = document.getElementById('frm-purchaseForm-deliveryTerms-delivery').value;
 			var paymentId = document.getElementById('frm-purchaseForm-deliveryTerms-payment').value;
-
+			
+			console.log('deliveryServicesGroupedByCountry: ');
+			console.log(deliveryServicesGroupedByCountry);
+			
+			console.log('countryId: ');
+			console.log(countryId);
+			
+			console.log('deliveryId: ');
+			console.log(deliveryId);
+			
+			console.log('paymentId: ');
+			console.log(paymentId);
+			
+			
 			//get the delivery price from one of the delivery services objects
 			if(typeof countryIndependentDeliveryServicesGroupedByDelivery[deliveryId] == 'undefined'){
 				var deliveryPrice = deliveryServicesGroupedByCountry[countryId][deliveryId].price;
