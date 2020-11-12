@@ -232,6 +232,7 @@ class ProductRepository extends BaseRepository implements ICreatableAndDeleteabl
 		$queryResult = $this->database->query("
 			SELECT *
 			FROM product
+			WHERE amountAvailable > 0
 			ORDER BY price DESC
 			LIMIT ?
 		", $limit);

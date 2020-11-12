@@ -23,7 +23,7 @@
 								Dostupnost
 							</p>
 							<p class="description-content">
-								{$product->getAmountAvailable()} kusů na skladě
+								{max($product->getAmountAvailable(), 0)} kusů na skladě
 							</p>
 							<p class="description-heading">
 								Popis

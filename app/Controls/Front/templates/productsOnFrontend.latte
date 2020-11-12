@@ -17,7 +17,12 @@
 						{else}
 							{$product->getPrice()}
 						{/if} 
-						Kč / ks <br>							
+						Kč / ks <br>
+						{if ($product->getAmountAvailable() > 0)}
+							{max($product->getAmountAvailable(), 0)} kusů na skladě
+						{else}
+							<span class="currently-unavailable">Nyní nedostupné</span>
+						{/if}
 						<a class="button-detail" href="{plink Product:detail, $product->getId() . ' ' . $product->getName()}">Detail produktu</a>
 					</p>
 				</div>

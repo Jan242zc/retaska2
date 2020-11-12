@@ -132,6 +132,10 @@ a.page-button:hover{
 	color: #fff;
 }
 
+.currently-unavailable{
+	font-style: italic;
+}
+
 @media(max-width: 1380px){
 	div.sidebar{
 		border-right: 0;
