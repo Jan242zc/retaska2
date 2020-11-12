@@ -116,7 +116,7 @@ final class FinishPurchasePresenter extends BasePresenter
 			->setRequired('Zadejte emailovou adresu.');
 
 		$personalData->addText('phone', 'Telefonní číslo:')
-			->addRule($form::PATTERN, 'Zadejte platné telefonní číslo.', '^([+]|[00])+\d{7,15}')
+			->addRule($form::PATTERN, 'Zadejte platné telefonní číslo včetně předvolby.', '^([+]|[00])+\d{7,15}')
 			->setRequired('Zadejte telefonní číslo.');
 
 		$personalData->addCheckbox('differentAdress', 'Doručit na jinou adresu než fakturační')
