@@ -19,8 +19,14 @@ use App\Services\Repository\RepositoryInterface\ISelectableEntityRepository;
 final class PaymentRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, INameableEntityRepository, ISelectableEntityRepository, IPaymentRepository
 {
 	private const ENTITY_IDENTIFICATION = '4 payment';
+	
+	/** @var IEntityRepository */
 	private $entityRepository;
+	
+	/** @var Nette\Database\Context */
 	private $database;
+	
+	/** @var PaymentFactory */
 	private $paymentFactory;
 
 	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database, PaymentFactory $paymentFactory){

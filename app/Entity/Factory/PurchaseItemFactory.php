@@ -18,7 +18,13 @@ final class PurchaseItemFactory
 			$id = null;
 		}
 		
-		return new PurchaseItem($id, $data['purchase_id'], $data['product_id'], $data['product_name'], $data['product_price'], $data['quantity'], $data['price']);
+		if(!isset($data['product_id'])){
+			$productId = null;
+		} else {
+			$productId = $object->product_id;
+		}
+		
+		return new PurchaseItem($id, $data['purchase_id'], $productId, $data['product_name'], $data['product_price'], $data['quantity'], $data['price']);
 	}
 	
 	public function createFromObject($object): PurchaseItem
@@ -29,7 +35,13 @@ final class PurchaseItemFactory
 			$id = null;
 		}
 		
-		return new PurchaseItem($id, $object->purchase_id, $object->product_id, $object->product_name, $object->product_price, $object->quantity, $object->price);
+		if(!isset($object->product_id)){
+			$productId = null;
+		} else {
+			$productId = $object->product_id;
+		}
+
+		return new PurchaseItem($id, $object->purchase_id, $productId, $object->product_name, $object->product_price, $object->quantity, $object->price);
 	}
 	
 	public function createFromBasketData(Array $basketItems): Array

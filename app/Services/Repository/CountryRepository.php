@@ -18,8 +18,14 @@ use App\Services\Repository\RepositoryInterface\ISelectableEntityRepository;
 final class CountryRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, INameableEntityRepository, ISelectableEntityRepository,ICountryRepository
 {
 	private const ENTITY_IDENTIFICATION = '3 country';
+	
+	/** @var IEntityRepository */
 	private $entityRepository;
+	
+	/** @var Nette\Database\Context */
 	private $database;
+	
+	/** @var CountryFactory */
 	private $countryFactory;
 
 	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database, CountryFactory $countryFactory){

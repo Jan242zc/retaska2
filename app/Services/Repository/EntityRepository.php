@@ -14,7 +14,11 @@ use App\Services\Repository\RepositoryInterface\IEntityRepository;
 
 final class EntityRepository extends BaseRepository implements IEntityRepository
 {
+	
+	/** @var Nette\Database\Context */
 	private $database;
+	
+	/** @var EntityFactory */
 	private $entityFactory;
 
 	public function __construct(Nette\Database\Context $database, EntityFactory $entityFactory){

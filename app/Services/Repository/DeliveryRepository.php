@@ -19,8 +19,14 @@ use App\Services\Repository\RepositoryInterface\ISelectableEntityRepository;
 final class DeliveryRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, INameableEntityRepository, ISelectableEntityRepository, IDeliveryRepository
 {
 	private const ENTITY_IDENTIFICATION = '5 delivery';
+	
+	/** @var IEntityRepository */
 	private $entityRepository;
+	
+	/** @var Nette\Database\Context */
 	private $database;
+	
+	/** @var DeliveryFactory */
 	private $deliveryFactory;
 
 	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database, DeliveryFactory $deliveryFactory){

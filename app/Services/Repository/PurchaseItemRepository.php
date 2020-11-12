@@ -15,8 +15,14 @@ use App\Entity\Factory\PurchaseItemFactory;
 final class PurchaseItemRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, IPurchaseItemRepository
 {
 	private const ENTITY_IDENTIFICATION = '9 purchaseitem';
+	
+	/** @var IEntityRepository */
 	private $entityRepository;
+	
+	/** @var Nette\Database\Context */
 	private $database;
+	
+	/** @var PurchaseItemFactory */
 	private $purchaseItemFactory;
 	
 	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database, PurchaseItemFactory $purchaseItemFactory){

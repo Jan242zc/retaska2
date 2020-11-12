@@ -164,7 +164,13 @@
 							{foreach $purchase->getPurchaseItems() as $item}
 								<tr>
 									<td class="align-center"> {$item->getId()} </td>
-									<td class="align-center"> {$item->getProductId()} </td>
+									<td class="align-center"> 
+										{if $item->getProductId()}
+											{$item->getProductId()}
+										{else}
+											Smaz.
+										{/if}
+									</td>
 									<td class="align-center"> {$item->getProductName()} </td>
 									<td class="align-right">
 										{if fmod($item->getProductPrice(), 1) != 0}

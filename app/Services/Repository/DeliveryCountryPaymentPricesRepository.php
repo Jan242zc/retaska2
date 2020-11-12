@@ -23,12 +23,23 @@ use App\Services\Repository\RepositoryInterface\IDeliveryCountryPaymentPricesRep
 final class DeliveryCountryPaymentPricesRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, IDeliveryCountryPaymentPricesRepository
 {
 	private const ENTITY_IDENTIFICATION = '6 deliverycountrypaymentprices';
+	
+	/** @var IEntityRepository */
 	private $entityRepository;
+	
+	/** @var Nette\Database\Context */
 	private $database;
+	
+	/** @var IDeliveryRepository */
 	private $deliveryRepository;
+	
+	/** @var ICountryRepository */
 	private $countryRepository;
+	
+	/** @var IPaymentRepository */
 	private $paymentRepository;
-	private $deliveryCountryPaymentPricesRepository;
+	
+	/** @var DeliveryCountryPaymentPricesFactory */
 	private $deliveryCountryPaymentPricesFactory;
 
 	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database, IDeliveryRepository $deliveryRepository, ICountryRepository $countryRepository, IPaymentRepository $paymentRepository, DeliveryCountryPaymentPricesFactory $deliveryCountryPaymentPricesFactory){

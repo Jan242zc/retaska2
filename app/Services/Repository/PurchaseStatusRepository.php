@@ -19,8 +19,13 @@ final class PurchaseStatusRepository extends BaseRepository implements ICreatabl
 {
 	private const ENTITY_IDENTIFICATION = '7 purchasestatus';
 	
+	/** @var IEntityRepository */
 	private $entityRepository;
+	
+	/** @var Nette\Database\Context */
 	private $database;
+	
+	/** @var PurchaseStatusFactory */
 	private $purchaseStatusFactory;
 
 	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database, PurchaseStatusFactory $purchaseStatusFactory){

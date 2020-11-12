@@ -19,8 +19,14 @@ use App\Services\Repository\RepositoryInterface\ISelectableEntityRepository;
 final class CategoryRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, INameableEntityRepository, ISelectableEntityRepository, ICategoryRepository
 {
 	private const ENTITY_IDENTIFICATION = '1 category';
+	
+	/** @var IEntityRepository */
 	private $entityRepository;
+	
+	/** @var Nette\Database\Context */
 	private $database;
+	
+	/** @var CategoryFactory */
 	private $categoryFactory;
 
 	public function __construct(IEntityRepository $entityRepository, Nette\Database\Context $database, CategoryFactory $categoryFactory){

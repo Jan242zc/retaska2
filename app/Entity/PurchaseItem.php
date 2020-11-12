@@ -28,7 +28,7 @@ final class PurchaseItem
 	/** @var float */
 	private $price;
 	
-	public function __construct(int $id = null, int $purchaseId = null, int $productId, string $productName, float $productPrice, int $quantity, float $price){
+	public function __construct(int $id = null, int $purchaseId = null, int $productId = null, string $productName, float $productPrice, int $quantity, float $price){
 		$this->id = $id;
 		$this->purchaseId = $purchaseId;
 		$this->productId = $productId;
@@ -58,7 +58,7 @@ final class PurchaseItem
 		$this->purchaseId = $purchaseId;
 	}
 	
-	public function getProductId(): int
+	public function getProductId()
 	{
 		return $this->productId;
 	}

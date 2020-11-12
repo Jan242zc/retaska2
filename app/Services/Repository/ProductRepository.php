@@ -22,13 +22,19 @@ use App\Entity\Factory\CategoryFactory;
 class ProductRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, INameableEntityRepository, IProductRepository
 {
 	private const ENTITY_IDENTIFICATION = '2 product';
+	
+	/** @var Nette\Database\Context */
 	private $database;
+	
+	/** @var IEntityRepository */
+	private $entityRepository;
+	
+	/** @var ProductFactory */
 	private $productFactory;
 	
-	public function __construct(Nette\Database\Context $database, IEntityRepository $entityRepository, ICategoryRepository $categoryRepository, ProductFactory $productFactory){
+	public function __construct(Nette\Database\Context $database, IEntityRepository $entityRepository, ProductFactory $productFactory){
 		$this->database = $database;
 		$this->entityRepository = $entityRepository;
-		$this->categoryRepository = $categoryRepository;
 		$this->productFactory = $productFactory;
 	}
 	
