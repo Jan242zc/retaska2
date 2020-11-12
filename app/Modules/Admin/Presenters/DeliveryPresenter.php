@@ -106,7 +106,18 @@ final class DeliveryPresenter extends BasePresenter
 	public function actionDelete($id): void
 	{
 		$this->allowOrRedirect(self::RESOURCE);
-		if($this->deliveryRepository->delete($id) === 1){
+		
+		try{
+			$rowsAffected = $this->deliveryRepository->delete($id);
+		} catch(Nette\Database\ForeignKeyConstraintViolationException $ex){
+			$this->flashMessage('Tento dopravu smazat nesmíte, protože je na ni navázána dopravní služba.');
+		} catch (\Exception $ex){
+			$this->flashMessage('Došlo k chybě.');
+		} finally {
+			$this->redirect('Delivery:default');
+		}
+		
+		if($rowsAffected === 1){
 			$this->flashMessage('Možnost dopravy smazána.');
 		} else {
 			$this->flashMessage('Možnost dopravy nenalezena.');

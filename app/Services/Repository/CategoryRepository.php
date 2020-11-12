@@ -135,11 +135,15 @@ final class CategoryRepository extends BaseRepository implements ICreatableAndDe
 	{
 		$identification = $this->chopIdentification($identification);
 		
-		$howDidItGo = $this->database->query("
-			DELETE FROM category
-			WHERE id = ? AND name = ?
-		", $identification['id'], $identification['name']);
-		
+		try {
+			$howDidItGo = $this->database->query("
+				DELETE FROM category
+				WHERE id = ? AND name = ?
+			", $identification['id'], $identification['name']);
+		} catch (\Exception $ex){
+			throw $ex;
+		}
+
 		return $howDidItGo->getRowCount();
 	}
 	

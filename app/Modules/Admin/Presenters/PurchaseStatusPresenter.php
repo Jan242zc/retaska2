@@ -142,7 +142,18 @@ final class PurchaseStatusPresenter extends BasePresenter
 	public function actionDelete($id): void
 	{
 		$this->allowOrRedirect(self::RESOURCE);
-		if($this->purchaseStatusRepository->delete($id) === 1){
+		
+		try{
+			$rowsAffected = $this->purchaseStatusRepository->delete($id);
+		} catch(Nette\Database\ForeignKeyConstraintViolationException $ex){
+			$this->flashMessage('Tento stav smazat nesmíte, protože je přiřazen jedné nebo více objednávkám.');
+		} catch(\Exception $ex){
+			$this->flashMessage('Došlo k chybě.');
+		} finally {
+			$this->redirect('PurchaseStatus:default');
+		}
+
+		if($rowsAffected === 1){
 			$this->flashMessage('Stav objednávky smazán.');
 		} else {
 			$this->flashMessage('Stav objednávky nenalezen.');

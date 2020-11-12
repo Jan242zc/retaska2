@@ -106,9 +106,21 @@ final class CategoryPresenter extends BasePresenter
 		$this->redirect('Category:default');
 	}
 	
-	public function actionDelete($id){
+	public function actionDelete($id): void
+	{
 		$this->allowOrRedirect(self::RESOURCE);
-		if($this->categoryRepository->delete($id) === 1){
+		
+		try{
+			$rowsAffected = $this->categoryRepository->delete($id);
+		} catch(Nette\Database\ForeignKeyConstraintViolationException $ex){
+			$this->flashMessage('Tuto kategorii smazat nesmíte, protože je přiřazena nějakému zboží.');
+		} catch (\Exception $ex){
+			$this->flashMessage('Došlo k chybě.');
+		} finally {
+			$this->redirect('Country:default');
+		}
+		
+		if($rowsAffected === 1){
 			$this->flashMessage('Kategorie smazána.');
 		} else {
 			$this->flashMessage('Něco se pokazilo.');

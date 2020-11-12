@@ -114,8 +114,11 @@ final class RolePresenter extends BasePresenter
 		
 		try{
 			$affectedRows = $this->roleRepository->delete($id);
-		} catch(\Exception $ex){
+		} catch(Nette\Database\ForeignKeyConstraintViolationException $ex){
+			$this->flashMessage('Tento roli smazat nesmíte, protože je přiřazena nějakému uživateli.');
+		} catch (\Exception $ex){
 			$this->flashMessage('Došlo k chybě.');
+		} finally {
 			$this->redirect('Role:default');
 		}
 		

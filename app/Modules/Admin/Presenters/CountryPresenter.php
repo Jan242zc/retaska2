@@ -106,7 +106,18 @@ final class CountryPresenter extends BasePresenter
 	public function actionDelete($id): void
 	{
 		$this->allowOrRedirect(self::RESOURCE);
-		if($this->countryRepository->delete($id) === 1){
+		
+		try{
+			$rowsAffected = $this->countryRepository->delete($id);			
+		} catch(Nette\Database\ForeignKeyConstraintViolationException $ex){
+			$this->flashMessage('Tento stát smazat nesmíte, protože je na něj navázána dopravní služba.');
+		} catch (\Exception $ex){
+			$this->flashMessage('Došlo k chybě.');
+		} finally {
+			$this->redirect('Country:default');
+		}
+		
+		if($rowsAffected === 1){
 			$this->flashMessage('Stát smazán.');
 		} else {
 			$this->flashMessage('Stát nenalezen.');

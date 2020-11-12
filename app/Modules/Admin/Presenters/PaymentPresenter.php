@@ -104,9 +104,20 @@ final class PaymentPresenter extends BasePresenter
 	}
 	
 	public function actionDelete($id): void
-	{
+	{	
 		$this->allowOrRedirect(self::RESOURCE);
-		if($this->paymentRepository->delete($id) === 1){
+		
+		try{
+			$affectedRows = $this->paymentRepository->delete($id);
+		} catch(Nette\Database\ForeignKeyConstraintViolationException $ex){
+			$this->flashMessage('Tuto platbu smazat nesmíte, protože je na ni navázána dopravní služba.');
+		} catch (\Exception $ex){
+			$this->flashMessage('Došlo k chybě.');
+		} finally {
+			$this->redirect('Payment:default');
+		}
+		
+		if($affectedRows === 1){
 			$this->flashMessage('Druh platby smazán.');
 		} else {
 			$this->flashMessage('Druh platby nenalezen.');
