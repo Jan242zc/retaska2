@@ -158,6 +158,7 @@ final class ProductPresenter extends BasePresenter
 		$form->addText('amount', 'o:')
 			->setRequired('Zboží musí mít uvedené množství na skladě.')
 			->addRule($form::NUMERIC, 'Množství zboží musí být celé kladné číslo.')
+			->addRule($form::MIN, 'Změna musí být rovna nebo větší jedné.', 1)
 			->addFilter(function($value){
 				return intval($value);
 			});
@@ -177,6 +178,18 @@ final class ProductPresenter extends BasePresenter
 			$this->redirect('this');
 		}
 
+		try{
+			$product = $this->productRepository->findById(intval($data['id']));
+		} catch(\Exception $ex){
+			$this->flashMessage('Zboží nenalezeno.');
+			$this->redirect('this');
+		}
+
+		if($data['increaseOrDecrease'] === 'd' && ($product->getAmountAvailable() - $data['amount']) < 0){
+			$this->flashMessage('Stav zboží nelze snížit pod nulu.');
+			$this->redirect('this');
+		}
+
 		$array = [
 			'product_id' => $data['id'],
 			'quantity' => $data['amount']
@@ -187,7 +200,7 @@ final class ProductPresenter extends BasePresenter
 		} else {
 			$rowsAffected = $this->productRepository->decreaseAvailableAmountsByProductQuantityArrays([$array]);
 		}
-		
+
 		if($rowsAffected === 1){
 			$this->flashMessage('Změny provedeny.');
 		} else {
