@@ -6,6 +6,7 @@ namespace App\Services;
 
 use App\Services\Repository\RepositoryInterface\IDeliveryCountryPaymentPricesRepository;
 use App\Services\GeneralServiceInterface\IDeliveryCountryPaymentPricesArrayGenerator;
+use App\Services\Repository\RepositoryInterface\ICountryRepository;
 
 
 //generates arrays for order form (delivery possibilities, payment methods and their respective prices)
@@ -14,8 +15,12 @@ final class DeliveryCountryPaymentPricesArrayGenerator implements IDeliveryCount
 	/** @var IDeliveryCountryPaymentPricesRepository */
 	private $deliveryCountryPaymentPricesRepository;
 	
-	public function __construct(IDeliveryCountryPaymentPricesRepository $deliveryCountryPaymentPricesRepository){
+	/** @var ICountryRepository */
+	private $countryRepository;
+	
+	public function __construct(IDeliveryCountryPaymentPricesRepository $deliveryCountryPaymentPricesRepository, ICountryRepository $countryRepository){
 		$this->deliveryCountryPaymentPricesRepository = $deliveryCountryPaymentPricesRepository;
+		$this->countryRepository = $countryRepository;
 	}
 	
 	public function generateByDeliveryArray(): Array
@@ -103,5 +108,16 @@ final class DeliveryCountryPaymentPricesArrayGenerator implements IDeliveryCount
 		}
 
 		return $countryIndependentServices;
+	}
+	
+	public function generateCountriesWithServicesArray(): Array
+	{
+		$countryNames = $this->countryRepository->findAllForForm();
+		$coutriesWithDeliveryServicesArray = [];
+		foreach($this->generateByCountryArray() as $countryId => $services){
+			$coutriesWithDeliveryServicesArray[$countryId] = $countryNames[$countryId];
+		}
+		
+		return $coutriesWithDeliveryServicesArray;
 	}
 }

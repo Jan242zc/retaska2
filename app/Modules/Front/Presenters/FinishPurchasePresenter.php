@@ -147,7 +147,7 @@ final class FinishPurchasePresenter extends BasePresenter
 			->setRequired('Zadejte PSČ u doručovací adresy.');
 
 		$deliveryAdress->addSelect('country', 'Stát:')
-			->setItems($this->countryRepository->findAllForForm());
+			->setItems($this->deliveryCountryPaymentPricesArrayGenerator->generateCountriesWithServicesArray());
 
 		$form->addSubmit('submit', 'Uložit a přejít k rekapitulaci')
 			->setHtmlAttribute('class', 'submit');

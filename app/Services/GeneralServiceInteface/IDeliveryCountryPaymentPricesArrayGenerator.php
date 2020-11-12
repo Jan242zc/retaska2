@@ -8,4 +8,5 @@ interface IDeliveryCountryPaymentPricesArrayGenerator
 	public function generateByDeliveryArray(): Array;
 	public function generateByCountryArray(): Array;
 	public function generateCountryIndependentServicesArray(): Array;
+	public function generateCountriesWithServicesArray(): Array;
 }
