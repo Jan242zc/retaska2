@@ -238,14 +238,15 @@
 		var differentAdressChecked = false;
 
 		document.addEventListener("DOMContentLoaded", function() {
-			console.log(deliveryServicesGroupedByCountry);
 			updateDifferentAdressContainer();
+			
 			var defaultDeliveryId = document.getElementById('frm-purchaseForm-deliveryTerms-delivery').value;
 			updateDeliveryServices();
 			document.getElementById('frm-purchaseForm-deliveryTerms-delivery').value = defaultDeliveryId;
+			
 			var defaultPaymentId = document.getElementById('frm-purchaseForm-deliveryTerms-payment').value;
-			console.log(defaultPaymentId);
 			updatePayments();
+			
 			updateRecapPrices();
 		});
 
@@ -302,20 +303,7 @@
 			}
 			var deliveryId = document.getElementById('frm-purchaseForm-deliveryTerms-delivery').value;
 			var paymentId = document.getElementById('frm-purchaseForm-deliveryTerms-payment').value;
-			
-			console.log('deliveryServicesGroupedByCountry: ');
-			console.log(deliveryServicesGroupedByCountry);
-			
-			console.log('countryId: ');
-			console.log(countryId);
-			
-			console.log('deliveryId: ');
-			console.log(deliveryId);
-			
-			console.log('paymentId: ');
-			console.log(paymentId);
-			
-			
+
 			//get the delivery price from one of the delivery services objects
 			if(typeof countryIndependentDeliveryServicesGroupedByDelivery[deliveryId] == 'undefined'){
 				var deliveryPrice = deliveryServicesGroupedByCountry[countryId][deliveryId].price;
@@ -366,8 +354,7 @@
 		//generate new options for the select field based on current country id
 		function generateDeliveryServicesOptions(countryId, ignoreCountryIndependentDeliveryServices){
 			var options = [];
-			//country independent services are ignored when the different adress field is checked - when the customer wishes the goods to be delivered to other than
-			//residential adress, they obviously don't want to pick them up at the store
+			/*country independent services are ignored when the different adress field is checked - when the customer wishes the goods to be delivered to other than residential adress, they obviously don't want to pick them up at the store */
 			if(!ignoreCountryIndependentDeliveryServices){
 				var countryIndependentKeys = Object.keys(countryIndependentDeliveryServicesGroupedByDelivery);
 				for(var i = 0; i < countryIndependentKeys.length; i++){
