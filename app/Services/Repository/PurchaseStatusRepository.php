@@ -43,7 +43,7 @@ final class PurchaseStatusRepository extends BaseRepository implements ICreatabl
 				ORDER BY name ASC
 			");
 		
-		$arrayOfCountries = [];		
+		$arrayOfPurchaseStatuses = [];		
 		while($row = $queryResult->fetch()){
 			$arrayOfPurchaseStatuses[] = $this->purchaseStatusFactory->createFromObject($row);
 		}
