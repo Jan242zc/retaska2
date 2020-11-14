@@ -4,7 +4,7 @@
 			<h1 class="middle">Možné stavy objednávek</h1>
 			<a class="crud crud-new" n:href="PurchaseStatus:manage">Přidat nový</a>
 			<a class="crud crud-edit" n:href="PurchaseStatus:pickNewDefault">Nastavit původní pro nové objednávky</a>
-			{if !isset($purchaseStatuses)}
+			{if !$purchaseStatuses}
 				<p class="nothing-found">V databázi nebyly nalezeny žádné možné stavy objednávek.</p>
 			{else}
 				<table class="crud-table">
