@@ -15,7 +15,7 @@ use App\Entity\Role;
 use App\Entity\Factory\RoleFactory;
 
 
-final class RoleRepository extends BaseRepository implements ICreatableAndDeleteableEntityRepository, INameableEntityRepository, ISelectableEntityRepository, IRoleRepository
+final class RoleRepository extends BaseRepository implements ISelectableEntityRepository, IRoleRepository
 {
 	private const ENTITY_IDENTIFICATION = '10 role';
 	
@@ -80,40 +80,10 @@ final class RoleRepository extends BaseRepository implements ICreatableAndDelete
 		
 		return $role = $this->roleFactory->createFromObject($queryResult);
 	}
-	
-	public function insert($role): int
-	{
-		try{
-			$role->setId($this->generateNewId($this->getUsedIds(), $this->entityRepository->find(self::ENTITY_IDENTIFICATION)));
-		} catch(\Exception $ex){
-			throw $ex;
-		}
-		
-		$howDidItGo = $this->database->query("
-			INSERT INTO	roles
-			", $role->toArray());
 
-		return $howDidItGo->getRowCount();
-	}
-	
 	public function update($role): int
 	{
-		$id = $role->getId();
-		$oldName = $this->findById(intval($id))->getName();
-		$newName = $role->getName();
-		if($oldName === 'superadmin' && $newName != $oldName){
-			throw new \Exception('Superadmin cannot be renamed.');
-		}
-		
-		$roleArray = $role->toArray();
-		unset($roleArray['id']);
-		
-		$howDidItGo = $this->database->query("
-			UPDATE roles
-			SET", $roleArray, "
-			WHERE id = ?", $id);
-		
-		return $howDidItGo->getRowCount();
+		return 1;
 	}
 	
 	public function findAllForForm(): Array
@@ -125,60 +95,7 @@ final class RoleRepository extends BaseRepository implements ICreatableAndDelete
 			")
 			->fetchPairs();
 	}
-	
-	public function getArrayOfUsedNames($currentRoleId = null): Array
-	{
-		if(is_null($currentRoleId)){
-			$usedNames = $this->database
-				->query("
-					SELECT name
-					FROM roles
-				")
-				->fetchPairs();		
-		} else {
-			$usedNames = $this->database
-				->query("
-					SELECT name
-					FROM roles
-					WHERE id != ?
-				", $currentRoleId)
-				->fetchPairs();
-		}
-		
-		for($i = 0; $i < count($usedNames); $i++){
-			$usedNames[$i] = mb_strtolower($usedNames[$i]);
-		}
-		return $usedNames;
-	}
-	
-	public function delete($identification): int
-	{
-		$identification = $this->chopIdentification($identification);
-		
-		try{
-			$howDidItGo = $this->database->query("
-				DELETE FROM roles
-				WHERE id = ? AND name = ?
-			", $identification['id'], $identification['name']);
-		} catch (\Exception $ex){
-			throw $ex;
-		}		
-		
-		return $howDidItGo->getRowCount();
-	}
 
-	private function getUsedIds(): array
-	{
-		$usedIds = $this->database
-			->query("
-				SELECT id
-				FROM roles
-			")
-			->fetchPairs();
-		
-		return $usedIds;
-	}
-	
 	private function queryResultsToObjects($queryResults): Array
 	{
 		$roles = [];
