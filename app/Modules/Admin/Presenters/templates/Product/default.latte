@@ -3,41 +3,45 @@
 		<div class="everything-wrapper">
 			<h1 class="middle">Zboží</h1>
 			<a class="crud crud-new" n:href="Product:manage">Vytvořit nové</a>
-			<table class="crud-table">
-				<thead>
-					<tr>
-						<td id="ids"> ID </td>
-						<td> Název </td>
-						<td> Cena </td>
-						<td> Kategorie </td>
-						<td> Materiál </td>
-						<td> Množství </td>
-						<td style="width: 40%;"> Možnosti </td>
-					</tr>
-				</thead>
-				<tbody>
-					{foreach $products as $product}
+			{if !$products}
+				<p class="nothing-found">Nebylo nalezeno žádné zboží.</p>
+			{else}
+				<table class="crud-table">
+					<thead>
 						<tr>
-							<td> {$product->getId()} </td>
-							<td> {$product->getName()} </td>
-							<td>
-								{if fmod($product->getPrice(), 1) != 0}
-									{$product->getPrice()|number:2:',':' '}
-								{else}
-									{$product->getPrice()}
-								{/if}
-							</td>
-							<td> {$product->getCategory()->getName()} </td>
-							<td> {$product->getMaterial()} </td>
-							<td> {$product->getAmountAvailable()} </td>
-							<td>
-								<a class="crud crud-edit" n:href="Product:manage, $product->getId() . ' ' . $product->getName()">Upravit</a> 
-								<a class="crud crud-edit" n:href="Product:changeAmountAvailable, $product->getId() . ' ' . $product->getName()">Upravit dostupné množství</a> 
-								<a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="Product:delete, $product->getId() . ' ' . $product->getName()">Vymazat</a> 
-							</td>
+							<td id="ids"> ID </td>
+							<td> Název </td>
+							<td> Cena </td>
+							<td> Kategorie </td>
+							<td> Materiál </td>
+							<td> Množství </td>
+							<td style="width: 40%;"> Možnosti </td>
 						</tr>
-					{/foreach}
-				</tbody>
-			</table>
+					</thead>
+					<tbody>
+						{foreach $products as $product}
+							<tr>
+								<td> {$product->getId()} </td>
+								<td> {$product->getName()} </td>
+								<td>
+									{if fmod($product->getPrice(), 1) != 0}
+										{$product->getPrice()|number:2:',':' '}
+									{else}
+										{$product->getPrice()}
+									{/if}
+								</td>
+								<td> {$product->getCategory()->getName()} </td>
+								<td> {$product->getMaterial()} </td>
+								<td> {$product->getAmountAvailable()} </td>
+								<td>
+									<a class="crud crud-edit" n:href="Product:manage, $product->getId() . ' ' . $product->getName()">Upravit</a> 
+									<a class="crud crud-edit" n:href="Product:changeAmountAvailable, $product->getId() . ' ' . $product->getName()">Upravit dostupné množství</a> 
+									<a onclick="return confirm('Jste si jistí?');" class="crud crud-delete" n:href="Product:delete, $product->getId() . ' ' . $product->getName()">Vymazat</a> 
+								</td>
+							</tr>
+						{/foreach}
+					</tbody>
+				</table>
+			{/if}
 		</div>
 	</div>
