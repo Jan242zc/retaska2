@@ -52,13 +52,16 @@ final class ProductsOnFrontendControl extends Control
 		$this->setUpPageButtons($numberOfProducts);
 		$this->setUpProductsPerPageButtons($this->productsPerPageBaseValue, $this->maxProductsPerPage);
 		
-		if(is_null($this->category)){
-			$this->template->products = $this->productRepository->findAll($this->paginator->getLength(), $this->paginator->getOffset());
-		} else {
-			$this->template->products = $this->productRepository->findByCategory($this->category, $this->paginator->getLength(), $this->paginator->getOffset());
+		try{
+			if(is_null($this->category)){
+				$this->template->products = $this->productRepository->findAll($this->paginator->getLength(), $this->paginator->getOffset());
+			} else {
+				$this->template->products = $this->productRepository->findByCategory($this->category, $this->paginator->getLength(), $this->paginator->getOffset());
+			}
+		} catch(\Exception $ex){
+			$this->template->products = [];
 		}
-		
-		$this->template->messageFormatter = new \MessageFormatter('cs_CZ', "{0, number}");
+
 		$this->template->render(__DIR__ . '\templates\productsOnFrontend.latte');
 	}
 	

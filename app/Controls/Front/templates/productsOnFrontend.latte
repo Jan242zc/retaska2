@@ -7,26 +7,30 @@
 			{/for}
 		</div>
 		<div class="row">
-			{foreach $products as $product}
-				<div class="product-preview">
-					<p class="product-heading">{$product->getName()}</p>
-					<p class="product-price">
-						{$product->getCategory()->getName()}<br>
-						{if fmod($product->getPrice(), 1) != 0}
-							{$product->getPrice()|number:2:',':' '}
-						{else}
-							{$product->getPrice()}
-						{/if} 
-						Kč / ks <br>
-						{if ($product->getAmountAvailable() > 0)}
-							{max($product->getAmountAvailable(), 0)} kusů na skladě
-						{else}
-							<span class="currently-unavailable">Nyní nedostupné</span>
-						{/if}
-						<a class="button-detail" href="{plink Product:detail, $product->getId() . ' ' . $product->getName()}">Detail produktu</a>
-					</p>
-				</div>
-			{/foreach}
+			{if !$products}
+				V této kategorii aktuálně nenabízíme žádné zboží.
+			{else}
+				{foreach $products as $product}
+					<div class="product-preview">
+						<p class="product-heading">{$product->getName()}</p>
+						<p class="product-price">
+							{$product->getCategory()->getName()}<br>
+							{if fmod($product->getPrice(), 1) != 0}
+								{$product->getPrice()|number:2:',':' '}
+							{else}
+								{$product->getPrice()}
+							{/if} 
+							Kč / ks <br>
+							{if ($product->getAmountAvailable() > 0)}
+								{max($product->getAmountAvailable(), 0)} kusů na skladě
+							{else}
+								<span class="currently-unavailable">Nyní nedostupné</span>
+							{/if}
+							<a class="button-detail" href="{plink Product:detail, $product->getId() . ' ' . $product->getName()}">Detail produktu</a>
+						</p>
+					</div>
+				{/foreach}
+			{/if}
 		</div>
 	</div>
 	<div class="pages">

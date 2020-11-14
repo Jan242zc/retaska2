@@ -31,7 +31,11 @@ final class ProductPresenter extends BasePresenter
 	public function renderDefault(): void
 	{
 		$this->allowOrRedirect(self::RESOURCE);
-		$this->template->products = $this->productRepository->findAll();
+		try{
+			$this->template->products = $this->productRepository->findAll();			
+		} catch(\Exception $ex){
+			$this->flashMessage('Došlo k chybě.');
+		}
 	}
 	
 	public function actionManage($id = null): void
