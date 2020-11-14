@@ -44,8 +44,12 @@ final class UserDataRepository extends BaseRepository implements ICreatableAndDe
 			SELECT *
 			FROM userData
 		");
-		
-		return $this->queryResultsToObjects($queryResult);
+
+		try{
+			return $this->queryResultsToObjects($queryResult);
+		} catch(\Exception $ex){
+			throw $ex;
+		}
 	}
 	
 	public function find($identification): UserData
@@ -65,7 +69,11 @@ final class UserDataRepository extends BaseRepository implements ICreatableAndDe
 			throw new \Exception('No userdata found.');
 		}
 		
-		return $userData = $this->userDataFactory->createFromObject($queryResult);
+		try{
+			return $userData = $this->userDataFactory->createFromObject($queryResult);			
+		} catch(\Exception $ex){
+			throw $ex;
+		}
 	}
 	
 	public function findById(int $id): UserData
@@ -82,7 +90,11 @@ final class UserDataRepository extends BaseRepository implements ICreatableAndDe
 			throw new \Exception('No userdata found.');
 		}
 		
-		return $userData = $this->userDataFactory->createFromObject($queryResult);
+		try{
+			return $userData = $this->userDataFactory->createFromObject($queryResult);
+		} catch(\Exception $ex){
+			throw $ex;
+		}
 	}
 	
 	public function findByName(string $name): UserData
@@ -99,7 +111,11 @@ final class UserDataRepository extends BaseRepository implements ICreatableAndDe
 			throw new \Exception('UserData not found.');
 		}
 
-		return $this->queryResultToObject($queryResult);
+		try{
+			return $this->queryResultToObject($queryResult);			
+		} catch(\Exception $ex){
+			throw $ex;
+		}
 	}
 	
 	public function insert($userData): int
@@ -198,7 +214,11 @@ final class UserDataRepository extends BaseRepository implements ICreatableAndDe
 	{
 		$userdata = [];
 		while($row = $queryResults->fetch()){
-			$userdata[] = $this->queryResultToObject($row);
+			try{
+				$userdata[] = $this->queryResultToObject($row);				
+			} catch(\Exception $ex){
+				throw $ex;
+			}
 		}
 		
 		return $userdata;
@@ -206,7 +226,11 @@ final class UserDataRepository extends BaseRepository implements ICreatableAndDe
 	
 	private function queryResultToObject($queryResult): UserData
 	{
-		return $this->userDataFactory->createFromObject($queryResult);
+		try{
+			return $this->userDataFactory->createFromObject($queryResult);			
+		} catch(\Exception $ex){
+			throw $ex;
+		}
 	}
 	
 	private function findNumberOfOtherSuperAdmins(): int

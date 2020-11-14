@@ -33,7 +33,12 @@ final class UserDataPresenter extends BasePresenter
 	public function renderDefault(): void
 	{
 		$this->allowOrRedirect(self::RESOURCE, 'read');
-		$this->template->userData = $this->userDataRepository->findAll();
+		try{
+			$this->template->userData = $this->userDataRepository->findAll();			
+		} catch(\Exception $ex){
+			$this->flashMessage('Došlo k chybě.');
+			$this->template->userData = [];
+		}
 	}
 
 	public function actionCreate(): void
