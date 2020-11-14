@@ -36,7 +36,8 @@ final class PurchasePresenter extends BasePresenter
 		try{
 			$this->template->purchases = $this->purchaseRepository->findAll();
 		} catch (\Exception $ex){
-			throw $ex;
+			$this->flashMessage('Došlo k chybě.');
+			$this->template->purchases = [];
 		}
 	}
 	
