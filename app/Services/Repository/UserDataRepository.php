@@ -52,7 +52,7 @@ final class UserDataRepository extends BaseRepository implements ICreatableAndDe
 		}
 	}
 	
-	public function find($identification): UserData
+	public function find(string $identification): UserData
 	{
 		$identification = $this->chopIdentification($identification);
 		
@@ -180,7 +180,7 @@ final class UserDataRepository extends BaseRepository implements ICreatableAndDe
 		return $usedNames;
 	}
 	
-	public function delete($identification): int
+	public function delete(string $identification): int
 	{
 		$identification = $this->chopIdentification($identification);
 		
