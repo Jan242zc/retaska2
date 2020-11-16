@@ -65,7 +65,7 @@ final class ProductPresenter extends BasePresenter
 			'product_name' => $product->getName()
 		];
 		
-		if($basketItem = $this->basketService->verifyThatThisItemInBasket($id)){
+		if($basketItem = $this->basketService->verifyThatThisItemInBasket(intval($id))){
 			$formDefaults['quantity'] = $this->basketService->getBasketItemById($id)->getQuantity();
 			$this->template->alreadyInBasket = true;
 		} else {
