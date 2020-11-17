@@ -21,6 +21,7 @@ use App\Entity\Factory\CustomerDataFactory;
 use App\Entity\Factory\PurchaseFactory;
 use App\Entity\Factory\PurchaseItemFactory;
 use App\Controls\Front\PurchaseNav;
+use App\Services\GeneralServiceInterface\IDatabaseReadinessChecker;
 
 
 final class FinishPurchasePresenter extends BasePresenter
@@ -57,8 +58,11 @@ final class FinishPurchasePresenter extends BasePresenter
 	
 	/** @var CustomerDataFactory */
 	private $customerDataFactory;
+	
+	/** @var IDatabaseReadinessChecker */
+	private $databaseReadinessChecker;
 
-	public function __construct(IBasketService $basketService, ICountryRepository $countryRepository, IDeliveryRepository $deliveryRepository, IPaymentRepository $paymentRepository, IDeliveryCountryPaymentPricesArrayGenerator $deliveryCountryPaymentPricesArrayGenerator, IPurchaseRepository $purchaseRepository, IPurchaseItemRepository $purchaseItemRepository, IDeliveryCountryPaymentPricesRepository $deliveryCountryPaymentPricesRepository, IProductRepository $productRepository, PurchaseFactory $purchaseFactory, CustomerDataFactory $customerDataFactory){
+	public function __construct(IBasketService $basketService, ICountryRepository $countryRepository, IDeliveryRepository $deliveryRepository, IPaymentRepository $paymentRepository, IDeliveryCountryPaymentPricesArrayGenerator $deliveryCountryPaymentPricesArrayGenerator, IPurchaseRepository $purchaseRepository, IPurchaseItemRepository $purchaseItemRepository, IDeliveryCountryPaymentPricesRepository $deliveryCountryPaymentPricesRepository, IProductRepository $productRepository, PurchaseFactory $purchaseFactory, CustomerDataFactory $customerDataFactory, IDatabaseReadinessChecker $databaseReadinessChecker){
 		$this->basketService = $basketService;
 		$this->countryRepository = $countryRepository;
 		$this->deliveryRepository = $deliveryRepository;
@@ -70,6 +74,15 @@ final class FinishPurchasePresenter extends BasePresenter
 		$this->productRepository = $productRepository;
 		$this->purchaseFactory = $purchaseFactory;
 		$this->customerDataFactory = $customerDataFactory;
+		$this->databaseReadinessChecker = $databaseReadinessChecker;
+	}
+
+	protected function startup(): void
+	{
+		parent::startup();
+		if(!$this->databaseReadinessChecker->databaseIsReadyToReceivePurchases()){
+			 $this->setView('technologicalIssues');
+		}
 	}
 
 	public function renderDefault(): void
@@ -97,7 +110,6 @@ final class FinishPurchasePresenter extends BasePresenter
 		$personalData = $form->addContainer('personalData');
 
 		$personalData->addText('name', 'Jméno a příjmení:')
-			->addRule($form::PATTERN, 'Zadejte jméno s platnými znaky.', '/^[a-z ,.\'-]+$/i') //I confess to copying this one from StackOverflow
 			->setRequired('Zadejte své jméno a příjmení.');
 
 		$personalData->addText('streetAndNumber', 'Ulice a číslo domu:')
@@ -217,7 +229,7 @@ final class FinishPurchasePresenter extends BasePresenter
 
 		$this->basketService->deleteAllData();
 
-		$this->setView('thanks');;
+		$this->setView('thanks');
 	}
 
 	public function renderThanks(): void

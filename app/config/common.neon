@@ -57,3 +57,4 @@ services:
 	- App\Services\MyAuthorizator::create
 	iEmptyTablesWarning:
 		implement: App\Controls\Admin\Factory\IEmptyTablesWarningFactory
+	databaseReadinessChecker: App\Services\DatabaseReadinessChecker
