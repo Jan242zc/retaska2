@@ -38,18 +38,19 @@ To run this app, you (or your colleague developer) must have a server + MySQL + 
 Next, follow these steps (it's nothing difficult, but I recommend reading them all first):
 
 1.  Use Git to (fork and) clone the repository
-2.1. Open the terminal and change directory to ...\retaska2\bin
-2.2. Run file 'database_backup_loader.php' (by typing 'php database_backup_loader.php' if your OS is Windows) OR
-2.3. (alternative to 2.1. + 2.2.) Open the field for SQL queries in your database administration tool (phpMyAdmin or other)
-2.4. (alternative to 2.1. + 2.2.) Copy & paste the contents of file backupA.txt (in root directory) and have them executed
-3.1. In the App\config directory, create a file and name it 'local.neon'
-3.2. Copy & paste the contents of file copy_this_to_local_neon.txt to local.neon and set the database connection according to your preferences
+2. Create the database
+	1. Open the terminal and change directory to ...\retaska2\bin
+	2. Run file 'database_backup_loader.php' (by typing 'php database_backup_loader.php' if your OS is Windows) OR
+	3. (alternative to 2.1. + 2.2.) Open the field for SQL queries in your database administration tool (phpMyAdmin or other)
+	4. (alternative to 2.1. + 2.2.) Copy & paste the contents of file backupA.txt (in root directory) and have them executed
+3. In the App\config directory, create a file and name it 'local.neon', then copy & paste the contents of file copy_this_to_local_neon.txt to local.neon and set the database connection according to your preferences
 
 Congrats, you should now have a working application. The e-shop main page can be found at url {server name}/retaska2/www/, administration at url {server name}/retaska2/www/admin.homepage/
 
 However, the database contains no data besides the one crucial for the app to function. If you want to add some extra data that will allow you to see how the app looks like non-empty (categories, products, etc.) and how it actually works, follow these steps:
-4.1.	In the terminal and still in dir ...\retaska2\bin, run file 'database_population.php' with flag '--wdata' OR
-4.2.	(alternative to 4.1.) Repeat step 2.4, but this time with contents of file backupB.txt.
+4. Load data to the database
+	1. In the terminal and still in dir ...\retaska2\bin, run file 'database_population.php' with flag '--wdata' OR
+	2. (alternative to 4.1.) Repeat step 2.4, but this time with contents of file backupB.txt.
 
 If you messed something up in the database and wish to start over, run the database_backup_loader.php with flag '--reset' or execute the contents of file backupC.txt. This will drop and create again the database and the tables.
 
