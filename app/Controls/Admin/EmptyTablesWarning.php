@@ -6,6 +6,7 @@ use Nette;
 use Nette\Application\UI\Control;
 use App\Services\Repository\RepositoryInterface\IPurchaseStatusRepository;
 use App\Services\Repository\RepositoryInterface\IDeliveryCountryPaymentPricesRepository;
+use App\Services\Repository\RepositoryInterface\ICountryRepository;
 
 
 final class EmptyTablesWarning extends Control
@@ -13,6 +14,7 @@ final class EmptyTablesWarning extends Control
 	private const CANNOT_RECEIVE_PURCHASES_WARNING = 'Pozor, nelze přijímat objednávky! ';
 	private const NO_PURCHASE_STATUSES_WARNING = 'Je nutné vytvořit alespoň jeden stav objednávky a nastavit jej jako výchozí ve správě stavů objednávek.';
 	private const NO_DELIVERY_SERVICES = 'Je nutné vytvořit dopravní služby (tzn. min. jednu, pokud bude nezávislá na státu) ve správě dopravních služeb (případně i možnosti dopravy a druhy plateb).';
+	private const NO_COUNTRIES = 'Je třeba ve správě států zadat státy pro účely fakturačních adres a případně i dopravních služeb.';
 
 	/** @var IPurchaseStatusRepository */
 	private $purchaseStatusRepository;
@@ -20,9 +22,13 @@ final class EmptyTablesWarning extends Control
 	/** @var IDeliveryCountryPaymentPricesRepository */
 	private $deliveryCountryPaymentPricesRepository;
 	
-	public function __construct(IPurchaseStatusRepository $purchaseStatusRepository, IDeliveryCountryPaymentPricesRepository $deliveryCountryPaymentPricesRepository){
+	/** @var ICountryRepository */
+	private $countryRepository;
+	
+	public function __construct(IPurchaseStatusRepository $purchaseStatusRepository, IDeliveryCountryPaymentPricesRepository $deliveryCountryPaymentPricesRepository, ICountryRepository $countryRepository){
 		$this->purchaseStatusRepository = $purchaseStatusRepository;
 		$this->deliveryCountryPaymentPricesRepository = $deliveryCountryPaymentPricesRepository;
+		$this->countryRepository = $countryRepository;
 	}
 
 	public function render(): void
@@ -30,6 +36,8 @@ final class EmptyTablesWarning extends Control
 		$this->template->warnings = [];
 		$this->template->warnings[] = $this->generatePurchaseStatusWarning();
 		$this->template->warnings[] = $this->generateDeliveryServicesWarning();
+		$this->template->warnings[] = $this->generateCountryWarning();
+		
 		
 		$this->template->render(__DIR__ . '/templates/emptyTablesWarning.latte');
 	}
@@ -52,6 +60,13 @@ final class EmptyTablesWarning extends Control
 	{
 		if(!$this->deliveryCountryPaymentPricesRepository->findAll()){
 			return self::CANNOT_RECEIVE_PURCHASES_WARNING . self::NO_DELIVERY_SERVICES;
+		}
+	}
+	
+	private function generateCountryWarning()
+	{
+		if(!$this->countryRepository->findAll()){
+			return self::CANNOT_RECEIVE_PURCHASES_WARNING . self::NO_COUNTRIES;
 		}
 	}
 }
