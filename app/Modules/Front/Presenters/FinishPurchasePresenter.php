@@ -186,9 +186,6 @@ final class FinishPurchasePresenter extends BasePresenter
 			$this->flashMessage('Zadejte platnou kombinaci státu, dopravy a platby.');
 			$this->redirect('this');
 		}
-
-		$data['personalData']['country'] = $this->countryRepository->findById($data['personalData']['country']);
-		$data['deliveryAdress']['country'] = $this->countryRepository->findById($data['deliveryAdress']['country']);
 		
 		$customerData = $this->customerDataFactory->createFromArray($data, $deliveryService);
 		$this->basketService->setCustomerData($customerData);
