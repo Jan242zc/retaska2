@@ -52,7 +52,7 @@ However, the database contains no data besides the one crucial for the app to fu
 
 1. Load data to the database
 	1. In the terminal and still in dir ...\retaska2\bin, run file 'database_population.php' with flag '--wdata' OR
-	2. (alternative to i.) Repeat step 2.iv., but this time with contents of file backupB.txt.
+	2. (alternative to i.) Repeat step 3.iv., but this time with contents of file backupB.txt.
 
 If you messed something up in the database and wish to start over, run the database_backup_loader.php with flag '--reset' or execute the contents of file backupC.txt. This will drop and create again the database and the tables.
 
