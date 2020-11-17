@@ -194,7 +194,17 @@ final class FinishPurchasePresenter extends BasePresenter
 	
 	public function renderPurchaseRecap(): void
 	{
-		$this->basketService->checkAvailibility();
+		try{
+			$this->basketService->checkAvailibility();			
+		} catch(\Exception $ex){
+			if($ex->getMessage() === 'No product found.'){
+				$this->flashMessage('Nějaké zboží ve vašem košíku již nenabízíme, bylo tedy odstraněno.');
+			} else {
+				$this->flashMessage('Došlo k chybě. Zkuste to prosím později.');
+				$this->redirect('FinishPurchase:default');
+			}
+		}
+
 		$this->basketService->deleteZeros();
 
 		$this->template->productTotalPrice = $this->basketService->getTotalProductPrice();
@@ -205,7 +215,19 @@ final class FinishPurchasePresenter extends BasePresenter
 	
 	public function actionSavePurchase(): void
 	{
-		if($this->basketService->anyItemUnavailable()){
+		$anyItemUnavailable = true;
+		try{			
+			$anyItemUnavailable = $this->basketService->anyItemUnavailable();
+		} catch(\Exception $ex){
+			if($ex->getMessage() === 'No product found.'){
+				$this->flashMessage('Nějaké zboží ve vašem košíku již nenabízíme, bylo tedy odstraněno.');
+				$this->redirect('FinishPurchase:default');
+			} else {
+				$this->flashMessage('Došlo k chybě. Zkuste to prosím později.');
+				$this->redirect('FinishPurchase:default');
+			}
+		}
+		if($anyItemUnavailable){
 			$this->flashMessage('Je nám moc líto, ale na poslední chvíli někdo vám někdo nějaké tašky vyfoukl před nosem.');
 			$this->redirect('FinishPurchase:purchaseRecap');
 		}

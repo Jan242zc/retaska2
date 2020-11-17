@@ -151,20 +151,38 @@ final class BasketService implements IBasketService
 	public function updateAvailableAmountsOfItems(): void
 	{
 		foreach($this->getBasketItemsIds() as $id){
-			$this->updateAvailableAmountOfItem($id);
+			try{
+				$this->updateAvailableAmountOfItem($id);
+			} catch (\Exception $ex){
+				if($ex->getMessage() === 'No product found.'){
+					$this->removeItemFromBasket(intval($id));
+					$this->updateAllProductsTotalPrice();
+					$this->updateTotalPurchasePrice();
+				}
+				throw $ex;
+			}
 		}
 	}
 
 	private function updateAvailableAmountOfItem($id): void
 	{
-		$currentProductInDatabase = $this->productRepository->findById($id);
+		try{
+			$currentProductInDatabase = $this->productRepository->findById($id);			
+		} catch (\Exception $ex){
+			throw $ex;
+		}
 		$this->basketSessionSection->getItemById($id)->getProduct()->setAmountAvailable($currentProductInDatabase->getAmountAvailable());
 	}
 
 	public function anyItemUnavailable(): bool
 	{
 		foreach($this->getBasketItemsIds() as $id){
-			$this->updateAvailableAmountOfItem($id);
+			try{
+				$this->updateAvailableAmountOfItem($id);	
+				
+			} catch(\Exception $ex){
+				throw $ex;
+			}
 			$item = $this->basketSessionSection->getItemById($id);
 			if($item->getProduct()->getAmountAvailable() < $item->getQuantity()){
 				return true;
@@ -176,7 +194,13 @@ final class BasketService implements IBasketService
 	public function checkAvailibility(): void
 	{
 		//update available amount of the products in basket
-		$this->updateAvailableAmountsOfItems();
+		try{
+			$this->updateAvailableAmountsOfItems();			
+		} catch(\Exception $ex){
+			$this->updateAllProductsTotalPrice();
+			$this->updateTotalPurchasePrice();
+			throw $ex;
+		}
 
 		foreach($this->getBasketItemsIds() as $id){
 			$item = $this->basketSessionSection->getItemById($id);
