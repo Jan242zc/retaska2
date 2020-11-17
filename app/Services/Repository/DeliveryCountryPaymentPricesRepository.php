@@ -168,6 +168,23 @@ final class DeliveryCountryPaymentPricesRepository extends BaseRepository implem
 		
 		return $howDidItGo->getRowCount();
 	}
+	
+	public function findCountryDependent(): Array
+	{
+		$queryResult = $this->database->query("
+			SELECT *
+			FROM deliverycountrypaymentprices
+			WHERE country IS NOT NULL
+		");
+		
+		try{
+			$arrayOfDCPPs = $this->queryResultToArrayOfObjects($queryResult);
+		} catch (\Exception $ex){
+			throw $ex;
+		}
+		
+		return $arrayOfDCPPs;
+	}
 
 	private function getUsedIds(): array
 	{

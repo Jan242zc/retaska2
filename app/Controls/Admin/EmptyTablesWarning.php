@@ -15,6 +15,7 @@ final class EmptyTablesWarning extends Control
 	private const NO_PURCHASE_STATUSES_WARNING = 'Je nutné vytvořit alespoň jeden stav objednávky a nastavit jej jako výchozí ve správě stavů objednávek.';
 	private const NO_DELIVERY_SERVICES = 'Je nutné vytvořit dopravní služby (tzn. min. jednu, pokud bude nezávislá na státu) ve správě dopravních služeb (případně i možnosti dopravy a druhy plateb).';
 	private const NO_COUNTRIES = 'Je třeba ve správě států zadat státy pro účely fakturačních adres a případně i dopravních služeb.';
+	private const NO_COUNTRY_DEPENDENT_DELIVERY_SERVICES = 'V databázi nejsou založeny dopravní služby, které by zákazníkovi umožňovaly nechat si zboží doručit.';
 
 	/** @var IPurchaseStatusRepository */
 	private $purchaseStatusRepository;
@@ -46,6 +47,10 @@ final class EmptyTablesWarning extends Control
 			$this->template->warnings[] = $countryWarning;
 		}
 		
+		if($noCountryDependentWarning = $this->generateNoCountryIndependentDeliveryServiceWarning()){
+			$this->template->warnings[] = $noCountryDependentWarning;
+		}
+		
 		$this->template->render(__DIR__ . '/templates/emptyTablesWarning.latte');
 	}
 	
@@ -74,6 +79,13 @@ final class EmptyTablesWarning extends Control
 	{
 		if(!$this->countryRepository->findAll()){
 			return self::CANNOT_RECEIVE_PURCHASES_WARNING . self::NO_COUNTRIES;
+		}
+	}
+	
+	private function generateNoCountryIndependentDeliveryServiceWarning()
+	{
+		if(!$this->deliveryCountryPaymentPricesRepository->findCountryDependent()){
+			return self::NO_COUNTRY_DEPENDENT_DELIVERY_SERVICES;
 		}
 	}
 }

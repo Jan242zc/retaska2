@@ -10,4 +10,5 @@ use App\Entity\DeliveryCountryPaymentPrices;
 interface IDeliveryCountryPaymentPricesRepository
 {
 	public function findByDefiningStuff(int $deliveryId, int $paymentId, bool $countryIgnorable, int $countryId = null): DeliveryCountryPaymentPrices;
+	public function findCountryDependent(): Array;
 }
