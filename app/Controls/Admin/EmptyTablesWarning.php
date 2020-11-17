@@ -34,10 +34,17 @@ final class EmptyTablesWarning extends Control
 	public function render(): void
 	{
 		$this->template->warnings = [];
-		$this->template->warnings[] = $this->generatePurchaseStatusWarning();
-		$this->template->warnings[] = $this->generateDeliveryServicesWarning();
-		$this->template->warnings[] = $this->generateCountryWarning();
+		if($purchaseStatusWarning = $this->generatePurchaseStatusWarning()){
+			$this->template->warnings[] = $purchaseStatusWarning;
+		}
 		
+		if($deliveryServicesWarning = $this->generateDeliveryServicesWarning()){
+			$this->template->warnings[] = $deliveryServicesWarning;
+		}
+		
+		if($countryWarning = $this->generateCountryWarning()){
+			$this->template->warnings[] = $countryWarning;
+		}
 		
 		$this->template->render(__DIR__ . '/templates/emptyTablesWarning.latte');
 	}

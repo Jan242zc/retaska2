@@ -4,7 +4,9 @@
 			<p class="warning-heading">Upozornění</p>
 			<ul>
 				{foreach $warnings as $warning}
-					<li class="warning-paragraph"> {$warning} </li>
+					{if $warning != ''}
+						<li class="warning-paragraph"> {$warning} </li>
+					{/if}
 				{/foreach}	
 			</ul>
 		</div>
