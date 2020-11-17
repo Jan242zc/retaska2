@@ -122,7 +122,6 @@ final class BasketService implements IBasketService
 		$this->basketSessionSection->setTotalPurchasePrice(PriceCalculator::calculateTotalPurchasePrice($productsPrice, $deliveryPrice, $paymentPrice));
 	}
 	
-	//currently not used anywhere
 	public function verifyThatThisItemInBasket(int $id): bool
 	{
 		return in_array(intval($id), $this->getBasketItemsIds());
