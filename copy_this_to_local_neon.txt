@@ -1,0 +1,7 @@
+parameters:
+
+
+database:
+	dsn: 'mysql:host=localhost; dbname=retaska2' #set lines 5-7 according to your environment
+	user: root
+	password:
