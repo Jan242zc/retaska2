@@ -38,12 +38,13 @@ To run this app, you (or your colleague developer) must have a server + MySQL + 
 Next, follow these steps (it's nothing difficult, but I recommend reading them all first):
 
 1.  Use Git to (fork and) clone the repository
-2. Create the database
+2. In the App\config directory, create a file and name it 'local.neon', then copy & paste the contents of file copy_this_to_local_neon.txt to local.neon and set the database connection according to your preferences. Keep the database name 'retaska2'
+3. Create the database
 	1. Open the terminal and change directory to ...\retaska2\bin
 	2. Run file 'database_backup_loader.php' (by typing 'php database_backup_loader.php' if your OS is Windows) OR
 	3. (alternative to i. + ii.) Open the field for SQL queries in your database administration tool (phpMyAdmin or other)
 	4. (alternative to i. + ii.) Copy & paste the contents of file backupA.txt (in root directory) and have them executed
-3. In the App\config directory, create a file and name it 'local.neon', then copy & paste the contents of file copy_this_to_local_neon.txt to local.neon and set the database connection according to your preferences
+
 
 Congrats, you should now have a working application. The e-shop main page can be found at url {server name}/retaska2/www/, administration at url {server name}/retaska2/www/admin.homepage/
 
