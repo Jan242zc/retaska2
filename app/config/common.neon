@@ -55,3 +55,5 @@ services:
 	security.passwords: Nette\Security\Passwords(::PASSWORD_BCRYPT, [cost: 12])
 	myAuthenticator: App\Services\MyAuthenticator
 	- App\Services\MyAuthorizator::create
+	iEmptyTablesWarning:
+		implement: App\Controls\Admin\Factory\IEmptyTablesWarningFactory

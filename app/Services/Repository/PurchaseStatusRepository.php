@@ -209,6 +209,10 @@ final class PurchaseStatusRepository extends BaseRepository implements ICreatabl
 			")
 			->fetch();
 
+		if(!$queryResult){
+			throw new \Exception('No default status found.');
+		}
+
 		return $purchaseStatus = $this->purchaseStatusFactory->createFromObject($queryResult);
 	}
 

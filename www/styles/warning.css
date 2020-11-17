@@ -1,0 +1,11 @@
+div.warning-wrapper{
+	border: 1px solid red;
+	border-radius: 10px;
+	padding: 0 1em;
+	margin-bottom: 2em;
+}
+
+p.warning-paragraph{
+	color: red;
+	margin: 0;
+}
