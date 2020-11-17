@@ -37,13 +37,13 @@ To run this app, you (or your colleague developer) must have a server + MySQL + 
 
 Next, follow these steps (it's nothing difficult, but I recommend reading them all first):
 
-1. 	Use Git to (fork and) clone the repository
-2.1.	Open the terminal and change directory to ...\retaska2\bin
-2.2.	Run file 'database_backup_loader.php' (by typing 'php database_backup_loader.php' if your OS is Windows) OR
-2.3.	(alternative to 2.1. + 2.2.) Open the field for SQL queries in your database administration tool (phpMyAdmin or other)
-2.4.	(alternative to 2.1. + 2.2.) Copy & paste the contents of file backupA.txt (in root directory) and have them executed
-3.1.	In the App\config directory, create a file and name it 'local.neon'
-3.2.	Copy & paste the contents of file copy_this_to_local_neon.txt to local.neon and set the database connection according to your preferences
+1.  Use Git to (fork and) clone the repository
+2.1. Open the terminal and change directory to ...\retaska2\bin
+2.2. Run file 'database_backup_loader.php' (by typing 'php database_backup_loader.php' if your OS is Windows) OR
+2.3. (alternative to 2.1. + 2.2.) Open the field for SQL queries in your database administration tool (phpMyAdmin or other)
+2.4. (alternative to 2.1. + 2.2.) Copy & paste the contents of file backupA.txt (in root directory) and have them executed
+3.1. In the App\config directory, create a file and name it 'local.neon'
+3.2. Copy & paste the contents of file copy_this_to_local_neon.txt to local.neon and set the database connection according to your preferences
 
 Congrats, you should now have a working application. The e-shop main page can be found at url {server name}/retaska2/www/, administration at url {server name}/retaska2/www/admin.homepage/
 
@@ -66,6 +66,9 @@ If you messed something up in the database and wish to start over, run the datab
 ## Footnotes
 
 [1]	I still keep this app in a private repository as I am not happy with the code.
+
 [2]	www.zdrojak.cz/clanky/vysledky-technologie-na-ceskem-webu
+
 [3]	https://www.udemy.com/course/the-complete-php-full-stack-web-developer-bootcamp/
+
 [4]	https://www.udemy.com/course/the-complete-web-development-bootcamp/
