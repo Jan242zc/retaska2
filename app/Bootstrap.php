@@ -13,7 +13,7 @@ class Bootstrap
 	{
 		$configurator = new Configurator;
 
-		//$configurator->setDebugMode('secret@23.75.345.200'); // enable for your remote IP
+		$configurator->setDebugMode(true); // enable for your remote IP
 		$configurator->enableTracy(__DIR__ . '/../log');
 
 		$configurator->setTimeZone('Europe/Prague');
@@ -27,5 +27,10 @@ class Bootstrap
 		$configurator->addConfig(__DIR__ . '/config/local.neon');
 
 		return $configurator;
+	}
+	
+	public static function bootForCli(): Configurator
+	{
+		return self::boot();
 	}
 }

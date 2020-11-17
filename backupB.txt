@@ -1,0 +1,170 @@
+-- Adminer 4.6.2 MySQL dump
+
+SET NAMES utf8;
+SET time_zone = '+00:00';
+SET foreign_key_checks = 0;
+SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
+
+USE `retaska2`;
+
+SET NAMES utf8mb4;
+
+INSERT INTO `category` (`id`, `name`) VALUES
+(2,	'Biobavlnové'),
+(3,	'Bambusové'),
+(9,	'Papírové'),
+(10,	'Plátěné'),
+(13,	'Lněné')
+ON DUPLICATE KEY UPDATE id = id;
+
+INSERT INTO `country` (`id`, `name`) VALUES
+(4,	'Česká republika'),
+(22,	'Polská republika'),
+(28,	'Slovenská republika'),
+(29,	'Albánie'),
+(30,	'Andorra'),
+(31,	'Arménie'),
+(32,	'Ázerbájdžán'),
+(33,	'Belgie'),
+(34,	'Bělorusko'),
+(35,	'Bosna a Hercegovina'),
+(36,	'Bulharsko'),
+(37,	'Černá Hora'),
+(38,	'Dánsko'),
+(39,	'Estonsko'),
+(40,	'Finsko'),
+(41,	'Francie'),
+(42,	'Gruzie'),
+(43,	'Chorvatsko'),
+(44,	'Irsko'),
+(45,	'Island'),
+(46,	'Itálie'),
+(47,	'Kazachstán'),
+(48,	'Kypr'),
+(49,	'Lichtenštejnsko'),
+(50,	'Litva'),
+(51,	'Lotyšsko'),
+(52,	'Lucembursko'),
+(53,	'Maďarsko'),
+(54,	'Malta'),
+(55,	'Moldavsko'),
+(56,	'Monako'),
+(57,	'Německo'),
+(58,	'Nizozemsko'),
+(59,	'Norsko'),
+(60,	'Portugalsko'),
+(61,	'Rakousko'),
+(62,	'Rumunsko'),
+(63,	'Rusko'),
+(64,	'Řecko'),
+(65,	'San Marino'),
+(66,	'Severní Makedonie'),
+(67,	'Slovinsko'),
+(68,	'Spojené království'),
+(69,	'Srbsko'),
+(70,	'Španělsko'),
+(71,	'Švédsko'),
+(72,	'Švýcarsko'),
+(73,	'Turecko'),
+(74,	'Ukrajina')
+ON DUPLICATE KEY UPDATE id = id;
+
+INSERT INTO `delivery` (`id`, `name`) VALUES
+(5,	'LPP'),
+(6,	'SIEG'),
+(7,	'Líbakovna'),
+(9,	'Užolenka'),
+(10,	'Semmenger'),
+(12,	'Osobně na prodejně'),
+(13,	'LHD'),
+(14,	'Tiflago')
+ON DUPLICATE KEY UPDATE id = id;
+
+INSERT INTO `deliverycountrypaymentprices` (`id`, `delivery`, `country`, `payment`, `deliveryPrice`, `paymentPrice`) VALUES
+(2,	6,	22,	2,	220,	0),
+(6,	5,	28,	11,	300,	0),
+(7,	9,	28,	1,	160,	20),
+(12,	10,	4,	2,	250,	0),
+(13,	13,	57,	2,	350,	0),
+(14,	5,	4,	11,	150,	0),
+(15,	12,	NULL,	2,	0,	0),
+(19,	9,	28,	2,	160,	0),
+(21,	5,	4,	2,	150,	0),
+(23,	5,	28,	2,	300,	0),
+(27,	14,	4,	11,	90,	30),
+(28,	14,	4,	2,	90,	0),
+(31,	6,	4,	7,	100,	10),
+(32,	13,	61,	2,	330,	0),
+(44,	13,	53,	2,	400,	0),
+(52,	10,	4,	11,	250,	20),
+(53,	6,	4,	2,	100,	0),
+(57,	12,	NULL,	3,	0,	0),
+(59,	6,	4,	1,	120,	20)
+ON DUPLICATE KEY UPDATE id = id;
+
+INSERT INTO `payment` (`id`, `name`) VALUES
+(1,	'Dobírka (hotově)'),
+(2,	'Převodem'),
+(3,	'Hotově při převzetí'),
+(5,	'Složenkou'),
+(7,	'Dobírka (kartou)'),
+(11,	'Dobírka')
+ON DUPLICATE KEY UPDATE id = id;
+
+INSERT INTO `product` (`id`, `name`, `price`, `category`, `material`, `amountAvailable`, `description`) VALUES
+(26,	'Taška F',	29.9,	10,	'Plátno',	15,	'Taška plátěná velká plochá s uchy'),
+(42,	'Taška I',	21.9,	2,	'Biobavlna',	35,	'Taška malá z biobavlny'),
+(62,	'Taška B',	15.9,	9,	'Papír',	13,	'Taška papírová středně velká'),
+(83,	'Taška M',	27.9,	13,	'Len',	17,	'Taška lněná velká s uchy'),
+(113,	'Taška L',	19.9,	13,	'Len',	30,	'Taška lněná malá s uchy'),
+(248,	'Taška H',	60,	3,	'Bambusové vlákno',	2,	'Taška extra pevná velká'),
+(596,	'Taška D',	25.9,	10,	'Plátno',	65,	'Taška plátěná středně velká s uchy'),
+(597,	'Taška G',	30,	3,	'Bambusové vlákno',	7,	'Extra pevná taška střední'),
+(700,	'Taška J',	34.9,	2,	'Biobavlna',	31,	'Taška z biobavlny střední'),
+(825,	'Taška O',	36.9,	13,	'Len',	14,	'Taška lněná extra velká s uchy'),
+(842,	'Taška N',	22.9,	13,	'Len',	23,	'Taška lněná středně velká s uchy'),
+(898,	'Taška E',	34.9,	10,	'Plátno',	20,	'Taška plátěná velká s uchy'),
+(954,	'Taška A',	9.9,	9,	'Papír',	70,	'Taška papírová malá, 10 × 3 × 5 cm'),
+(990,	'Taška C',	19.9,	9,	'Papír',	15,	'Taška papírová velká'),
+(998,	'Taška K',	39.9,	2,	'Biobavlna',	11,	'Taška z biobavlny velká s uchy')
+ON DUPLICATE KEY UPDATE id = id;
+
+INSERT INTO `purchase` (`id`, `customerName`, `customerStreetAndNumber`, `customerCity`, `customerZip`, `customerCountry`, `email`, `phone`, `deliveryName`, `deliveryPrice`, `paymentName`, `paymentPrice`, `totalPrice`, `created_at`, `purchasestatus_id`, `shipToOtherThanCustomerAdress`, `deliveryStreetAndNumber`, `deliveryCity`, `deliveryZip`, `deliveryCountry`, `note`) VALUES
+(1235,	'Karel Černý',	'Jabloňová 333',	'Svitavy',	'35468',	4,	'krl.crn@asdf.asd',	'+420147258369',	'Osobně na prodejně',	0,	'Převodem',	0,	330,	'2020-11-14 20:05:19',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL),
+(1590,	'Milena Nguyenová',	'Švestková 444',	'Ostrava 5',	'333333',	4,	'mln.ngn@asdf.asd',	'+42068687684',	'LHD',	330,	'Převodem',	0,	947,	'2020-11-14 19:48:14',	1,	1,	'Habsburger Strasse',	'Östadt',	'531ABC',	61,	NULL),
+(1890,	'Jiří Svoboda',	'Česká 45',	'Rakovník',	'2313313',	4,	'jrsvbd@adsf.ad',	'+420646846854',	'Semmenger',	250,	'Převodem',	0,	1520,	'2020-11-14 19:50:47',	1,	1,	'Nová 41',	'Praha',	'123456',	4,	NULL),
+(2193,	'Božena Svobodová',	'Uhelná 2',	'Kladno',	'654354',	4,	'bzn.svbdv@asdf.asd',	'+4203333333333',	'LHD',	350,	'Převodem',	0,	1299,	'2020-11-14 19:43:40',	1,	1,	'Strassenstrasse',	'Erfurt',	'35654A',	57,	NULL),
+(2957,	'Josef Novák',	'Lipová 33',	'Brno',	'1111111',	4,	'jsf.nvk@asdf.asd',	'00111111111',	'Osobně na prodejně',	0,	'Převodem',	0,	149,	'2020-11-14 19:32:24',	6,	0,	NULL,	NULL,	NULL,	NULL,	NULL),
+(4607,	'Ján Bača',	'Dunajská 321',	'Bratislava',	'555555',	28,	'jn.bc@asdf.asd',	'00544235987',	'LPP',	300,	'Převodem',	0,	859,	'2020-11-14 19:40:59',	1,	0,	NULL,	NULL,	NULL,	NULL,	NULL)
+ON DUPLICATE KEY UPDATE id = id;
+
+INSERT INTO `purchaseitem` (`id`, `purchase_id`, `product_id`, `product_name`, `product_price`, `quantity`, `price`) VALUES
+(61,	2193,	248,	'Taška H',	60,	5,	300),
+(1789,	4607,	62,	'Taška B',	15.9,	7,	111.3),
+(5689,	1890,	954,	'Taška A',	9.9,	50,	495),
+(5817,	1890,	62,	'Taška B',	15.9,	30,	477),
+(6706,	2193,	42,	'Taška I',	21.9,	5,	109.5),
+(6847,	1235,	597,	'Taška G',	30,	5,	150),
+(7029,	2193,	998,	'Taška K',	39.9,	2,	79.8),
+(7355,	2193,	83,	'Taška M',	27.9,	3,	83.7),
+(7602,	4607,	596,	'Taška D',	25.9,	15,	388.5),
+(8460,	1590,	42,	'Taška I',	21.9,	15,	328.5),
+(10539,	4607,	597,	'Taška G',	30,	2,	60),
+(10542,	1590,	700,	'Taška J',	34.9,	6,	209.4),
+(11655,	2193,	842,	'Taška N',	22.9,	4,	91.6),
+(13403,	2193,	700,	'Taška J',	34.9,	3,	104.7),
+(14774,	2957,	898,	'Taška E',	34.9,	2,	69.8),
+(15998,	1590,	998,	'Taška K',	39.9,	2,	79.8),
+(17013,	2193,	597,	'Taška G',	30,	6,	180),
+(18283,	2957,	62,	'Taška B',	15.9,	5,	79.5),
+(18637,	1890,	990,	'Taška C',	19.9,	15,	298.5),
+(18691,	1235,	248,	'Taška H',	60,	3,	180)
+ON DUPLICATE KEY UPDATE id = id;
+
+INSERT INTO `purchasestatus` (`id`, `name`, `default_for_new_purchases`, `means_cancelled`) VALUES
+(1,	'Přijatá',	1,	0),
+(6,	'Zrušená',	0,	1),
+(8,	'Zpracovaná',	0,	0)
+ON DUPLICATE KEY UPDATE id = id;
+
+-- 2020-11-16 20:38:57

@@ -1,0 +1,187 @@
+-- Adminer 4.6.2 MySQL dump
+
+SET NAMES utf8;
+SET time_zone = '+00:00';
+SET foreign_key_checks = 0;
+SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
+
+SET NAMES utf8mb4;
+
+DROP DATABASE IF EXISTS `retaska2`;
+CREATE DATABASE `retaska2` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_czech_ci */;
+USE `retaska2`;
+
+DROP TABLE IF EXISTS `category`;
+CREATE TABLE `category` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(40) COLLATE utf8mb4_czech_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+
+
+DROP TABLE IF EXISTS `country`;
+CREATE TABLE `country` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(40) COLLATE utf8mb4_czech_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=75 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+
+
+DROP TABLE IF EXISTS `delivery`;
+CREATE TABLE `delivery` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(40) COLLATE utf8mb4_czech_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+
+
+DROP TABLE IF EXISTS `deliverycountrypaymentprices`;
+CREATE TABLE `deliverycountrypaymentprices` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `delivery` int(11) NOT NULL,
+  `country` int(11) DEFAULT NULL,
+  `payment` int(11) NOT NULL,
+  `deliveryPrice` float NOT NULL,
+  `paymentPrice` float NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `delivery` (`delivery`),
+  KEY `country` (`country`),
+  KEY `payment` (`payment`),
+  CONSTRAINT `deliverycountrypaymentprices_ibfk_1` FOREIGN KEY (`delivery`) REFERENCES `delivery` (`id`),
+  CONSTRAINT `deliverycountrypaymentprices_ibfk_2` FOREIGN KEY (`country`) REFERENCES `country` (`id`),
+  CONSTRAINT `deliverycountrypaymentprices_ibfk_3` FOREIGN KEY (`payment`) REFERENCES `payment` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=60 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+
+
+DROP TABLE IF EXISTS `entity`;
+CREATE TABLE `entity` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(40) COLLATE utf8mb4_czech_ci NOT NULL,
+  `nameCzech` varchar(40) COLLATE utf8mb4_czech_ci NOT NULL,
+  `idLimit` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+
+INSERT INTO `entity` (`id`, `name`, `nameCzech`, `idLimit`) VALUES
+(1,	'category',	'Kategorie',	15),
+(2,	'product',	'Zboží',	1000),
+(3,	'country',	'Stát',	200),
+(4,	'payment',	'Druh platby',	11),
+(5,	'delivery',	'Možnosti dopravy',	10),
+(6,	'deliverycountrypaymentprices',	'Služby dopravy',	60),
+(7,	'purchasestatus',	'Stavy objednávek',	10),
+(8,	'purchase',	'Objednávky',	5000),
+(9,	'purchaseitem',	'Položky objednávky',	20000),
+(10,	'role',	'Role',	10),
+(11,	'userdata',	'Uživatelé',	10);
+
+DROP TABLE IF EXISTS `payment`;
+CREATE TABLE `payment` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(40) COLLATE utf8mb4_czech_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+
+
+DROP TABLE IF EXISTS `product`;
+CREATE TABLE `product` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(40) COLLATE utf8mb4_czech_ci NOT NULL,
+  `price` float NOT NULL,
+  `category` int(11) NOT NULL,
+  `material` varchar(40) COLLATE utf8mb4_czech_ci NOT NULL,
+  `amountAvailable` int(11) NOT NULL,
+  `description` text COLLATE utf8mb4_czech_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `category` (`category`),
+  CONSTRAINT `product_ibfk_1` FOREIGN KEY (`category`) REFERENCES `category` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=999 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+
+
+DROP TABLE IF EXISTS `purchase`;
+CREATE TABLE `purchase` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `customerName` varchar(40) COLLATE utf8mb4_czech_ci NOT NULL,
+  `customerStreetAndNumber` varchar(40) COLLATE utf8mb4_czech_ci NOT NULL,
+  `customerCity` varchar(40) COLLATE utf8mb4_czech_ci NOT NULL,
+  `customerZip` varchar(40) COLLATE utf8mb4_czech_ci NOT NULL,
+  `customerCountry` int(11) NOT NULL,
+  `email` varchar(40) COLLATE utf8mb4_czech_ci NOT NULL,
+  `phone` varchar(40) COLLATE utf8mb4_czech_ci NOT NULL,
+  `deliveryName` varchar(40) COLLATE utf8mb4_czech_ci NOT NULL,
+  `deliveryPrice` float NOT NULL,
+  `paymentName` varchar(40) COLLATE utf8mb4_czech_ci NOT NULL,
+  `paymentPrice` float NOT NULL,
+  `totalPrice` float NOT NULL,
+  `created_at` datetime NOT NULL,
+  `purchasestatus_id` int(11) NOT NULL DEFAULT '1',
+  `shipToOtherThanCustomerAdress` tinyint(1) NOT NULL DEFAULT '0',
+  `deliveryStreetAndNumber` varchar(40) COLLATE utf8mb4_czech_ci DEFAULT NULL,
+  `deliveryCity` varchar(40) COLLATE utf8mb4_czech_ci DEFAULT NULL,
+  `deliveryZip` varchar(40) COLLATE utf8mb4_czech_ci DEFAULT NULL,
+  `deliveryCountry` int(11) DEFAULT NULL,
+  `note` text COLLATE utf8mb4_czech_ci,
+  PRIMARY KEY (`id`),
+  KEY `customerCountry` (`customerCountry`),
+  KEY `deliveryCountry` (`deliveryCountry`),
+  KEY `purchasestatus_id` (`purchasestatus_id`),
+  CONSTRAINT `purchase_ibfk_1` FOREIGN KEY (`customerCountry`) REFERENCES `country` (`id`),
+  CONSTRAINT `purchase_ibfk_2` FOREIGN KEY (`deliveryCountry`) REFERENCES `country` (`id`),
+  CONSTRAINT `purchase_ibfk_3` FOREIGN KEY (`purchasestatus_id`) REFERENCES `purchasestatus` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=4608 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+
+
+DROP TABLE IF EXISTS `purchaseitem`;
+CREATE TABLE `purchaseitem` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `purchase_id` int(11) NOT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `product_name` varchar(40) COLLATE utf8mb4_czech_ci NOT NULL,
+  `product_price` float NOT NULL,
+  `quantity` int(11) NOT NULL,
+  `price` float NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `product_id` (`product_id`),
+  KEY `purchase_id` (`purchase_id`),
+  CONSTRAINT `purchaseitem_ibfk_3` FOREIGN KEY (`product_id`) REFERENCES `product` (`id`) ON DELETE SET NULL ON UPDATE SET NULL,
+  CONSTRAINT `purchaseitem_ibfk_4` FOREIGN KEY (`purchase_id`) REFERENCES `purchase` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=18692 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+
+
+DROP TABLE IF EXISTS `purchasestatus`;
+CREATE TABLE `purchasestatus` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(40) COLLATE utf8mb4_czech_ci NOT NULL,
+  `default_for_new_purchases` tinyint(1) NOT NULL DEFAULT '0',
+  `means_cancelled` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+
+
+DROP TABLE IF EXISTS `roles`;
+CREATE TABLE `roles` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(40) COLLATE utf8_czech_ci NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8 COLLATE=utf8_czech_ci;
+
+INSERT INTO `roles` (`id`, `name`) VALUES
+(3,	'admin'),
+(6,	'superadmin');
+
+DROP TABLE IF EXISTS `userdata`;
+CREATE TABLE `userdata` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(40) COLLATE utf8mb4_czech_ci NOT NULL,
+  `role` int(11) NOT NULL,
+  `password` varchar(255) COLLATE utf8mb4_czech_ci NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `role` (`role`),
+  CONSTRAINT `userdata_ibfk_1` FOREIGN KEY (`role`) REFERENCES `roles` (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_czech_ci;
+
+INSERT INTO `userdata` (`id`, `name`, `role`, `password`) VALUES
+(1,	'admin',	6,	'$2y$12$Z6Sjk.It/RNM7cPvZmCxCebQ8NqRzGnbVLa2tClw5MTbeZVXl0716'),
+(9,	'Oliver',	3,	'$2y$12$SOulIyoB8An4I8JpEK/PKOE5XoYqiYXSLwzLZuyIOe1s6OmBLVL.u');
+
+-- 2020-11-16 20:37:33
