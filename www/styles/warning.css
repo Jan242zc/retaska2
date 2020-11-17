@@ -1,11 +1,18 @@
 div.warning-wrapper{
 	border: 1px solid red;
 	border-radius: 10px;
-	padding: 0 1em;
+	padding: .5em 1em;
 	margin-bottom: 2em;
 }
 
-p.warning-paragraph{
+.warning-heading{
+	color: red;
+	font-size: 1.5em;
+	font-weight: 600;
+	margin: 0;
+}
+
+li.warning-paragraph{
 	color: red;
 	margin: 0;
 }

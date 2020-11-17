@@ -29,11 +29,12 @@ final class EmptyTablesWarning extends Control
 	{
 		$this->template->warnings = [];
 		$this->template->warnings[] = $this->generatePurchaseStatusWarning();
+		$this->template->warnings[] = $this->generateDeliveryServicesWarning();
 		
 		$this->template->render(__DIR__ . '/templates/emptyTablesWarning.latte');
 	}
 	
-	public function generatePurchaseStatusWarning()
+	private function generatePurchaseStatusWarning()
 	{
 		$noPurchaseStatusExist = !$this->purchaseStatusRepository->findAll();
 		try{
@@ -44,6 +45,13 @@ final class EmptyTablesWarning extends Control
 		}
 		if($noPurchaseStatusExist || $noDefaultPurchaseStatusExists){
 			return self::CANNOT_RECEIVE_PURCHASES_WARNING . self::NO_PURCHASE_STATUSES_WARNING;
+		}
+	}
+	
+	private function generateDeliveryServicesWarning()
+	{
+		if(!$this->deliveryCountryPaymentPricesRepository->findAll()){
+			return self::CANNOT_RECEIVE_PURCHASES_WARNING . self::NO_DELIVERY_SERVICES;
 		}
 	}
 }

@@ -1,9 +1,12 @@
 {block content}
 	{if $warnings != []}
 		<div class="warning-wrapper">
-			{foreach $warnings as $warning}
-				<p class="warning-paragraph"> {$warning} </p>
-			{/foreach}	
+			<p class="warning-heading">Upozornění</p>
+			<ul>
+				{foreach $warnings as $warning}
+					<li class="warning-paragraph"> {$warning} </li>
+				{/foreach}	
+			</ul>
 		</div>
 	{/if}
 	
