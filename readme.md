@@ -51,7 +51,7 @@ Congrats, you should now have a working application. The e-shop main page can be
 However, the database contains no data besides the one crucial for the app to function. If you want to add some extra data that will allow you to see how the app looks like non-empty (categories, products, etc.) and how it actually works, follow these steps:
 
 1. Load data to the database
-	1. In the terminal and still in dir ...\retaska2\bin, run file 'database_population.php' with flag '--wdata' OR
+	1. In the terminal and still in dir ...\retaska2\bin, run file 'database_backup_loader.php' with flag '--wdata' OR
 	2. (alternative to i.) Repeat step 3.iv., but this time with contents of file backupB.txt.
 
 If you messed something up in the database and wish to start over, run the database_backup_loader.php with flag '--reset' or execute the contents of file backupC.txt. This will drop and create again the database and the tables.
