@@ -24,7 +24,7 @@ final class CustomerDataFactory
 
 		$data['personalData']['country'] = $this->findCountryForCustomerData($data['personalData']['country']);
 		if(!is_null($data['deliveryAdress']['country'])){
-			$this->findCountryForCustomerData($data['deliveryAdress']['country']);
+			$data['deliveryAdress']['country'] = $this->findCountryForCustomerData($data['deliveryAdress']['country']);
 		}
 
 		return new CustomerData($data['personalData']['name'], $data['personalData']['streetAndNumber'], $data['personalData']['city'], $data['personalData']['zip'], $data['personalData']['country'], $data['personalData']['email'], $data['personalData']['phone'], $data['personalData']['differentAdress'], $deliveryService, $data['deliveryAdress']['streetAndNumber'], $data['deliveryAdress']['city'], $data['deliveryAdress']['zip'], $data['deliveryAdress']['country'], $data['deliveryTerms']['note']);
