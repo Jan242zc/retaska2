@@ -77,6 +77,8 @@ class ComposerStaticInit091ed5d24b4127ffc48411e34be2086f
         'Nette\\Application\\AbortException' => __DIR__ . '/..' . '/nette/application/src/Application/exceptions.php',
         'Nette\\Application\\Application' => __DIR__ . '/..' . '/nette/application/src/Application/Application.php',
         'Nette\\Application\\ApplicationException' => __DIR__ . '/..' . '/nette/application/src/Application/exceptions.php',
+        'Nette\\Application\\Attributes\\CrossOrigin' => __DIR__ . '/..' . '/nette/application/src/Application/Attributes/CrossOrigin.php',
+        'Nette\\Application\\Attributes\\Persistent' => __DIR__ . '/..' . '/nette/application/src/Application/Attributes/Persistent.php',
         'Nette\\Application\\BadRequestException' => __DIR__ . '/..' . '/nette/application/src/Application/exceptions.php',
         'Nette\\Application\\ForbiddenRequestException' => __DIR__ . '/..' . '/nette/application/src/Application/exceptions.php',
         'Nette\\Application\\Helpers' => __DIR__ . '/..' . '/nette/application/src/Application/Helpers.php',

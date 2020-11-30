@@ -80,17 +80,17 @@
     },
     {
         "name": "nette/application",
-        "version": "v3.0.5",
-        "version_normalized": "3.0.5.0",
+        "version": "v3.0.7",
+        "version_normalized": "3.0.7.0",
         "source": {
             "type": "git",
             "url": "https://github.com/nette/application.git",
-            "reference": "2974fbfdaa06ca78b8f9f2c71bf16f91ce13f7a2"
+            "reference": "d2471134ed909210de8a3e8559931902b1bee67b"
         },
         "dist": {
             "type": "zip",
-            "url": "https://api.github.com/repos/nette/application/zipball/2974fbfdaa06ca78b8f9f2c71bf16f91ce13f7a2",
-            "reference": "2974fbfdaa06ca78b8f9f2c71bf16f91ce13f7a2",
+            "url": "https://api.github.com/repos/nette/application/zipball/d2471134ed909210de8a3e8559931902b1bee67b",
+            "reference": "d2471134ed909210de8a3e8559931902b1bee67b",
             "shasum": ""
         },
         "require": {
@@ -121,7 +121,7 @@
             "latte/latte": "Allows using Latte in templates",
             "nette/forms": "Allows to use Nette\\Application\\UI\\Form"
         },
-        "time": "2020-04-20T21:43:19+00:00",
+        "time": "2020-11-02T13:42:35+00:00",
         "type": "library",
         "extra": {
             "branch-alias": {

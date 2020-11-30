@@ -50,6 +50,8 @@ return array(
     'Nette\\Application\\AbortException' => $vendorDir . '/nette/application/src/Application/exceptions.php',
     'Nette\\Application\\Application' => $vendorDir . '/nette/application/src/Application/Application.php',
     'Nette\\Application\\ApplicationException' => $vendorDir . '/nette/application/src/Application/exceptions.php',
+    'Nette\\Application\\Attributes\\CrossOrigin' => $vendorDir . '/nette/application/src/Application/Attributes/CrossOrigin.php',
+    'Nette\\Application\\Attributes\\Persistent' => $vendorDir . '/nette/application/src/Application/Attributes/Persistent.php',
     'Nette\\Application\\BadRequestException' => $vendorDir . '/nette/application/src/Application/exceptions.php',
     'Nette\\Application\\ForbiddenRequestException' => $vendorDir . '/nette/application/src/Application/exceptions.php',
     'Nette\\Application\\Helpers' => $vendorDir . '/nette/application/src/Application/Helpers.php',
